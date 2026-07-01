@@ -1,0 +1,36 @@
+.PHONY: help build fmt lint test run actor-id clean
+
+help:
+	@printf "Available targets:\n"
+	@printf "  build  - Build the backend\n"
+	@printf "  fmt    - Format Rust sources\n"
+	@printf "  lint   - Run clippy with warnings denied\n"
+	@printf "  test   - Run unit and integration tests\n"
+	@printf "  run    - Start the backend locally\n"
+	@printf "  actor-id - Create a demo profile and print its id for X-Actor-Id\n"
+	@printf "  clean  - Remove build artifacts\n"
+
+build:
+	cargo build
+
+fmt:
+	cargo fmt --all
+
+lint:
+	cargo clippy --all-targets --all-features -- -D warnings
+
+test:
+	cargo test
+
+run:
+	cargo run
+
+actor-id:
+	@response=$$(curl -fsS -X POST http://127.0.0.1:$${X10_PORT:-3000}/api/v1/profiles \
+		-H 'content-type: application/json' \
+		-d '{"full_name":"Docs Demo","birth_date":"1990-01-01","occupation":"tester","timezone":"Europe/Samara"}'); \
+	printf '%s\n' "$$response"; \
+	printf '%s\n' "$$response" | sed -n 's/.*"id":"\([0-9a-fA-F-]\{36\}\)".*/Use X-Actor-Id: \1/p'
+
+clean:
+	cargo clean

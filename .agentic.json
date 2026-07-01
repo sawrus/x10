@@ -1,0 +1,741 @@
+{
+  "_agentic": {
+    "generated_by": "agentic",
+    "repository": "https://github.com/sawrus/agent-guides",
+    "created_by": "v0.5.1",
+    "updated_by": "v0.5.1"
+  },
+  "version": 1,
+  "created_at": "2026-06-30T18:58:10Z",
+  "updated_at": "2026-06-30T18:58:10Z",
+  "settings": {
+    "agent_os": [
+      "opencode",
+      "codex"
+    ],
+    "areas": [
+      "software"
+    ],
+    "specializations": [
+      "software.backend",
+      "software.general"
+    ],
+    "mcp_integrations": [
+      "opencode-docs",
+      "playwright",
+      "kubernetes",
+      "youtube-transcript",
+      "docker-mcp",
+      "context7",
+      "mempalace",
+      "anydb"
+    ],
+    "opencode_profile": "openai",
+    "opencode_plugins": {
+      "telegram": {
+        "enabled": true
+      },
+      "agentModelMapper": {
+        "enabled": false
+      }
+    },
+    "source_repo": "https://github.com/sawrus/agent-guides",
+    "source_checkout": "/home/lab/.local/share/agentic/repo"
+  },
+  "managed_files": [
+    {
+      "path": ".agent/prompts/add-migration.md",
+      "source": "areas/software/backend/prompts/add-migration.md",
+      "content_hash": "026d049299f160ee14933b0086f1279cc05e505c58d4b02d45cb3349e14f6cfe",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/prompts/code-review-workflow.md",
+      "source": "areas/software/general/prompts/code-review-workflow.md",
+      "content_hash": "71bd8523415e7bf3b24ddf65ce9fc5e7b191b2e04e34ce555c4c21220e01ea66",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/prompts/create-endpoint.md",
+      "source": "areas/software/backend/prompts/create-endpoint.md",
+      "content_hash": "bd8ca89ed3b79392d3d056acd35de190bc057a429fd2f6d54658d71691a93956",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/prompts/debug-issue.md",
+      "source": "areas/software/backend/prompts/debug-issue.md",
+      "content_hash": "209397c1f27f8fc0ce080013a78eac32c7b200a3eb4a4ba5873c83d141f4f1ca",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/prompts/develop-epic.md",
+      "source": "areas/software/backend/prompts/develop-epic.md",
+      "content_hash": "841f4b6d9c966c81aa395ecb772492ec090b0e823baeddef4b3049d37a317d55",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/prompts/develop-feature.md",
+      "source": "areas/software/backend/prompts/develop-feature.md",
+      "content_hash": "aaed96909badc16b379f7d37454db2ae65e5d17d229b7da609fef2bc0577c543",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/prompts/development-cycle-workflow.md",
+      "source": "areas/software/general/prompts/development-cycle-workflow.md",
+      "content_hash": "7714302321151ea8029e11c8cebf8fce098f8a7d44e0c0d577827751a9ac384c",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/prompts/project-setup-workflow.md",
+      "source": "areas/software/general/prompts/project-setup-workflow.md",
+      "content_hash": "7daa167d1f9a4126ba6338cbd54b14cf30968a367094a27c2962ce777a9af101",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/prompts/refactor-module.md",
+      "source": "areas/software/backend/prompts/refactor-module.md",
+      "content_hash": "cd60def8afc4b4c4ef18eb62aa7e73133526418f030427e55cc3c8093291ac67",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/prompts/test-feature.md",
+      "source": "areas/software/backend/prompts/test-feature.md",
+      "content_hash": "78cc069f4590a0647fdc18b9fe3593a887576cd49a7c282808d1a63a2399a9e7",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/rules/architecture.md",
+      "source": "areas/software/backend/rules/architecture.md",
+      "content_hash": "dd586ac6a4e3b28674ade1356891dd0783f06371a6e532798618350931480056",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/rules/code-style-guide.md",
+      "source": "areas/software/general/rules/code-style-guide.md",
+      "content_hash": "99b10bf362168d7040234297e4704c7e43975a6ef95ba0676f1e790aa66ab0e2",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/rules/data_access.md",
+      "source": "areas/software/backend/rules/data_access.md",
+      "content_hash": "96d5be0c813fd52c21a3086b0e65e794704e5554f276fd1a07a2c5e8f0046a59",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/rules/docker-compose-guide.md",
+      "source": "areas/software/general/rules/docker-compose-guide.md",
+      "content_hash": "ab18ff996d4b69e81faa97ecfa424b0d678c14d91aaf794f25a6bbe11d0bec20",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/rules/git-workflow-guide.md",
+      "source": "areas/software/general/rules/git-workflow-guide.md",
+      "content_hash": "558453154ae43d6f690ff1043cb568266fb0e500f64aa9731e16905ef3bd2562",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/rules/github-workflow-guide.md",
+      "source": "areas/software/general/rules/github-workflow-guide.md",
+      "content_hash": "8800097a8a4a11af541c67b2ee4f76dff8131e26159e8ddc4b63d6fa40fe5e77",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/rules/gitlab-ci-guide.md",
+      "source": "areas/software/general/rules/gitlab-ci-guide.md",
+      "content_hash": "d606a0016950c8c43a20d7164cb61fa8964f55e16bf01cc686436840ad075188",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/rules/lint-format-guide.md",
+      "source": "areas/software/general/rules/lint-format-guide.md",
+      "content_hash": "eb2ecd63f8c5197ccf2c42c56a987cce113b0e3e3256a90d14f67ebf774e2d9f",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/rules/makefile-guide.md",
+      "source": "areas/software/general/rules/makefile-guide.md",
+      "content_hash": "c3fb2fc02596422f537a3df1e293860dd056d0f8570a544c06064b491bd8b5af",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/rules/readme-sync-guide.md",
+      "source": "areas/software/general/rules/readme-sync-guide.md",
+      "content_hash": "4c5d1dbafa31fa196924ca10637c43fd9a635f15160f46b58b8f0de555f02c70",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/rules/sdlc-methodology-guide.md",
+      "source": "areas/software/general/rules/sdlc-methodology-guide.md",
+      "content_hash": "8dbba7c8cc55b92d2cd7cbf838b1ad2b5894b34d9621595021b6c9ededafd25f",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/rules/sdlc-role-responsibilities.md",
+      "source": "areas/software/general/rules/sdlc-role-responsibilities.md",
+      "content_hash": "08853a7614969ad57472cc5fdefc0c6e9a36a3df45fe1c4a56f0ccf3b33b96a8",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/rules/security.md",
+      "source": "areas/software/backend/rules/security.md",
+      "content_hash": "1a4a5b9d667bd03cd606048be2d01160f4fbda6ab6a1a3897d4f8075a6432878",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/rules/testing.md",
+      "source": "areas/software/backend/rules/testing.md",
+      "content_hash": "c9d874afff0ffd8efc094f0ad1a367b110bbb8efd9e49fd4360d96d356184842",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/skills/api-design/SKILL.md",
+      "source": "areas/software/backend/skills/api-design/SKILL.md",
+      "content_hash": "ae5f3eb3bc5d32e2f057e9ac18137da93c738ce6aed7d8e0d6cd04e535bfbf94",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/skills/async-processing/SKILL.md",
+      "source": "areas/software/backend/skills/async-processing/SKILL.md",
+      "content_hash": "dd4c5c6d1a6683f6cedb61ae014b9c62e8d31ac01a2d89f22f9bec3cd14da9bf",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/skills/database-modeling/SKILL.md",
+      "source": "areas/software/backend/skills/database-modeling/SKILL.md",
+      "content_hash": "52993db89b0caae652b0bea3d013584c44d61865433ff6b3b9c83f6827cb87ab",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/skills/general-dev-tools/SKILL.md",
+      "source": "areas/software/general/skills/general-dev-tools/SKILL.md",
+      "content_hash": "9ad6d2e8fa3b155be739e32d4501dd63804ee811ff8e3af3504e43aaefd584d1",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/skills/observability/SKILL.md",
+      "source": "areas/software/backend/skills/observability/SKILL.md",
+      "content_hash": "9ef0f77f0fc92f909f738ae7e2a08c5586a77318d9a3c01d2685bd922a4164db",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/skills/troubleshooting/SKILL.md",
+      "source": "areas/software/backend/skills/troubleshooting/SKILL.md",
+      "content_hash": "15ace10620d2660878d1a5f78143069e08f839084ea07e44ac8224391e807494",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/workflows/add-migration.md",
+      "source": "areas/software/backend/workflows/add-migration.md",
+      "content_hash": "017d1bc1a66aeedf9138b0aa4f4c087de5bf813114f01764ce78ffbf112459ed",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/workflows/code-review-workflow.md",
+      "source": "areas/software/general/workflows/code-review-workflow.md",
+      "content_hash": "b77c66cdda3b3672d593482197dc5f42baa73b21bb527d4f8a5ee568129969ad",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/workflows/create-endpoint.md",
+      "source": "areas/software/backend/workflows/create-endpoint.md",
+      "content_hash": "f5bf321d4ffdea8a74aca75371acdb0e24746ff7c1355e5133a50eb26d0fe141",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/workflows/debug-issue.md",
+      "source": "areas/software/backend/workflows/debug-issue.md",
+      "content_hash": "ea8a3cbd635cf3bca11ac8ec7b8b36c0ba4cfeff6c8d4e554b2f4aa584f96282",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/workflows/develop-epic.md",
+      "source": "areas/software/backend/workflows/develop-epic.md",
+      "content_hash": "096362c5bc7fdf17fe7abeb828719a8d83b8fde14c0078b4c46a5ad8925232b3",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/workflows/develop-feature.md",
+      "source": "areas/software/backend/workflows/develop-feature.md",
+      "content_hash": "ccccfff5f95b270f9eb3050348fa343eb826aa84501a9a9a96f6c6b33ad8a086",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/workflows/development-cycle-workflow.md",
+      "source": "areas/software/general/workflows/development-cycle-workflow.md",
+      "content_hash": "1aa9f1a8109e65eb518da74f5bd66b0cd6a802be2c4c18eba5cc0061e97cb891",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/workflows/project-setup-workflow.md",
+      "source": "areas/software/general/workflows/project-setup-workflow.md",
+      "content_hash": "be0e74980a419e1b3ad06f5a356de2eb8b4245e1397b1aff3c91e00ec953c1c4",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/workflows/refactor-module.md",
+      "source": "areas/software/backend/workflows/refactor-module.md",
+      "content_hash": "1771519832fd1d185d7e5411190ee679ad65c31359a669e47dac57b23ffe9c66",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".agent/workflows/test-feature.md",
+      "source": "areas/software/backend/workflows/test-feature.md",
+      "content_hash": "f38ba776df67c48530711cdbaf794b78bb50c612dd9d8222b2464c923f26b714",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".codex/AGENTS.override.md",
+      "source": "extensions/codex/AGENTS.override.md",
+      "content_hash": "b1176ba377cb7606e7f6a5ee1cbd8da08b5abb3b77a84bbb49438a95bfc818f8",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".codex/agents/designer.toml",
+      "source": "extensions/codex/agents/designer.toml",
+      "content_hash": "52feb257bfd36b8ea2405d5215340368212f2962833f8e632569a55984f87137",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".codex/agents/developer.toml",
+      "source": "extensions/codex/agents/developer.toml",
+      "content_hash": "41595c14301037a84a57f6b89e94350812bc57e5373b04a39aa179546a64ab6f",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".codex/agents/devops-engineer.toml",
+      "source": "extensions/codex/agents/devops-engineer.toml",
+      "content_hash": "d2b7bf17113b303c4f2bda906ecd0f856344b4cb7fd202831f46f68389b4344a",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".codex/agents/instruction_reviewer.toml",
+      "source": "extensions/codex/agents/instruction_reviewer.toml",
+      "content_hash": "5c3be16517bf41081de0449aba5ab6e7fdef41ef487f242009079d33be4bc2ca",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".codex/agents/memory_curator.toml",
+      "source": "extensions/codex/agents/memory_curator.toml",
+      "content_hash": "e1aa19a0ff54b89d14a20893987be38ea09ec43c410bda1d2576e8f28a7a182b",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".codex/agents/pm.toml",
+      "source": "extensions/codex/agents/pm.toml",
+      "content_hash": "d4f95923c02d873ffeb6903e1f76ffa624319123efeab7ad0011532f28854895",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".codex/agents/product-owner.toml",
+      "source": "extensions/codex/agents/product-owner.toml",
+      "content_hash": "ea30ca8b261ab4d812ebab3f79bdac083ca60432bdf5d397389e377469728d6a",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".codex/agents/qa.toml",
+      "source": "extensions/codex/agents/qa.toml",
+      "content_hash": "cd86561fa3207e11a5a2c6d3476f900e6e7f7fc7bb1af1d945ceacc70a82543d",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".codex/agents/team-lead.toml",
+      "source": "extensions/codex/agents/team-lead.toml",
+      "content_hash": "afb09e272d39e65366971de51ac24b12f610a61737c9ebd09b21f3f852ec1fe9",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".codex/config.toml",
+      "source": "generated:mcp-codex-config",
+      "content_hash": "42f15511cec3fae826a45ff0cbcfe4797fe3115b625017ab76770cb9bd48ac33",
+      "marker": "config",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".mempalaceignore",
+      "source": "generated:mempalace-ignore",
+      "content_hash": "e9e3b450afb5eaf995f14c6ad658b87d6eb7297c684acf52991f8106a131baa9",
+      "marker": "config",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/AGENTS.md",
+      "source": "generated:AGENTS.md",
+      "content_hash": "872c0f5c86bb69bf8b8e5fd693a7335773f75c4907de39bf48d79cb96a2e66a1",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/MEMORY.md",
+      "source": "generated:MEMORY.md",
+      "content_hash": "ef6a4358f47168ed52db5566bb19763d6995af0c3d019db072a756f5b16e5fef",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/agents/designer.md",
+      "source": "extensions/opencode/agents/designer.md",
+      "content_hash": "6ef61c6a5208241e234fa9751426aa5a4afcacd8ddcf66636e8816f16c17ea4c",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/agents/developer.md",
+      "source": "extensions/opencode/agents/developer.md",
+      "content_hash": "b3e1d57e88c11086d7b1d350c4a3e36882d91feab00e70ae4518febf604408be",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/agents/devops-engineer.md",
+      "source": "extensions/opencode/agents/devops-engineer.md",
+      "content_hash": "b563732e043c525829bd8a5d93d2f33ca83f7fb7d142cca98b8bf71a5272f1aa",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/agents/instruction_reviewer.md",
+      "source": "extensions/opencode/agents/instruction_reviewer.md",
+      "content_hash": "dc962f4fdb098093876a5cd60ff61a7976bb1478223201ff0a61626b32d163b9",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/agents/memory_curator.md",
+      "source": "extensions/opencode/agents/memory_curator.md",
+      "content_hash": "68bcf5e4fe988b44eecdff01b7f28768fb85ca6075998da6e0f0409243fa526f",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/agents/pm.md",
+      "source": "extensions/opencode/agents/pm.md",
+      "content_hash": "b39c8542d4a4284f9671176b8e701562a4b5e44411eedd4c9ebc3f34765b9a73",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/agents/product-owner.md",
+      "source": "extensions/opencode/agents/product-owner.md",
+      "content_hash": "b700b12b3b5ef5aebefa1500c47a6ca52739ea2ac5fb3208996435e45a6da8f5",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/agents/qa.md",
+      "source": "extensions/opencode/agents/qa.md",
+      "content_hash": "f0327b991318973795c30e9103fff88b218539dd768153453e527648e4382552",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/agents/team-lead.md",
+      "source": "extensions/opencode/agents/team-lead.md",
+      "content_hash": "9dd4dbc51e9bd19c4fb0c834c019066b06d6218c0c5e133e9a23c9dda8f8c7cd",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/commands/add-migration.md",
+      "source": "areas/software/backend/workflows/add-migration.md",
+      "content_hash": "017d1bc1a66aeedf9138b0aa4f4c087de5bf813114f01764ce78ffbf112459ed",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/commands/code-review-workflow.md",
+      "source": "areas/software/general/workflows/code-review-workflow.md",
+      "content_hash": "b77c66cdda3b3672d593482197dc5f42baa73b21bb527d4f8a5ee568129969ad",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/commands/create-endpoint.md",
+      "source": "areas/software/backend/workflows/create-endpoint.md",
+      "content_hash": "f5bf321d4ffdea8a74aca75371acdb0e24746ff7c1355e5133a50eb26d0fe141",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/commands/debug-issue.md",
+      "source": "areas/software/backend/workflows/debug-issue.md",
+      "content_hash": "ea8a3cbd635cf3bca11ac8ec7b8b36c0ba4cfeff6c8d4e554b2f4aa584f96282",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/commands/develop-epic.md",
+      "source": "areas/software/backend/workflows/develop-epic.md",
+      "content_hash": "096362c5bc7fdf17fe7abeb828719a8d83b8fde14c0078b4c46a5ad8925232b3",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/commands/develop-feature.md",
+      "source": "areas/software/backend/workflows/develop-feature.md",
+      "content_hash": "ccccfff5f95b270f9eb3050348fa343eb826aa84501a9a9a96f6c6b33ad8a086",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/commands/development-cycle-workflow.md",
+      "source": "areas/software/general/workflows/development-cycle-workflow.md",
+      "content_hash": "1aa9f1a8109e65eb518da74f5bd66b0cd6a802be2c4c18eba5cc0061e97cb891",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/commands/feature.md",
+      "source": "extensions/opencode/commands/feature.md",
+      "content_hash": "869379736c2ee4f2bdaca6a6f7053fe1cc9f75481bd50e514f5b2e4ae73159aa",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/commands/project-setup-workflow.md",
+      "source": "areas/software/general/workflows/project-setup-workflow.md",
+      "content_hash": "be0e74980a419e1b3ad06f5a356de2eb8b4245e1397b1aff3c91e00ec953c1c4",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/commands/refactor-module.md",
+      "source": "areas/software/backend/workflows/refactor-module.md",
+      "content_hash": "1771519832fd1d185d7e5411190ee679ad65c31359a669e47dac57b23ffe9c66",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/commands/test-feature.md",
+      "source": "areas/software/backend/workflows/test-feature.md",
+      "content_hash": "f38ba776df67c48530711cdbaf794b78bb50c612dd9d8222b2464c923f26b714",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/opencode.json",
+      "source": "generated:mcp-opencode-legacy-config",
+      "content_hash": "26d85108bd02133a8b384907e6957d4b2bd52057062f1eed17e5b89772a07d28",
+      "marker": "config",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/plugins/telegram-notification.ts",
+      "source": "extensions/opencode/plugins/telegram-notification.ts",
+      "content_hash": "a8545773e09988c23e2701d4e96c6b44750679cf4055313eeb0c379e7c0584a7",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/rules/architecture.md",
+      "source": "areas/software/backend/rules/architecture.md",
+      "content_hash": "dd586ac6a4e3b28674ade1356891dd0783f06371a6e532798618350931480056",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/rules/code-style-guide.md",
+      "source": "areas/software/general/rules/code-style-guide.md",
+      "content_hash": "99b10bf362168d7040234297e4704c7e43975a6ef95ba0676f1e790aa66ab0e2",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/rules/data_access.md",
+      "source": "areas/software/backend/rules/data_access.md",
+      "content_hash": "96d5be0c813fd52c21a3086b0e65e794704e5554f276fd1a07a2c5e8f0046a59",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/rules/docker-compose-guide.md",
+      "source": "areas/software/general/rules/docker-compose-guide.md",
+      "content_hash": "ab18ff996d4b69e81faa97ecfa424b0d678c14d91aaf794f25a6bbe11d0bec20",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/rules/git-workflow-guide.md",
+      "source": "areas/software/general/rules/git-workflow-guide.md",
+      "content_hash": "558453154ae43d6f690ff1043cb568266fb0e500f64aa9731e16905ef3bd2562",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/rules/github-workflow-guide.md",
+      "source": "areas/software/general/rules/github-workflow-guide.md",
+      "content_hash": "8800097a8a4a11af541c67b2ee4f76dff8131e26159e8ddc4b63d6fa40fe5e77",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/rules/gitlab-ci-guide.md",
+      "source": "areas/software/general/rules/gitlab-ci-guide.md",
+      "content_hash": "d606a0016950c8c43a20d7164cb61fa8964f55e16bf01cc686436840ad075188",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/rules/lint-format-guide.md",
+      "source": "areas/software/general/rules/lint-format-guide.md",
+      "content_hash": "eb2ecd63f8c5197ccf2c42c56a987cce113b0e3e3256a90d14f67ebf774e2d9f",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/rules/makefile-guide.md",
+      "source": "areas/software/general/rules/makefile-guide.md",
+      "content_hash": "c3fb2fc02596422f537a3df1e293860dd056d0f8570a544c06064b491bd8b5af",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/rules/readme-sync-guide.md",
+      "source": "areas/software/general/rules/readme-sync-guide.md",
+      "content_hash": "4c5d1dbafa31fa196924ca10637c43fd9a635f15160f46b58b8f0de555f02c70",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/rules/sdlc-methodology-guide.md",
+      "source": "areas/software/general/rules/sdlc-methodology-guide.md",
+      "content_hash": "8dbba7c8cc55b92d2cd7cbf838b1ad2b5894b34d9621595021b6c9ededafd25f",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/rules/sdlc-role-responsibilities.md",
+      "source": "areas/software/general/rules/sdlc-role-responsibilities.md",
+      "content_hash": "08853a7614969ad57472cc5fdefc0c6e9a36a3df45fe1c4a56f0ccf3b33b96a8",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/rules/security.md",
+      "source": "areas/software/backend/rules/security.md",
+      "content_hash": "1a4a5b9d667bd03cd606048be2d01160f4fbda6ab6a1a3897d4f8075a6432878",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/rules/testing.md",
+      "source": "areas/software/backend/rules/testing.md",
+      "content_hash": "c9d874afff0ffd8efc094f0ad1a367b110bbb8efd9e49fd4360d96d356184842",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/skills/api-design/SKILL.md",
+      "source": "areas/software/backend/skills/api-design/SKILL.md",
+      "content_hash": "ae5f3eb3bc5d32e2f057e9ac18137da93c738ce6aed7d8e0d6cd04e535bfbf94",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/skills/async-processing/SKILL.md",
+      "source": "areas/software/backend/skills/async-processing/SKILL.md",
+      "content_hash": "dd4c5c6d1a6683f6cedb61ae014b9c62e8d31ac01a2d89f22f9bec3cd14da9bf",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/skills/database-modeling/SKILL.md",
+      "source": "areas/software/backend/skills/database-modeling/SKILL.md",
+      "content_hash": "52993db89b0caae652b0bea3d013584c44d61865433ff6b3b9c83f6827cb87ab",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/skills/general-dev-tools/SKILL.md",
+      "source": "areas/software/general/skills/general-dev-tools/SKILL.md",
+      "content_hash": "9ad6d2e8fa3b155be739e32d4501dd63804ee811ff8e3af3504e43aaefd584d1",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/skills/observability/SKILL.md",
+      "source": "areas/software/backend/skills/observability/SKILL.md",
+      "content_hash": "9ef0f77f0fc92f909f738ae7e2a08c5586a77318d9a3c01d2685bd922a4164db",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": ".opencode/skills/troubleshooting/SKILL.md",
+      "source": "areas/software/backend/skills/troubleshooting/SKILL.md",
+      "content_hash": "15ace10620d2660878d1a5f78143069e08f839084ea07e44ac8224391e807494",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": "AGENTS.md",
+      "source": "generated:AGENTS.md",
+      "content_hash": "872c0f5c86bb69bf8b8e5fd693a7335773f75c4907de39bf48d79cb96a2e66a1",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": "MEMORY.md",
+      "source": "generated:MEMORY.md",
+      "content_hash": "ef6a4358f47168ed52db5566bb19763d6995af0c3d019db072a756f5b16e5fef",
+      "marker": "internal",
+      "updated_at": "2026-06-30T18:58:10Z"
+    },
+    {
+      "path": "opencode.json",
+      "source": "generated:mcp-opencode-config",
+      "content_hash": "4d4ae46a7dd5b4f32c1224319c0a7eb604b811ea3d1e561e760656e9f660abd9",
+      "marker": "config",
+      "updated_at": "2026-06-30T18:58:10Z"
+    }
+  ],
+  "skipped_files": []
+}
