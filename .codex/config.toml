@@ -1,0 +1,32 @@
+[mcp_servers.context7]
+url = "https://mcp.context7.com/mcp"
+
+[features]
+memories = true
+
+[mcp_servers.mempalace]
+command = "mempalace-mcp"
+
+[mcp_servers.opencode]
+command = "npx"
+args = ["-y", "opencode-docs-mcp"]
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["@playwright/mcp@latest"]
+
+[mcp_servers.kubernetes]
+command = "npx"
+args = ["-y", "kubernetes-mcp-server"]
+
+[mcp_servers.youtube-transcript]
+command = "npx"
+args = ["-y", "@kimtaeyoon83/mcp-server-youtube-transcript"]
+
+[mcp_servers.docker]
+command = "docker"
+args = ["mcp", "gateway", "run"]
+
+[mcp_servers.anydb]
+command = "npx"
+args = ["-y", "anydb-mcp"]
