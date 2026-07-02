@@ -2,7 +2,7 @@ pub(crate) mod error;
 pub(crate) mod openapi;
 pub(crate) mod routes;
 
-use std::sync::Arc;
+use std::{path::PathBuf, sync::Arc};
 
 use axum::{
     Router,
@@ -28,14 +28,20 @@ pub use routes::build_routes;
 pub struct AppState {
     pub service: Arc<ProgressionService<SqliteRepository>>,
     pub metrics: Option<PrometheusHandle>,
+    pub web_dist_path: PathBuf,
 }
 
 impl AppState {
     pub fn new(
         service: Arc<ProgressionService<SqliteRepository>>,
         metrics: Option<PrometheusHandle>,
+        web_dist_path: PathBuf,
     ) -> Self {
-        Self { service, metrics }
+        Self {
+            service,
+            metrics,
+            web_dist_path,
+        }
     }
 }
 
@@ -77,15 +83,19 @@ async fn request_id_middleware(
         .map(ToOwned::to_owned)
         .unwrap_or_else(|| Uuid::new_v4().to_string());
 
-    let span = info_span!("http_request", request_id = %request_id, method = %request.method(), path = %request.uri().path());
+    let span = info_span!(
+        "http_request",
+        request_id = %request_id,
+        method = %request.method(),
+        path = %request.uri().path()
+    );
     let _entered = span.enter();
 
     let mut response = next.run(request).await.into_response();
-    response.headers_mut().insert(
-        HeaderName::from_static("x-request-id"),
+    response.headers_mut().entry(HeaderName::from_static("x-request-id")).or_insert_with(|| {
         HeaderValue::from_str(&request_id)
-            .unwrap_or_else(|_| HeaderValue::from_static("invalid-request-id")),
-    );
+            .unwrap_or_else(|_| HeaderValue::from_static("invalid-request-id"))
+    });
 
     tracing::info!(status = response.status().as_u16(), "request complete");
     response

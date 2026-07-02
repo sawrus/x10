@@ -1,6 +1,6 @@
 use axum::{
     Json,
-    http::StatusCode,
+    http::{HeaderName, HeaderValue, StatusCode},
     response::{IntoResponse, Response},
 };
 use serde::Serialize;
@@ -67,8 +67,8 @@ impl From<ServiceError> for ApiError {
 
 impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
-        let request_id = "see-x-request-id";
-        (
+        let request_id = uuid::Uuid::new_v4().to_string();
+        let mut response = (
             self.status,
             Json(ErrorEnvelope {
                 error: ErrorBody {
@@ -78,6 +78,12 @@ impl IntoResponse for ApiError {
                 },
             }),
         )
-            .into_response()
+            .into_response();
+        response.headers_mut().insert(
+            HeaderName::from_static("x-request-id"),
+            HeaderValue::from_str(&request_id)
+                .unwrap_or_else(|_| HeaderValue::from_static("invalid-request-id")),
+        );
+        response
     }
 }

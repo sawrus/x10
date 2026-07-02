@@ -1,16 +1,15 @@
 # x10
 
-`x10` is a Rust backend for a progression game-app where daily actions change a user's balance score, derived level, and recovery buffer. The repository is currently backend-first: HTTP API, domain rules, persistence, interactive API docs, and developer tooling are all in place so future clients can build on one shared core.
+`x10` is a progression game app built around planned tasks, execution events, a signed balance ledger, per-profile level ladders, and a game-style web dashboard.
 
-## What The Service Does
+## What Ships In `0.3.0`
 
-- creates and stores user profiles
-- stores spheres that classify tasks
-- creates positive and negative tasks with day, week, month, or year cadence
-- marks tasks as completed
-- finalizes a day into a persisted snapshot
-- calculates dashboard state from historical snapshots
-- exposes health, metrics, and interactive API docs
+- versioned SQLite migrations with a breaking `v2` schema
+- Rust backend with CRUD for profiles, photos, spheres, tasks, executions, levels, balances, and day finalizations
+- append-only balance ledger generated automatically from task executions
+- per-profile levels selected from accumulated balance
+- game-style web frontend at `/app/` with `dendy` and `apple` themes
+- OpenAPI + Scalar docs at `/docs/`
 
 ## Quick Start
 
@@ -29,241 +28,158 @@ make run
 Default local URLs:
 
 - API base: `http://127.0.0.1:3000`
+- Web app: `http://127.0.0.1:3000/app/`
 - Scalar UI: `http://127.0.0.1:3000/docs/`
 - OpenAPI JSON: `http://127.0.0.1:3000/docs/openapi.json`
 
-To generate a profile id for protected calls in the docs UI:
+Generate a dev actor/profile id:
 
 ```bash
 make actor-id
 ```
 
-The command creates a demo profile and prints a value you can paste into the `X-Actor-Id` header field in Scalar.
-
 ## Architecture
 
-The codebase follows a layered backend structure:
-
-- `src/api/` handles HTTP routing, OpenAPI generation, request parsing, response shaping, request ids, and metrics middleware
-- `src/application/` contains use-case orchestration, validation, authorization checks, and business flow coordination
-- `src/domain/` contains the progression model, entities, and scoring rules
-- `src/infrastructure/` contains the SQLite repository implementation and persistence concerns
+- `src/api/` handles Axum routing, request parsing, error envelopes, metrics, OpenAPI, and static web delivery
+- `src/application/` contains orchestration, validation, ownership checks, photo storage, and progression workflows
+- `src/domain/` contains the event-driven progression model and balance/level helpers
+- `src/infrastructure/` contains the SQLite repository and versioned migration bootstrapping
+- `web/` contains the standalone frontend source and built bundle
 
 ```mermaid
 flowchart TD
-    Client["Client or Browser"] --> Docs["Scalar UI /docs/"]
-    Client --> Api["Axum HTTP API"]
+    Browser["Browser"] --> Web["/app/ frontend"]
+    Browser --> Docs["/docs/ Scalar"]
+    Web --> Api["Axum API /api/v2"]
     Docs --> Api
-    Api --> App["Application Service"]
-    App --> Domain["Domain Rules and Scoring Engine"]
-    App --> Repo["Repository Trait"]
-    Repo --> Sqlite["SQLite Repository"]
-    Sqlite --> Db[("SQLite DB file")]
-    Api --> Metrics["Prometheus Metrics /metrics"]
-    Api --> OpenApi["OpenAPI JSON /docs/openapi.json"]
+    Api --> App["Application services"]
+    App --> Domain["Progression engine"]
+    App --> Repo["Repository trait"]
+    Repo --> Sqlite["SQLite repository"]
+    Sqlite --> Db[("SQLite DB")]
 ```
-
-## Request Flow
-
-1. A client calls an Axum route.
-2. The API layer extracts payloads, path params, query params, and headers.
-3. Protected routes derive the acting user from `X-Actor-Id`.
-4. The application layer validates input and enforces ownership.
-5. The repository loads or persists state in SQLite.
-6. The domain scoring engine computes summaries, levels, and rest-day credits.
-7. The API layer returns JSON plus `X-Request-Id`.
 
 ## Environment Variables
 
-The service reads configuration from environment variables in [src/config.rs](/home/lab/work/sawrus/x10/src/config.rs).
+The service reads configuration from [src/config.rs](/home/lab/work/sawrus/x10/src/config.rs).
 
 | Variable | Required | Default | Description |
 | --- | --- | --- | --- |
 | `X10_HOST` | no | `127.0.0.1` | IP address the Axum server binds to |
-| `X10_PORT` | no | `3000` | TCP port for the API, Scalar UI, and OpenAPI JSON |
-| `X10_DATABASE_PATH` | no | `data/x10.sqlite3` | Filesystem path to the SQLite database file |
+| `X10_PORT` | no | `3000` | TCP port for API, web app, Scalar, and OpenAPI |
+| `X10_DATABASE_PATH` | no | `data/x10.sqlite3` | SQLite database file |
+| `X10_UPLOADS_PATH` | no | `data/uploads` | Local directory for uploaded profile photos |
+| `X10_WEB_DIST_PATH` | no | `web/dist` | Directory served for the game-style frontend |
 
-Example:
+## Core Rules
 
-```bash
-export X10_HOST=127.0.0.1
-export X10_PORT=3000
-export X10_DATABASE_PATH=data/x10.sqlite3
-make run
-```
+### Authorization
 
-## Business Logic
-
-### Profiles
-
-- a profile has identity and user metadata: full name, birth date, occupation, optional contacts, and timezone
-- profile creation requires non-empty `full_name`, `occupation`, and `timezone`
-- protected reads are allowed only when `X-Actor-Id` matches the target `profile_id`
-
-### Spheres
-
-- spheres are lightweight task categories
-- a sphere must have a non-empty `name`
-- tasks may reference a sphere, but the sphere must already exist
-
-### Tasks
-
-- each task belongs to exactly one profile
-- `kind` is either `positive` or `negative`
-- `weight` must be greater than zero
-- `cadence` can be `day`, `week`, `month`, or `year`
-- new tasks start with status `planned`
-- completing a task changes status to `completed` and stores `completed_at`
-- completing an already completed task returns a conflict
-
-### Authorization Model
-
-- the current authorization model is development-oriented
 - protected routes require `X-Actor-Id`
-- the acting profile id must match the resource owner
-- this applies to profile reads, dashboard reads, task creation, task completion, and day finalization
+- the actor must match the target `profile_id`
+- profile photos, tasks, executions, balances, levels, dashboard, and day finalizations all enforce object ownership
 
-### Progression Rules
+### Tasks and Executions
 
-The scoring engine lives in [src/domain/scoring.rs](/home/lab/work/sawrus/x10/src/domain/scoring.rs).
+- tasks are reusable plans, not completion records
+- `kind` is `positive` or `negative`
+- `planned_weight > 0`
+- `planned_score` is `1..=5`
+- `planned_rate` is `0..=100`
+- `starts_on + cadence` define the recurrence anchor
+- multiple executions per recurrence period are allowed
+- each execution captures `actual_score`, `actual_rate`, `completed_at`, and computed period bounds
 
-- only completed tasks scheduled for the requested date contribute to the daily summary
-- `positive_weight` is the sum of completed positive task weights for that date
-- `negative_weight` is the sum of completed negative task weights for that date
-- `net_score = positive_weight - negative_weight`
-- `balance_score` accumulates over time from finalized daily snapshots
-- level is derived from `balance_score` and clamped to `x0` through `x10`
-- default level step is `5` points per level
-- if `positive_weight >= 3`, the user earns `1` `rest_day_credit`
-- if `net_score < 0`, the user loses `1` `rest_day_credit` if one is available
+### Balance and Levels
+
+- every execution appends one `profile_balances` row
+- `actual_weight` is signed from task kind:
+  - positive task => `+planned_weight`
+  - negative task => `-planned_weight`
+- `balance_after` is cumulative and append-only
+- current level is derived from the latest balance against that profile's level table
+- level target score/rate fields are motivational metadata, not the source of truth for level selection
 
 ### Day Finalization
 
-- finalization persists a daily snapshot for a specific `profile_id` and `date`
-- a day can only be finalized once
-- the finalized snapshot stores:
-  - the daily summary
-  - cumulative balance score
-  - derived level
-  - current rest-day credits
-  - finalization timestamp
-
-### Dashboard
-
-The dashboard response aggregates current progression state:
-
-- `current.balance_score`
-- `current.level`
-- `current.rest_day_credits`
-- `today` summary for the requested date or current logical date input
-- `history` of finalized snapshots for graphing or trend visualization
+- `finalize day` remains a ritual event
+- it stores a `day_finalizations` row with optional note
+- it does not recalculate or lock balance
 
 ## Developer Commands
 
 | Command | Purpose |
 | --- | --- |
-| `make build` | Build the backend |
+| `make build` | Build web bundle and backend |
 | `make fmt` | Format Rust code |
 | `make lint` | Run clippy with warnings denied |
-| `make test` | Run unit and integration-style tests |
-| `make run` | Start the backend locally |
+| `make test` | Run frontend smoke tests and backend tests |
+| `make run` | Build web bundle and start the backend |
+| `make web-build` | Copy `web/src` into `web/dist` |
+| `make web-test` | Run lightweight frontend smoke checks |
 | `make actor-id` | Create a demo profile and print a usable `X-Actor-Id` |
-| `make clean` | Remove build artifacts |
+| `make clean` | Remove Cargo build artifacts |
 
-## API Overview
+## API Conventions
 
-Common behaviors:
-
-- all JSON errors use a common envelope: `error.code`, `error.message`, `error.request_id`
-- successful JSON responses include `X-Request-Id` in the response headers
+- all JSON errors use `error.code`, `error.message`, `error.request_id`
+- responses include `X-Request-Id`
+- binary photo download uses `GET /api/v2/photos/{photo_id}`
 - protected routes require `X-Actor-Id`
 
-### API Table
+## API Table
 
-| Method | Path | Auth | Purpose | Request Body | Success Response |
+| Method | Path | Auth | Purpose | Request Body | Success |
 | --- | --- | --- | --- | --- | --- |
-| `GET` | `/health` | no | Basic service liveness check | none | `200` with `{ "status": "ok" }` |
-| `GET` | `/metrics` | no | Prometheus metrics endpoint | none | `200` text payload or `503` if metrics are disabled |
-| `GET` | `/docs/` | no | Scalar web UI for interactive API calls | none | `200` HTML |
-| `GET` | `/docs/openapi.json` | no | Generated OpenAPI 3.1 document | none | `200` JSON |
-| `GET` | `/api/v1/spheres` | no | List known spheres | none | `200` with `Sphere[]` |
-| `POST` | `/api/v1/spheres` | no | Create a new sphere | `name` | `201` with `Sphere` |
-| `POST` | `/api/v1/profiles` | no | Create a profile | `full_name`, `birth_date`, `occupation`, optional `telegram`, optional `email`, `timezone` | `201` with `Profile` |
-| `GET` | `/api/v1/profiles/{profile_id}` | yes | Read a profile owned by the acting user | none | `200` with `Profile` |
-| `GET` | `/api/v1/profiles/{profile_id}/dashboard` | yes | Read dashboard state and snapshot history | none, optional `date` query | `200` with `Dashboard` |
-| `POST` | `/api/v1/profiles/{profile_id}/days/{date}/finalize` | yes | Finalize one day into a stored snapshot | none | `200` with `DailySnapshot` |
-| `POST` | `/api/v1/tasks` | yes | Create a planned task for a profile | `profile_id`, `title`, optional `sphere_id`, `kind`, `weight`, `cadence`, `scheduled_for` | `201` with `Task` |
-| `POST` | `/api/v1/tasks/{task_id}/complete` | yes | Mark a task as completed | none | `200` with updated `Task` |
+| `GET` | `/health` | no | Liveness check | none | `200` JSON |
+| `GET` | `/metrics` | no | Prometheus metrics | none | `200` text or `503` |
+| `GET` | `/app/` | no | Game frontend | none | `200` HTML |
+| `GET` | `/docs/` | no | Scalar UI | none | `200` HTML |
+| `GET` | `/docs/openapi.json` | no | OpenAPI JSON | none | `200` JSON |
+| `POST` | `/api/v2/profiles` | no | Create a profile and seed default levels | `full_name`, `birth_date`, `occupation`, optional `telegram`, optional `email`, `timezone` | `201` `Profile` |
+| `GET` | `/api/v2/profiles/{profile_id}` | yes | Read owned profile | none | `200` `Profile` |
+| `PATCH` | `/api/v2/profiles/{profile_id}` | yes | Update owned profile | partial profile fields | `200` `Profile` |
+| `POST` | `/api/v2/profiles/{profile_id}/photos` | yes | Upload local profile photo | multipart `file` | `201` `ProfilePhotoSummary` |
+| `GET` | `/api/v2/profiles/{profile_id}/photos` | yes | List owned photo metadata | none | `200` `ProfilePhotoSummary[]` |
+| `GET` | `/api/v2/photos/{photo_id}` | yes | Download owned photo bytes | none | `200` binary |
+| `DELETE` | `/api/v2/photos/{photo_id}` | yes | Delete owned photo if not selected | none | `204` |
+| `POST` | `/api/v2/profiles/{profile_id}/photos/{photo_id}/select` | yes | Make photo current avatar | none | `200` `Profile` |
+| `GET` | `/api/v2/spheres` | no | List spheres | none | `200` `Sphere[]` |
+| `POST` | `/api/v2/spheres` | no | Create sphere | `name`, `weight` | `201` `Sphere` |
+| `GET` | `/api/v2/spheres/{sphere_id}` | no | Read sphere | none | `200` `Sphere` |
+| `PATCH` | `/api/v2/spheres/{sphere_id}` | no | Update sphere | partial `name`, `weight` | `200` `Sphere` |
+| `DELETE` | `/api/v2/spheres/{sphere_id}` | no | Delete sphere | none | `204` |
+| `POST` | `/api/v2/tasks` | yes | Create planned task | `profile_id`, `title`, optional `sphere_id`, `kind`, `planned_weight`, `planned_score`, `planned_rate`, `cadence`, `starts_on` | `201` `Task` |
+| `GET` | `/api/v2/profiles/{profile_id}/tasks` | yes | List owned tasks in canonical order | none | `200` `Task[]` |
+| `GET` | `/api/v2/tasks/{task_id}` | yes | Read owned task | none | `200` `Task` |
+| `PATCH` | `/api/v2/tasks/{task_id}` | yes | Update owned task | partial task fields | `200` `Task` |
+| `DELETE` | `/api/v2/tasks/{task_id}` | yes | Delete owned task | none | `204` |
+| `POST` | `/api/v2/tasks/{task_id}/executions` | yes | Create execution and append ledger row | `actual_score`, `actual_rate`, optional `completed_at` | `201` `TaskExecution` |
+| `GET` | `/api/v2/profiles/{profile_id}/executions` | yes | List owned executions | none | `200` `TaskExecution[]` |
+| `GET` | `/api/v2/executions/{execution_id}` | yes | Read owned execution | none | `200` `TaskExecution` |
+| `DELETE` | `/api/v2/executions/{execution_id}` | yes | Delete execution and rebuild balances | none | `204` |
+| `GET` | `/api/v2/profiles/{profile_id}/balances` | yes | List append-only balance history | none | `200` `ProfileBalance[]` |
+| `GET` | `/api/v2/profiles/{profile_id}/dashboard` | yes | Read profile header, tasks, executions, balances, levels, and finalizations | none | `200` `Dashboard` |
+| `GET` | `/api/v2/profiles/{profile_id}/levels` | yes | List owned levels | none | `200` `Level[]` |
+| `POST` | `/api/v2/profiles/{profile_id}/levels` | yes | Create owned level | `code`, `ordinal`, `min_balance`, `target_planned_score`, `target_planned_rate` | `201` `Level` |
+| `PATCH` | `/api/v2/levels/{level_id}` | yes | Update owned level | partial level fields | `200` `Level` |
+| `DELETE` | `/api/v2/levels/{level_id}` | yes | Delete owned level if at least one remains | none | `204` |
+| `POST` | `/api/v2/profiles/{profile_id}/days/{date}/finalize` | yes | Store ritual day finalization | optional `note` | `201` `DayFinalization` |
+| `GET` | `/api/v2/profiles/{profile_id}/days/finalizations` | yes | List ritual day finalizations | none | `200` `DayFinalization[]` |
 
-## Key Data Shapes
+## UI Loop
 
-### Profile
+1. Create a profile once and keep `X-Actor-Id` in local storage.
+2. Upload/select a photo.
+3. Create planned tasks in the left panel.
+4. Execute the same ordered queue in the right panel.
+5. Watch `profile_balances` move the chart and current level.
+6. Optionally finalize the day with a note.
 
-```json
-{
-  "id": "uuid",
-  "full_name": "Alice Example",
-  "birth_date": "1990-01-01",
-  "occupation": "Engineer",
-  "telegram": "@alice",
-  "email": "alice@example.com",
-  "timezone": "Europe/Samara"
-}
-```
+## Related Docs
 
-### Task
-
-```json
-{
-  "id": "uuid",
-  "profile_id": "uuid",
-  "title": "Morning run",
-  "sphere_id": "uuid",
-  "kind": "positive",
-  "weight": 2,
-  "cadence": "day",
-  "scheduled_for": "2026-07-01",
-  "status": "planned",
-  "completed_at": null
-}
-```
-
-### Dashboard
-
-```json
-{
-  "profile_id": "uuid",
-  "current": {
-    "balance_score": 8,
-    "level": "x1",
-    "rest_day_credits": 1
-  },
-  "today": {
-    "date": "2026-07-01",
-    "positive_weight": 3,
-    "negative_weight": 1,
-    "net_score": 2
-  },
-  "history": []
-}
-```
-
-## Interactive Docs Workflow
-
-1. Start the backend with `make run`.
-2. Run `make actor-id`.
-3. Open `http://127.0.0.1:3000/docs/`.
-4. Paste the generated value into the `X-Actor-Id` header for protected requests.
-5. Call the API directly from the browser UI on the same service port.
-
-## Observability
-
-- `GET /health` exposes liveness
-- `GET /metrics` exposes Prometheus-compatible metrics
-- every request receives an `X-Request-Id`
-- request lifecycle and status are logged through `tracing`
-
-## Repository Notes
-
-- bootstrap feature docs live under [docs/backend-bootstrap/README.md](/home/lab/work/sawrus/x10/docs/backend-bootstrap/README.md)
-- interactive docs feature docs live under [docs/api-docs-ui/README.md](/home/lab/work/sawrus/x10/docs/api-docs-ui/README.md)
+- [Feature docs](/home/lab/work/sawrus/x10/docs/progression-redesign/README.md)
+- [Epic plan](/home/lab/work/sawrus/x10/docs/progression-redesign/epic_plan.md)
+- [Architecture notes](/home/lab/work/sawrus/x10/docs/progression-redesign/architecture_notes.md)
+- [Test report](/home/lab/work/sawrus/x10/docs/progression-redesign/test_report.md)
+- [Delivery summary](/home/lab/work/sawrus/x10/docs/progression-redesign/delivery_summary.md)

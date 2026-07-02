@@ -10,11 +10,15 @@ use crate::{
     api::{
         AppState,
         error::{ErrorBody, ErrorEnvelope},
-        routes::{CreateProfilePayload, CreateSpherePayload, CreateTaskPayload, DashboardQuery},
+        routes::{
+            CreateDayFinalizationPayload, CreateLevelPayload, CreateProfilePayload,
+            CreateSpherePayload, CreateTaskExecutionPayload, CreateTaskPayload,
+            UpdateLevelPayload, UpdateProfilePayload, UpdateSpherePayload, UpdateTaskPayload,
+        },
     },
     domain::{
-        DailySnapshot, Dashboard, DaySummary, Profile, ProgressionSummary, Sphere, Task,
-        TaskCadence, TaskKind, TaskStatus,
+        Dashboard, DayFinalization, Level, Profile, ProfileBalance, ProfilePhotoSummary,
+        ProgressionSummary, Sphere, Task, TaskCadence, TaskExecution, TaskKind, TaskStatus,
     },
 };
 
@@ -32,39 +36,70 @@ impl Modify for ServerAddon {
     paths(
         crate::api::routes::health,
         crate::api::routes::metrics,
-        crate::api::routes::list_spheres,
-        crate::api::routes::create_sphere,
         crate::api::routes::create_profile,
         crate::api::routes::get_profile,
-        crate::api::routes::get_dashboard,
-        crate::api::routes::finalize_day,
+        crate::api::routes::update_profile,
+        crate::api::routes::upload_photo,
+        crate::api::routes::list_photos,
+        crate::api::routes::get_photo,
+        crate::api::routes::delete_photo,
+        crate::api::routes::select_photo,
+        crate::api::routes::create_sphere,
+        crate::api::routes::list_spheres,
+        crate::api::routes::get_sphere,
+        crate::api::routes::update_sphere,
+        crate::api::routes::delete_sphere,
         crate::api::routes::create_task,
-        crate::api::routes::complete_task
+        crate::api::routes::list_tasks,
+        crate::api::routes::get_task,
+        crate::api::routes::update_task,
+        crate::api::routes::delete_task,
+        crate::api::routes::create_execution,
+        crate::api::routes::list_executions,
+        crate::api::routes::get_execution,
+        crate::api::routes::delete_execution,
+        crate::api::routes::list_balances,
+        crate::api::routes::get_dashboard,
+        crate::api::routes::list_levels,
+        crate::api::routes::create_level,
+        crate::api::routes::update_level,
+        crate::api::routes::delete_level,
+        crate::api::routes::finalize_day,
+        crate::api::routes::list_day_finalizations
     ),
     components(
         schemas(
             ErrorEnvelope,
             ErrorBody,
             CreateProfilePayload,
+            UpdateProfilePayload,
             CreateSpherePayload,
-            DashboardQuery,
+            UpdateSpherePayload,
             CreateTaskPayload,
+            UpdateTaskPayload,
+            CreateTaskExecutionPayload,
+            CreateLevelPayload,
+            UpdateLevelPayload,
+            CreateDayFinalizationPayload,
             Profile,
+            ProfilePhotoSummary,
             Sphere,
             Task,
             TaskKind,
             TaskStatus,
             TaskCadence,
-            DaySummary,
-            DailySnapshot,
+            TaskExecution,
+            ProfileBalance,
+            Level,
+            DayFinalization,
             Dashboard,
             ProgressionSummary
         )
     ),
     info(
         title = "x10 backend API",
-        version = "0.2.0",
-        description = "Interactive API documentation served by the same Axum service as the backend."
+        version = "0.3.0",
+        description = "Interactive API documentation for the progression redesign backend."
     )
 )]
 pub struct ApiDoc;
