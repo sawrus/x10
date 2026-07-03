@@ -45,12 +45,19 @@
   box-sizing: border-box;
 }
 
+img,
+svg,
+canvas {
+  max-width: 100%;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
   font-family: var(--font-body);
   background: var(--bg-accent);
   color: var(--text);
+  line-height: 1.45;
 }
 
 button,
@@ -58,6 +65,7 @@ input,
 select,
 textarea {
   font: inherit;
+  min-width: 0;
 }
 
 button {
@@ -69,6 +77,14 @@ button {
   padding: 0.8rem 1rem;
   font-weight: 700;
   box-shadow: var(--shadow);
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 select,
@@ -86,6 +102,7 @@ textarea {
   width: min(1320px, calc(100% - 2rem));
   margin: 0 auto;
   padding: 1.2rem 0 2rem;
+  min-width: 0;
 }
 
 .hero,
@@ -102,9 +119,16 @@ textarea {
   align-self: start;
 }
 
+.panel > *,
+.hero > * {
+  min-width: 0;
+}
+
 .hero {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
   gap: 1rem;
   padding: 1.2rem;
   margin-bottom: 1rem;
@@ -112,8 +136,15 @@ textarea {
 
 .hero-profile {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+}
+
+.hero-profile > div {
+  min-width: 0;
 }
 
 .avatar-frame {
@@ -142,6 +173,7 @@ textarea {
 .eyebrow,
 .muted {
   color: var(--muted);
+  overflow-wrap: anywhere;
 }
 
 .eyebrow {
@@ -156,16 +188,22 @@ textarea {
 .panel h3 {
   margin: 0;
   font-family: var(--font-display);
+  line-height: 1.1;
+  overflow-wrap: anywhere;
 }
 
 .hero-stats {
   display: flex;
   gap: 0.8rem;
   align-items: stretch;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .stat {
-  min-width: 120px;
+  min-width: 0;
+  flex: 1 1 140px;
+  max-width: 220px;
   padding: 0.9rem;
   border-radius: 18px;
   background: var(--surface-soft);
@@ -173,6 +211,7 @@ textarea {
   flex-direction: column;
   justify-content: center;
   gap: 0.35rem;
+  overflow: hidden;
 }
 
 .workspace {
@@ -198,10 +237,11 @@ textarea {
 
 .panel-head {
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
 .panel-head.compact {
@@ -215,12 +255,20 @@ textarea {
   display: grid;
   gap: 0.85rem;
   align-content: start;
+  min-width: 0;
 }
 
 .inline-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
+  min-width: 0;
+}
+
+label {
+  display: grid;
+  gap: 0.4rem;
+  min-width: 0;
 }
 
 .task-card,
@@ -234,9 +282,17 @@ textarea {
   overflow: hidden;
 }
 
+.task-card,
+.history-item,
+.photo-card,
+.stat {
+  isolation: isolate;
+}
+
 .task-card h4,
 .history-item h4 {
   margin: 0 0 0.3rem;
+  line-height: 1.2;
   overflow-wrap: anywhere;
 }
 
@@ -244,8 +300,10 @@ textarea {
 .history-meta {
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
   gap: 0.45rem;
   margin: 0.5rem 0;
+  min-width: 0;
 }
 
 .pill {
@@ -253,6 +311,9 @@ textarea {
   padding: 0.25rem 0.55rem;
   background: var(--surface-soft);
   font-size: 0.85rem;
+  line-height: 1.25;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .pill.positive {
@@ -285,6 +346,7 @@ textarea {
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.04);
   margin-bottom: 1rem;
+  display: block;
 }
 
 .photo-grid {
@@ -299,9 +361,21 @@ textarea {
   margin-bottom: 0.5rem;
 }
 
+.photo-card button {
+  width: 100%;
+}
+
+#profile-meta,
+.panel-head .muted,
+.task-card .muted,
+.history-item .muted {
+  margin: 0;
+}
+
 .ritual-form textarea {
   resize: vertical;
   min-height: 92px;
+  max-width: 100%;
 }
 
 #auth-panel,
@@ -315,6 +389,10 @@ textarea {
 
 [data-theme="apple"] .hero {
   padding: 1.45rem;
+}
+
+[data-theme="apple"] button {
+  box-shadow: 0 10px 24px rgba(0, 113, 227, 0.16);
 }
 
 [data-theme="apple"] .hero h1,
@@ -359,6 +437,13 @@ textarea {
   box-shadow: var(--shadow);
 }
 
+[data-theme="apple"] .toast {
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--text);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12);
+}
+
 @media (max-width: 960px) {
   .hero,
   .hero-stats,
@@ -371,5 +456,15 @@ textarea {
 
   .hero {
     align-items: stretch;
+  }
+
+  .hero-profile,
+  .panel-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stat {
+    max-width: none;
   }
 }
