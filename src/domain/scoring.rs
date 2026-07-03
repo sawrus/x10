@@ -28,7 +28,11 @@ impl ProgressionEngine {
         }
     }
 
-    pub fn period_for(&self, starts_on: NaiveDate, cadence: crate::domain::TaskCadence) -> (NaiveDate, NaiveDate) {
+    pub fn period_for(
+        &self,
+        starts_on: NaiveDate,
+        cadence: crate::domain::TaskCadence,
+    ) -> (NaiveDate, NaiveDate) {
         match cadence {
             crate::domain::TaskCadence::Day => (starts_on, starts_on),
             crate::domain::TaskCadence::Week => (starts_on, starts_on + chrono::Days::new(6)),
@@ -44,7 +48,10 @@ impl ProgressionEngine {
     }
 
     pub fn balance_from_history(&self, balances: &[ProfileBalance]) -> i32 {
-        balances.last().map(|entry| entry.balance_after).unwrap_or_default()
+        balances
+            .last()
+            .map(|entry| entry.balance_after)
+            .unwrap_or_default()
     }
 
     pub fn current_level<'a>(&self, levels: &'a [Level], balance: i32) -> Option<&'a Level> {
@@ -126,7 +133,10 @@ mod tests {
         let engine = ProgressionEngine::new(ProgressionConfig);
 
         assert_eq!(engine.signed_weight(&sample_task(TaskKind::Positive, 3)), 3);
-        assert_eq!(engine.signed_weight(&sample_task(TaskKind::Negative, 3)), -3);
+        assert_eq!(
+            engine.signed_weight(&sample_task(TaskKind::Negative, 3)),
+            -3
+        );
     }
 
     #[test]
@@ -178,7 +188,8 @@ mod tests {
             created_at: Utc::now(),
         };
 
-        let balance = engine.create_balance_entry(task.profile_id, &task, &execution, 7, Utc::now());
+        let balance =
+            engine.create_balance_entry(task.profile_id, &task, &execution, 7, Utc::now());
 
         assert_eq!(balance.balance_after, 3);
         assert_eq!(balance.actual_weight, -4);

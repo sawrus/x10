@@ -138,8 +138,7 @@ pub struct ProgressionService<R: Repository> {
 
 impl<R: Repository> ProgressionService<R> {
     pub fn new(repository: Arc<R>, uploads_path: PathBuf) -> Self {
-        std::fs::create_dir_all(&uploads_path)
-            .expect("uploads directory should initialize");
+        std::fs::create_dir_all(&uploads_path).expect("uploads directory should initialize");
         Self {
             repository,
             engine: ProgressionEngine::new(ProgressionConfig),
@@ -173,6 +172,13 @@ impl<R: Repository> ProgressionService<R> {
             .map_err(Self::storage_error)?;
 
         Ok((profile, levels))
+    }
+
+    pub async fn list_profiles(&self) -> Result<Vec<Profile>, ServiceError> {
+        self.repository
+            .list_profiles()
+            .await
+            .map_err(Self::storage_error)
     }
 
     pub async fn get_profile(
@@ -225,6 +231,24 @@ impl<R: Repository> ProgressionService<R> {
             .map_err(Self::storage_error)?;
 
         Ok(profile)
+    }
+
+    pub async fn delete_profile(&self, profile_id: Uuid) -> Result<(), ServiceError> {
+        let photos = self
+            .repository
+            .list_photos(profile_id)
+            .await
+            .map_err(Self::storage_error)?;
+        self.ensure_profile_exists(profile_id).await?;
+        self.repository
+            .delete_profile(profile_id)
+            .await
+            .map_err(Self::storage_error)?;
+        for photo in photos {
+            let _ = tokio::fs::remove_file(self.uploads_path.join(&photo.storage_path)).await;
+        }
+        let _ = tokio::fs::remove_dir(self.uploads_path.join(profile_id.to_string())).await;
+        Ok(())
     }
 
     pub async fn upload_photo(
@@ -808,6 +832,46 @@ impl<R: Repository> ProgressionService<R> {
             .map_err(Self::storage_error)
     }
 
+    pub async fn delete_day_finalization(
+        &self,
+        actor: Actor,
+        finalization_id: Uuid,
+    ) -> Result<(), ServiceError> {
+        let finalization = self
+            .repository
+            .list_day_finalizations(actor.profile_id)
+            .await
+            .map_err(Self::storage_error)?
+            .into_iter()
+            .find(|item| item.id == finalization_id)
+            .ok_or(ServiceError::NotFound)?;
+        self.authorize(actor, finalization.profile_id)?;
+        self.repository
+            .delete_day_finalization(finalization_id)
+            .await
+            .map_err(Self::storage_error)?;
+        Ok(())
+    }
+
+    pub async fn get_level_state(
+        &self,
+        profile_id: Uuid,
+    ) -> Result<Option<ProfileLevelState>, ServiceError> {
+        self.ensure_profile_exists(profile_id).await?;
+        let state = self
+            .repository
+            .get_level_state(profile_id)
+            .await
+            .map_err(Self::storage_error)?;
+        if state.is_some() {
+            return Ok(state);
+        }
+        self.repository
+            .recalculate_level_state(profile_id)
+            .await
+            .map_err(Self::storage_error)
+    }
+
     pub async fn dashboard(
         &self,
         actor: Actor,
@@ -971,20 +1035,28 @@ fn resolve_current_level<'a>(
     levels: &'a [Level],
 ) -> Option<&'a Level> {
     level_state
-        .and_then(|state| levels.iter().find(|level| level.id == state.current_level_id))
+        .and_then(|state| {
+            levels
+                .iter()
+                .find(|level| level.id == state.current_level_id)
+        })
         .or_else(|| levels.iter().min_by_key(|level| level.ordinal))
 }
 
 fn validate_score(field: &str, value: i32) -> Result<(), ServiceError> {
     if !(1..=5).contains(&value) {
-        return Err(ServiceError::Validation(format!("{field} must be between 1 and 5")));
+        return Err(ServiceError::Validation(format!(
+            "{field} must be between 1 and 5"
+        )));
     }
     Ok(())
 }
 
 fn validate_rate(field: &str, value: i32) -> Result<(), ServiceError> {
     if !(0..=100).contains(&value) {
-        return Err(ServiceError::Validation(format!("{field} must be between 0 and 100")));
+        return Err(ServiceError::Validation(format!(
+            "{field} must be between 0 and 100"
+        )));
     }
     Ok(())
 }
@@ -998,7 +1070,11 @@ fn require_non_empty(field: &str, value: &str) -> Result<(), ServiceError> {
 
 fn sanitize_file_name(name: &str) -> String {
     let fallback = "upload.bin";
-    let candidate = if name.trim().is_empty() { fallback } else { name };
+    let candidate = if name.trim().is_empty() {
+        fallback
+    } else {
+        name
+    };
     candidate
         .chars()
         .map(|ch| {
@@ -1028,7 +1104,10 @@ fn compute_period_bounds(
     match cadence {
         TaskCadence::Day => (completed_on, completed_on),
         TaskCadence::Week => {
-            let days = completed_on.signed_duration_since(starts_on).num_days().max(0) as u64;
+            let days = completed_on
+                .signed_duration_since(starts_on)
+                .num_days()
+                .max(0) as u64;
             let offset_weeks = days / 7;
             let period_start = starts_on + Days::new(offset_weeks * 7);
             (period_start, period_start + Days::new(6))
@@ -1062,7 +1141,10 @@ mod tests {
 
     use chrono::NaiveDate;
 
-    use super::{Actor, CreateProfileRequest, CreateTaskExecutionRequest, CreateTaskRequest, PhotoUpload, ProgressionService};
+    use super::{
+        Actor, CreateProfileRequest, CreateTaskExecutionRequest, CreateTaskRequest, PhotoUpload,
+        ProgressionService,
+    };
     use crate::{
         domain::{TaskCadence, TaskKind},
         infrastructure::SqliteRepository,
@@ -1086,7 +1168,9 @@ mod tests {
             })
             .await
             .unwrap();
-        let actor = Actor { profile_id: profile.id };
+        let actor = Actor {
+            profile_id: profile.id,
+        };
         let task = service
             .create_task(
                 actor,
@@ -1140,7 +1224,9 @@ mod tests {
             })
             .await
             .unwrap();
-        let actor = Actor { profile_id: profile.id };
+        let actor = Actor {
+            profile_id: profile.id,
+        };
 
         let photo = service
             .upload_photo(

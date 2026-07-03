@@ -8,3 +8,4 @@ target/
 data/
 *.sqlite
 *.sqlite3
+web/nodo_modules/

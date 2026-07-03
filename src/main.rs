@@ -21,8 +21,19 @@ async fn main() {
     let repository = Arc::new(
         SqliteRepository::new(&config.database_path).expect("sqlite repository should initialize"),
     );
-    let service = Arc::new(ProgressionService::new(repository, config.uploads_path.clone()));
-    let state = AppState::new(service, Some(metrics_handle), config.web_dist_path.clone());
+    let service = Arc::new(ProgressionService::new(
+        repository,
+        config.uploads_path.clone(),
+    ));
+    let state = AppState::new(
+        service,
+        Some(metrics_handle),
+        config.web_dist_path.clone(),
+        config.admin_username.clone(),
+        config.admin_password_hash.clone(),
+        config.admin_session_secret.clone(),
+        config.admin_session_secure,
+    );
     let app = build_router(state);
 
     let address = SocketAddr::from((config.host, config.port));

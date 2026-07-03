@@ -6,6 +6,10 @@ pub struct Config {
     pub database_path: PathBuf,
     pub uploads_path: PathBuf,
     pub web_dist_path: PathBuf,
+    pub admin_username: String,
+    pub admin_password_hash: String,
+    pub admin_session_secret: String,
+    pub admin_session_secure: bool,
 }
 
 impl Config {
@@ -29,6 +33,16 @@ impl Config {
         let web_dist_path = env::var("X10_WEB_DIST_PATH")
             .map(PathBuf::from)
             .unwrap_or_else(|_| PathBuf::from("web/dist"));
+        let admin_username =
+            env::var("X10_ADMIN_USERNAME").expect("X10_ADMIN_USERNAME must be set");
+        let admin_password_hash =
+            env::var("X10_ADMIN_PASSWORD_HASH").expect("X10_ADMIN_PASSWORD_HASH must be set");
+        let admin_session_secret =
+            env::var("X10_ADMIN_SESSION_SECRET").expect("X10_ADMIN_SESSION_SECRET must be set");
+        let admin_session_secure = env::var("X10_ADMIN_SESSION_SECURE")
+            .ok()
+            .map(|value| matches!(value.as_str(), "1" | "true" | "TRUE" | "yes" | "on"))
+            .unwrap_or(false);
 
         Self {
             host,
@@ -36,6 +50,10 @@ impl Config {
             database_path,
             uploads_path,
             web_dist_path,
+            admin_username,
+            admin_password_hash,
+            admin_session_secret,
+            admin_session_secure,
         }
     }
 }

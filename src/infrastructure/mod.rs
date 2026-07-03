@@ -6,8 +6,8 @@ use thiserror::Error;
 use uuid::Uuid;
 
 use crate::domain::{
-    DayFinalization, Level, Profile, ProfileBalance, ProfileLevelState, ProfilePhoto, Sphere,
-    Task, TaskExecution,
+    DayFinalization, Level, Profile, ProfileBalance, ProfileLevelState, ProfilePhoto, Sphere, Task,
+    TaskExecution,
 };
 
 pub use sqlite::SqliteRepository;
@@ -23,8 +23,10 @@ pub enum RepositoryError {
 #[async_trait]
 pub trait Repository: Send + Sync + 'static {
     async fn initialize_profile(&self, profile: Profile) -> Result<Vec<Level>, RepositoryError>;
+    async fn list_profiles(&self) -> Result<Vec<Profile>, RepositoryError>;
     async fn get_profile(&self, profile_id: Uuid) -> Result<Option<Profile>, RepositoryError>;
     async fn update_profile(&self, profile: Profile) -> Result<(), RepositoryError>;
+    async fn delete_profile(&self, profile_id: Uuid) -> Result<(), RepositoryError>;
 
     async fn create_photo(&self, photo: ProfilePhoto) -> Result<(), RepositoryError>;
     async fn list_photos(&self, profile_id: Uuid) -> Result<Vec<ProfilePhoto>, RepositoryError>;
@@ -70,10 +72,8 @@ pub trait Repository: Send + Sync + 'static {
         execution_id: Uuid,
     ) -> Result<Option<TaskExecution>, RepositoryError>;
 
-    async fn list_balances(
-        &self,
-        profile_id: Uuid,
-    ) -> Result<Vec<ProfileBalance>, RepositoryError>;
+    async fn list_balances(&self, profile_id: Uuid)
+    -> Result<Vec<ProfileBalance>, RepositoryError>;
 
     async fn list_levels(&self, profile_id: Uuid) -> Result<Vec<Level>, RepositoryError>;
     async fn get_level(&self, level_id: Uuid) -> Result<Option<Level>, RepositoryError>;
@@ -97,4 +97,5 @@ pub trait Repository: Send + Sync + 'static {
         &self,
         profile_id: Uuid,
     ) -> Result<Vec<DayFinalization>, RepositoryError>;
+    async fn delete_day_finalization(&self, finalization_id: Uuid) -> Result<(), RepositoryError>;
 }

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>x10 game placeholder</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: Roboto, "Segoe UI", sans-serif;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background:
+          radial-gradient(circle at top, rgba(33, 150, 243, 0.18), transparent 38%),
+          linear-gradient(180deg, #f6f8fc 0%, #e9edf6 100%);
+      }
+
+      main {
+        width: min(720px, calc(100% - 32px));
+        padding: 40px;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 0 20px 60px rgba(15, 23, 42, 0.16);
+      }
+
+      h1 {
+        margin-top: 0;
+        font-size: clamp(2rem, 5vw, 3.25rem);
+      }
+
+      p {
+        font-size: 1.05rem;
+        line-height: 1.6;
+      }
+
+      a {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 18px;
+        border-radius: 999px;
+        background: #1976d2;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p>Game placeholder</p>
+      <h1>x10 /game</h1>
+      <p>
+        The dedicated game client will land here later. For now, the root route hosts the
+        Vuetify-based CRUD admin panel for managing the SQLite data model.
+      </p>
+      <a href="/">Open admin panel</a>
+    </main>
+  </body>
+</html>
