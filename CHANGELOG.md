@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0
+
+- replaced the old `/app/` frontend with a Vuetify CRUD admin panel served from `/`
+- added admin authentication via `X10_ADMIN_USERNAME`, `X10_ADMIN_PASSWORD_HASH`, and a signed HTTP-only cookie session
+- added `/game` as a separate HTML placeholder route
+- added admin profile listing, profile deletion, profile level state reads, and day-finalization deletion support
+- switched the frontend build to `Vite + Vue 3 + Vuetify + vue-i18n`
+- updated README and shipped feature docs under `docs/admin-vuetify/`
+
 ## 0.3.0
 
 - redesigned the app around versioned `v2` SQLite migrations and removed runtime dependence on `daily_snapshots`

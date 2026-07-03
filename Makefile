@@ -22,10 +22,10 @@ lint:
 	cargo clippy --all-targets --all-features -- -D warnings
 
 test: web-test
-	cargo test
+	cargo test -j 1
 
 run: web-build
-	cargo run
+	cargo run --bin x10-backend
 
 web-build:
 	./web/build.sh

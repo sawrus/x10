@@ -9,16 +9,18 @@ use utoipa_scalar::Scalar;
 use crate::{
     api::{
         AppState,
+        admin::{LoginPayload, SessionPayload},
         error::{ErrorBody, ErrorEnvelope},
         routes::{
             CreateDayFinalizationPayload, CreateLevelPayload, CreateProfilePayload,
-            CreateSpherePayload, CreateTaskExecutionPayload, CreateTaskPayload,
-            UpdateLevelPayload, UpdateProfilePayload, UpdateSpherePayload, UpdateTaskPayload,
+            CreateSpherePayload, CreateTaskExecutionPayload, CreateTaskPayload, UpdateLevelPayload,
+            UpdateProfilePayload, UpdateSpherePayload, UpdateTaskPayload,
         },
     },
     domain::{
-        Dashboard, DayFinalization, Level, Profile, ProfileBalance, ProfilePhotoSummary,
-        ProgressionSummary, Sphere, Task, TaskCadence, TaskExecution, TaskKind, TaskStatus,
+        Dashboard, DayFinalization, Level, Profile, ProfileBalance, ProfileLevelState,
+        ProfilePhotoSummary, ProgressionSummary, Sphere, Task, TaskCadence, TaskExecution,
+        TaskKind, TaskStatus,
     },
 };
 
@@ -65,12 +67,21 @@ impl Modify for ServerAddon {
         crate::api::routes::update_level,
         crate::api::routes::delete_level,
         crate::api::routes::finalize_day,
-        crate::api::routes::list_day_finalizations
+        crate::api::routes::list_day_finalizations,
+        crate::api::routes::delete_day_finalization,
+        crate::api::admin::login,
+        crate::api::admin::logout,
+        crate::api::admin::session,
+        crate::api::admin::list_profiles,
+        crate::api::admin::delete_profile,
+        crate::api::admin::get_level_state
     ),
     components(
         schemas(
             ErrorEnvelope,
             ErrorBody,
+            LoginPayload,
+            SessionPayload,
             CreateProfilePayload,
             UpdateProfilePayload,
             CreateSpherePayload,
@@ -91,6 +102,7 @@ impl Modify for ServerAddon {
             TaskExecution,
             ProfileBalance,
             Level,
+            ProfileLevelState,
             DayFinalization,
             Dashboard,
             ProgressionSummary
@@ -98,8 +110,8 @@ impl Modify for ServerAddon {
     ),
     info(
         title = "x10 backend API",
-        version = "0.3.0",
-        description = "Interactive API documentation for the progression redesign backend."
+        version = "0.4.0",
+        description = "Interactive API documentation for the x10 admin backend."
     )
 )]
 pub struct ApiDoc;

@@ -98,6 +98,22 @@ impl Repository for SqliteRepository {
         Ok(levels)
     }
 
+    async fn list_profiles(&self) -> Result<Vec<Profile>, RepositoryError> {
+        let connection = self.connection()?;
+        let mut statement = connection
+            .prepare(
+                "SELECT id, full_name, birth_date, occupation, telegram, email, timezone, current_photo_id
+                 FROM profiles
+                 ORDER BY created_at DESC",
+            )
+            .map_err(map_sqlite_error)?;
+        let rows = statement
+            .query_map([], map_profile_row)
+            .map_err(map_sqlite_error)?;
+        rows.collect::<Result<Vec<_>, _>>()
+            .map_err(map_sqlite_error)
+    }
+
     async fn get_profile(&self, profile_id: Uuid) -> Result<Option<Profile>, RepositoryError> {
         self.connection()?
             .query_row(
@@ -129,6 +145,13 @@ impl Repository for SqliteRepository {
                     Utc::now().to_rfc3339()
                 ],
             )
+            .map_err(map_sqlite_error)?;
+        Ok(())
+    }
+
+    async fn delete_profile(&self, profile_id: Uuid) -> Result<(), RepositoryError> {
+        self.connection()?
+            .execute("DELETE FROM profiles WHERE id = ?1", params![profile_id])
             .map_err(map_sqlite_error)?;
         Ok(())
     }
@@ -167,7 +190,8 @@ impl Repository for SqliteRepository {
         let rows = statement
             .query_map(params![profile_id], map_photo_row)
             .map_err(map_sqlite_error)?;
-        rows.collect::<Result<Vec<_>, _>>().map_err(map_sqlite_error)
+        rows.collect::<Result<Vec<_>, _>>()
+            .map_err(map_sqlite_error)
     }
 
     async fn get_photo(&self, photo_id: Uuid) -> Result<Option<ProfilePhoto>, RepositoryError> {
@@ -184,7 +208,10 @@ impl Repository for SqliteRepository {
 
     async fn delete_photo(&self, photo_id: Uuid) -> Result<(), RepositoryError> {
         self.connection()?
-            .execute("DELETE FROM profile_photos WHERE id = ?1", params![photo_id])
+            .execute(
+                "DELETE FROM profile_photos WHERE id = ?1",
+                params![photo_id],
+            )
             .map_err(map_sqlite_error)?;
         Ok(())
     }
@@ -228,7 +255,8 @@ impl Repository for SqliteRepository {
                 })
             })
             .map_err(map_sqlite_error)?;
-        rows.collect::<Result<Vec<_>, _>>().map_err(map_sqlite_error)
+        rows.collect::<Result<Vec<_>, _>>()
+            .map_err(map_sqlite_error)
     }
 
     async fn get_sphere(&self, sphere_id: Uuid) -> Result<Option<Sphere>, RepositoryError> {
@@ -252,7 +280,12 @@ impl Repository for SqliteRepository {
         self.connection()?
             .execute(
                 "UPDATE spheres SET name = ?2, weight = ?3, updated_at = ?4 WHERE id = ?1",
-                params![sphere.id, sphere.name, sphere.weight, Utc::now().to_rfc3339()],
+                params![
+                    sphere.id,
+                    sphere.name,
+                    sphere.weight,
+                    Utc::now().to_rfc3339()
+                ],
             )
             .map_err(map_sqlite_error)?;
         Ok(())
@@ -305,7 +338,8 @@ impl Repository for SqliteRepository {
         let rows = statement
             .query_map(params![profile_id], map_task_row)
             .map_err(map_sqlite_error)?;
-        rows.collect::<Result<Vec<_>, _>>().map_err(map_sqlite_error)
+        rows.collect::<Result<Vec<_>, _>>()
+            .map_err(map_sqlite_error)
     }
 
     async fn get_task(&self, task_id: Uuid) -> Result<Option<Task>, RepositoryError> {
@@ -447,7 +481,8 @@ impl Repository for SqliteRepository {
         let rows = statement
             .query_map(params![profile_id], map_execution_row)
             .map_err(map_sqlite_error)?;
-        rows.collect::<Result<Vec<_>, _>>().map_err(map_sqlite_error)
+        rows.collect::<Result<Vec<_>, _>>()
+            .map_err(map_sqlite_error)
     }
 
     async fn get_execution(
@@ -490,8 +525,11 @@ impl Repository for SqliteRepository {
             params![execution_id],
         )
         .map_err(map_sqlite_error)?;
-        tx.execute("DELETE FROM task_executions WHERE id = ?1", params![execution_id])
-            .map_err(map_sqlite_error)?;
+        tx.execute(
+            "DELETE FROM task_executions WHERE id = ?1",
+            params![execution_id],
+        )
+        .map_err(map_sqlite_error)?;
         rebuild_balances_in_tx(&tx, execution.profile_id)?;
         recalculate_level_state_in_tx(&tx, execution.profile_id)?;
         tx.commit().map_err(map_sqlite_error)?;
@@ -513,7 +551,8 @@ impl Repository for SqliteRepository {
         let rows = statement
             .query_map(params![profile_id], map_balance_row)
             .map_err(map_sqlite_error)?;
-        rows.collect::<Result<Vec<_>, _>>().map_err(map_sqlite_error)
+        rows.collect::<Result<Vec<_>, _>>()
+            .map_err(map_sqlite_error)
     }
 
     async fn list_levels(&self, profile_id: Uuid) -> Result<Vec<Level>, RepositoryError> {
@@ -527,7 +566,8 @@ impl Repository for SqliteRepository {
         let rows = statement
             .query_map(params![profile_id], map_level_row)
             .map_err(map_sqlite_error)?;
-        rows.collect::<Result<Vec<_>, _>>().map_err(map_sqlite_error)
+        rows.collect::<Result<Vec<_>, _>>()
+            .map_err(map_sqlite_error)
     }
 
     async fn get_level(&self, level_id: Uuid) -> Result<Option<Level>, RepositoryError> {
@@ -635,7 +675,18 @@ impl Repository for SqliteRepository {
         let rows = statement
             .query_map(params![profile_id], map_day_finalization_row)
             .map_err(map_sqlite_error)?;
-        rows.collect::<Result<Vec<_>, _>>().map_err(map_sqlite_error)
+        rows.collect::<Result<Vec<_>, _>>()
+            .map_err(map_sqlite_error)
+    }
+
+    async fn delete_day_finalization(&self, finalization_id: Uuid) -> Result<(), RepositoryError> {
+        self.connection()?
+            .execute(
+                "DELETE FROM day_finalizations WHERE id = ?1",
+                params![finalization_id],
+            )
+            .map_err(map_sqlite_error)?;
+        Ok(())
     }
 }
 
@@ -742,17 +793,19 @@ fn default_levels(profile_id: Uuid, now: DateTime<Utc>) -> Vec<Level> {
 
     definitions
         .into_iter()
-        .map(|(code, ordinal, min_balance, target_planned_score, target_planned_rate)| Level {
-            id: Uuid::new_v4(),
-            profile_id,
-            code: code.to_owned(),
-            ordinal,
-            min_balance,
-            target_planned_score,
-            target_planned_rate,
-            created_at: now,
-            updated_at: now,
-        })
+        .map(
+            |(code, ordinal, min_balance, target_planned_score, target_planned_rate)| Level {
+                id: Uuid::new_v4(),
+                profile_id,
+                code: code.to_owned(),
+                ordinal,
+                min_balance,
+                target_planned_score,
+                target_planned_rate,
+                created_at: now,
+                updated_at: now,
+            },
+        )
         .collect()
 }
 
@@ -795,12 +848,15 @@ fn recalculate_level_state_in_tx(
         let rows = statement
             .query_map(params![profile_id], map_level_row)
             .map_err(map_sqlite_error)?;
-        rows.collect::<Result<Vec<_>, _>>().map_err(map_sqlite_error)?
+        rows.collect::<Result<Vec<_>, _>>()
+            .map_err(map_sqlite_error)?
     };
 
     let Some(current_level) = levels
         .iter()
-        .filter(|level| latest_balance_after(tx, profile_id).unwrap_or_default() >= level.min_balance)
+        .filter(|level| {
+            latest_balance_after(tx, profile_id).unwrap_or_default() >= level.min_balance
+        })
         .max_by_key(|level| level.ordinal)
         .or_else(|| levels.iter().min_by_key(|level| level.ordinal))
     else {
@@ -864,7 +920,8 @@ fn rebuild_balances_in_tx(tx: &Transaction<'_>, profile_id: Uuid) -> Result<(), 
                 Ok((row.get::<_, Uuid>(0)?, row.get::<_, i32>(1)?))
             })
             .map_err(map_sqlite_error)?;
-        rows.collect::<Result<Vec<_>, _>>().map_err(map_sqlite_error)?
+        rows.collect::<Result<Vec<_>, _>>()
+            .map_err(map_sqlite_error)?
     };
 
     let mut running_balance = 0;
@@ -1103,7 +1160,10 @@ mod tests {
             current_photo_id: None,
         };
 
-        let levels = repository.initialize_profile(profile.clone()).await.unwrap();
+        let levels = repository
+            .initialize_profile(profile.clone())
+            .await
+            .unwrap();
         assert_eq!(levels.len(), 10);
 
         let task = Task {
@@ -1124,14 +1184,7 @@ mod tests {
         repository.create_task(task.clone()).await.unwrap();
 
         let (_execution, balance) = repository
-            .create_execution(
-                &task,
-                5,
-                90,
-                Utc::now(),
-                task.starts_on,
-                task.starts_on,
-            )
+            .create_execution(&task, 5, 90, Utc::now(), task.starts_on, task.starts_on)
             .await
             .unwrap();
 

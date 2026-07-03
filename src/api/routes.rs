@@ -4,7 +4,7 @@ use axum::{
     extract::{Multipart, Path, State},
     http::{HeaderMap, HeaderValue, StatusCode, header},
     response::{IntoResponse, Redirect, Response},
-    routing::{get, patch, post},
+    routing::{delete, get, patch, post},
 };
 use chrono::{DateTime, NaiveDate, Utc};
 use serde::Deserialize;
@@ -26,12 +26,13 @@ use crate::{
 
 pub fn build_routes() -> Router<AppState> {
     Router::new()
-        .route("/", get(root_redirect))
-        .route("/app", get(app_redirect))
-        .route("/app/", get(web_index))
-        .route("/app/{*path}", get(web_asset))
         .route("/health", get(health))
         .route("/metrics", get(metrics))
+        .route("/api/v2/spheres", get(list_spheres).post(create_sphere))
+        .route(
+            "/api/v2/spheres/{sphere_id}",
+            get(get_sphere).patch(update_sphere).delete(delete_sphere),
+        )
         .route("/api/v2/profiles", post(create_profile))
         .route(
             "/api/v2/profiles/{profile_id}",
@@ -41,29 +42,21 @@ pub fn build_routes() -> Router<AppState> {
             "/api/v2/profiles/{profile_id}/photos",
             post(upload_photo).get(list_photos),
         )
-        .route("/api/v2/photos/{photo_id}", get(get_photo).delete(delete_photo))
+        .route(
+            "/api/v2/photos/{photo_id}",
+            get(get_photo).delete(delete_photo),
+        )
         .route(
             "/api/v2/profiles/{profile_id}/photos/{photo_id}/select",
             post(select_photo),
         )
-        .route("/api/v2/spheres", get(list_spheres).post(create_sphere))
-        .route(
-            "/api/v2/spheres/{sphere_id}",
-            get(get_sphere).patch(update_sphere).delete(delete_sphere),
-        )
         .route("/api/v2/tasks", post(create_task))
-        .route(
-            "/api/v2/profiles/{profile_id}/tasks",
-            get(list_tasks),
-        )
+        .route("/api/v2/profiles/{profile_id}/tasks", get(list_tasks))
         .route(
             "/api/v2/tasks/{task_id}",
             get(get_task).patch(update_task).delete(delete_task),
         )
-        .route(
-            "/api/v2/tasks/{task_id}/executions",
-            post(create_execution),
-        )
+        .route("/api/v2/tasks/{task_id}/executions", post(create_execution))
         .route(
             "/api/v2/profiles/{profile_id}/executions",
             get(list_executions),
@@ -72,10 +65,7 @@ pub fn build_routes() -> Router<AppState> {
             "/api/v2/executions/{execution_id}",
             get(get_execution).delete(delete_execution),
         )
-        .route(
-            "/api/v2/profiles/{profile_id}/balances",
-            get(list_balances),
-        )
+        .route("/api/v2/profiles/{profile_id}/balances", get(list_balances))
         .route(
             "/api/v2/profiles/{profile_id}/dashboard",
             get(get_dashboard),
@@ -96,6 +86,17 @@ pub fn build_routes() -> Router<AppState> {
             "/api/v2/profiles/{profile_id}/days/finalizations",
             get(list_day_finalizations),
         )
+        .route(
+            "/api/v2/day-finalizations/{finalization_id}",
+            delete(delete_day_finalization),
+        )
+        .route("/app", get(app_redirect))
+        .route("/app/", get(app_redirect))
+        .route("/game", get(game_index))
+        .route("/game/", get(game_index))
+        .route("/game/{*path}", get(game_asset))
+        .route("/", get(web_index))
+        .route("/{*path}", get(web_asset))
 }
 
 #[utoipa::path(
@@ -125,12 +126,8 @@ pub(crate) async fn metrics(State(state): State<AppState>) -> (StatusCode, Strin
     }
 }
 
-async fn root_redirect() -> Redirect {
-    Redirect::temporary("/app/")
-}
-
 async fn app_redirect() -> Redirect {
-    Redirect::permanent("/app/")
+    Redirect::permanent("/game")
 }
 
 async fn web_index(State(state): State<AppState>) -> Result<Response, ApiError> {
@@ -142,6 +139,22 @@ async fn web_asset(
     Path(path): Path<String>,
 ) -> Result<Response, ApiError> {
     serve_web_file(state, &path).await
+}
+
+async fn game_index(State(state): State<AppState>) -> Result<Response, ApiError> {
+    serve_game_file(state, "game/index.html").await
+}
+
+async fn game_asset(
+    State(state): State<AppState>,
+    Path(path): Path<String>,
+) -> Result<Response, ApiError> {
+    let requested = if path.is_empty() {
+        "game/index.html".to_owned()
+    } else {
+        format!("game/{path}")
+    };
+    serve_game_file(state, &requested).await
 }
 
 #[derive(Debug, Deserialize, ToSchema)]
@@ -274,9 +287,11 @@ pub(crate) async fn upload_photo(
     let actor = actor_from_headers(&headers)?;
     let mut upload = None;
 
-    while let Some(field) = multipart.next_field().await.map_err(|error| {
-        ApiError::bad_request("INVALID_MULTIPART", error.to_string())
-    })? {
+    while let Some(field) = multipart
+        .next_field()
+        .await
+        .map_err(|error| ApiError::bad_request("INVALID_MULTIPART", error.to_string()))?
+    {
         if field.name() != Some("file") {
             continue;
         }
@@ -304,7 +319,8 @@ pub(crate) async fn upload_photo(
         .upload_photo(
             actor,
             profile_id,
-            upload.ok_or_else(|| ApiError::bad_request("FILE_REQUIRED", "file field is required"))?,
+            upload
+                .ok_or_else(|| ApiError::bad_request("FILE_REQUIRED", "file field is required"))?,
         )
         .await?;
 
@@ -348,7 +364,11 @@ pub(crate) async fn get_photo(
 
     Ok((
         StatusCode::OK,
-        [(header::CONTENT_TYPE, HeaderValue::from_str(&photo.mime_type).unwrap_or_else(|_| HeaderValue::from_static("application/octet-stream")))],
+        [(
+            header::CONTENT_TYPE,
+            HeaderValue::from_str(&photo.mime_type)
+                .unwrap_or_else(|_| HeaderValue::from_static("application/octet-stream")),
+        )],
         Body::from(bytes),
     )
         .into_response())
@@ -389,7 +409,12 @@ pub(crate) async fn select_photo(
     headers: HeaderMap,
 ) -> Result<Json<Profile>, ApiError> {
     let actor = actor_from_headers(&headers)?;
-    Ok(Json(state.service.select_photo(actor, profile_id, photo_id).await?))
+    Ok(Json(
+        state
+            .service
+            .select_photo(actor, profile_id, photo_id)
+            .await?,
+    ))
 }
 
 #[derive(Debug, Deserialize, ToSchema)]
@@ -695,7 +720,9 @@ pub(crate) async fn list_executions(
     headers: HeaderMap,
 ) -> Result<Json<Vec<TaskExecution>>, ApiError> {
     let actor = actor_from_headers(&headers)?;
-    Ok(Json(state.service.list_executions(actor, profile_id).await?))
+    Ok(Json(
+        state.service.list_executions(actor, profile_id).await?,
+    ))
 }
 
 #[utoipa::path(
@@ -713,7 +740,9 @@ pub(crate) async fn get_execution(
     headers: HeaderMap,
 ) -> Result<Json<TaskExecution>, ApiError> {
     let actor = actor_from_headers(&headers)?;
-    Ok(Json(state.service.get_execution(actor, execution_id).await?))
+    Ok(Json(
+        state.service.get_execution(actor, execution_id).await?,
+    ))
 }
 
 #[utoipa::path(
@@ -955,6 +984,32 @@ pub(crate) async fn list_day_finalizations(
     ))
 }
 
+#[utoipa::path(
+    delete,
+    path = "/api/v2/day-finalizations/{finalization_id}",
+    params(
+        ("finalization_id" = Uuid, Path, description = "Finalization identifier"),
+        ("X-Actor-Id" = String, Header, description = "Profile id used for authorization")
+    ),
+    responses(
+        (status = 204, description = "Day finalization deleted"),
+        (status = 403, description = "Access denied", body = crate::api::error::ErrorEnvelope),
+        (status = 404, description = "Day finalization not found", body = crate::api::error::ErrorEnvelope)
+    )
+)]
+pub(crate) async fn delete_day_finalization(
+    State(state): State<AppState>,
+    Path(finalization_id): Path<Uuid>,
+    headers: HeaderMap,
+) -> Result<StatusCode, ApiError> {
+    let actor = actor_from_headers(&headers)?;
+    state
+        .service
+        .delete_day_finalization(actor, finalization_id)
+        .await?;
+    Ok(StatusCode::NO_CONTENT)
+}
+
 async fn serve_web_file(state: AppState, requested_path: &str) -> Result<Response, ApiError> {
     let normalized = if requested_path.is_empty() {
         "index.html"
@@ -976,12 +1031,37 @@ async fn serve_web_file(state: AppState, requested_path: &str) -> Result<Respons
         .into_response())
 }
 
+async fn serve_game_file(state: AppState, requested_path: &str) -> Result<Response, ApiError> {
+    let path = state.web_dist_path.join(requested_path);
+    let fallback = state.web_dist_path.join("game/index.html");
+    let target = if path.is_file() { path } else { fallback };
+    let bytes = tokio::fs::read(&target)
+        .await
+        .map_err(|error| ApiError::bad_request("WEB_ASSET_NOT_FOUND", error.to_string()))?;
+    let content_type = content_type_for_path(&target);
+    Ok((
+        StatusCode::OK,
+        [(header::CONTENT_TYPE, HeaderValue::from_static(content_type))],
+        Body::from(bytes),
+    )
+        .into_response())
+}
+
 fn content_type_for_path(path: &std::path::Path) -> &'static str {
-    match path.extension().and_then(|ext| ext.to_str()).unwrap_or_default() {
+    match path
+        .extension()
+        .and_then(|ext| ext.to_str())
+        .unwrap_or_default()
+    {
         "css" => "text/css; charset=utf-8",
         "js" => "application/javascript; charset=utf-8",
         "svg" => "image/svg+xml",
         "png" => "image/png",
+        "jpg" | "jpeg" => "image/jpeg",
+        "webp" => "image/webp",
+        "ico" => "image/x-icon",
+        "woff2" => "font/woff2",
+        "map" => "application/json; charset=utf-8",
         "json" => "application/json; charset=utf-8",
         _ => "text/html; charset=utf-8",
     }
@@ -993,33 +1073,67 @@ mod tests {
 
     use axum::{
         body::Body,
-        http::{Request, StatusCode},
+        http::{Request, StatusCode, header},
     };
     use tower::ServiceExt;
 
     use crate::{
-        api::{AppState, build_router},
+        api::{AppState, build_admin_session_cookie, build_router},
         application::ProgressionService,
         infrastructure::SqliteRepository,
     };
 
-    #[tokio::test]
-    async fn protected_profile_read_requires_matching_actor() {
+    async fn build_test_state() -> (AppState, tempfile::TempDir) {
         let database = tempfile::NamedTempFile::new().unwrap();
         let upload_dir = tempfile::tempdir().unwrap();
         let web_dir = tempfile::tempdir().unwrap();
-        tokio::fs::write(web_dir.path().join("index.html"), "<html>ok</html>")
+        tokio::fs::create_dir_all(web_dir.path().join("game"))
+            .await
+            .unwrap();
+        tokio::fs::write(web_dir.path().join("index.html"), "<html>admin</html>")
+            .await
+            .unwrap();
+        tokio::fs::write(web_dir.path().join("game/index.html"), "<html>game</html>")
             .await
             .unwrap();
         let repository = Arc::new(SqliteRepository::new(database.path()).unwrap());
-        let service = Arc::new(ProgressionService::new(repository, upload_dir.path().to_path_buf()));
-        let app = build_router(AppState::new(service, None, web_dir.path().to_path_buf()));
+        let service = Arc::new(ProgressionService::new(
+            repository,
+            upload_dir.path().to_path_buf(),
+        ));
+        (
+            AppState::new(
+                service,
+                None,
+                web_dir.path().to_path_buf(),
+                "admin".to_owned(),
+                "unused".to_owned(),
+                "secret".to_owned(),
+                false,
+            ),
+            web_dir,
+        )
+    }
+
+    #[tokio::test]
+    async fn protected_profile_read_requires_matching_actor() {
+        let (state, _web_dir) = build_test_state().await;
+        let cookie = build_admin_session_cookie(&state)
+            .unwrap()
+            .to_str()
+            .unwrap()
+            .split(';')
+            .next()
+            .unwrap()
+            .to_owned();
+        let app = build_router(state);
 
         let response = app
             .oneshot(
                 Request::builder()
                     .uri("/api/v2/profiles/00000000-0000-0000-0000-000000000001")
                     .header("x-actor-id", "00000000-0000-0000-0000-000000000002")
+                    .header(header::COOKIE, cookie)
                     .body(Body::empty())
                     .unwrap(),
             )
@@ -1031,25 +1145,23 @@ mod tests {
 
     #[tokio::test]
     async fn docs_ui_and_web_routes_are_available() {
-        let database = tempfile::NamedTempFile::new().unwrap();
-        let upload_dir = tempfile::tempdir().unwrap();
-        let web_dir = tempfile::tempdir().unwrap();
-        tokio::fs::write(web_dir.path().join("index.html"), "<html>ok</html>")
-            .await
-            .unwrap();
-        let repository = Arc::new(SqliteRepository::new(database.path()).unwrap());
-        let service = Arc::new(ProgressionService::new(repository, upload_dir.path().to_path_buf()));
-        let app = build_router(AppState::new(service, None, web_dir.path().to_path_buf()));
+        let (state, _web_dir) = build_test_state().await;
+        let app = build_router(state);
 
         let docs_response = app
             .clone()
-            .oneshot(Request::builder().uri("/docs/").body(Body::empty()).unwrap())
+            .oneshot(
+                Request::builder()
+                    .uri("/docs/")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
             .await
             .unwrap();
         assert_eq!(docs_response.status(), StatusCode::OK);
 
         let web_response = app
-            .oneshot(Request::builder().uri("/app/").body(Body::empty()).unwrap())
+            .oneshot(Request::builder().uri("/").body(Body::empty()).unwrap())
             .await
             .unwrap();
         assert_eq!(web_response.status(), StatusCode::OK);
