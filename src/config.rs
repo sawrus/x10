@@ -4,6 +4,8 @@ pub struct Config {
     pub host: IpAddr,
     pub port: u16,
     pub database_path: PathBuf,
+    pub uploads_path: PathBuf,
+    pub web_dist_path: PathBuf,
 }
 
 impl Config {
@@ -21,11 +23,19 @@ impl Config {
         let database_path = env::var("X10_DATABASE_PATH")
             .map(PathBuf::from)
             .unwrap_or_else(|_| PathBuf::from("data/x10.sqlite3"));
+        let uploads_path = env::var("X10_UPLOADS_PATH")
+            .map(PathBuf::from)
+            .unwrap_or_else(|_| PathBuf::from("data/uploads"));
+        let web_dist_path = env::var("X10_WEB_DIST_PATH")
+            .map(PathBuf::from)
+            .unwrap_or_else(|_| PathBuf::from("web/dist"));
 
         Self {
             host,
             port,
             database_path,
+            uploads_path,
+            web_dist_path,
         }
     }
 }

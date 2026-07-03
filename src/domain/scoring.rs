@@ -1,116 +1,95 @@
 use chrono::{DateTime, NaiveDate, Utc};
-use serde::Serialize;
-use utoipa::ToSchema;
+use uuid::Uuid;
 
-use crate::domain::{DailySnapshot, DaySummary, Task, TaskKind, TaskStatus};
+use crate::domain::{Level, ProfileBalance, ProfileLevelState, Task, TaskExecution, TaskKind};
 
-#[derive(Debug, Clone)]
-pub struct ProgressionConfig {
-    pub positive_day_threshold: i32,
-    pub points_per_level: i32,
-}
+#[derive(Debug, Clone, Copy)]
+pub struct ProgressionConfig;
 
 impl Default for ProgressionConfig {
     fn default() -> Self {
-        Self {
-            positive_day_threshold: 3,
-            points_per_level: 5,
-        }
+        Self
     }
 }
 
-#[derive(Debug, Clone, Serialize, ToSchema)]
-pub struct ProgressionSummary {
-    pub balance_score: i32,
-    pub level: String,
-    pub rest_day_credits: i32,
-}
-
 pub struct ProgressionEngine {
-    config: ProgressionConfig,
+    _config: ProgressionConfig,
 }
 
 impl ProgressionEngine {
     pub fn new(config: ProgressionConfig) -> Self {
-        Self { config }
+        Self { _config: config }
     }
 
-    pub fn summarize_tasks(&self, tasks: &[Task], date: NaiveDate) -> DaySummary {
-        let mut summary = DaySummary {
-            date,
-            positive_weight: 0,
-            negative_weight: 0,
-            net_score: 0,
-        };
+    pub fn signed_weight(&self, task: &Task) -> i32 {
+        match task.kind {
+            TaskKind::Positive => task.planned_weight,
+            TaskKind::Negative => -task.planned_weight,
+        }
+    }
 
-        for task in tasks {
-            if task.status != TaskStatus::Completed || task.scheduled_for != date {
-                continue;
+    pub fn period_for(&self, starts_on: NaiveDate, cadence: crate::domain::TaskCadence) -> (NaiveDate, NaiveDate) {
+        match cadence {
+            crate::domain::TaskCadence::Day => (starts_on, starts_on),
+            crate::domain::TaskCadence::Week => (starts_on, starts_on + chrono::Days::new(6)),
+            crate::domain::TaskCadence::Month => {
+                let end = starts_on + chrono::Months::new(1) - chrono::Days::new(1);
+                (starts_on, end)
             }
-
-            match task.kind {
-                TaskKind::Positive => summary.positive_weight += task.weight,
-                TaskKind::Negative => summary.negative_weight += task.weight,
+            crate::domain::TaskCadence::Year => {
+                let end = starts_on + chrono::Months::new(12) - chrono::Days::new(1);
+                (starts_on, end)
             }
         }
-
-        summary.net_score = summary.positive_weight - summary.negative_weight;
-        summary
     }
 
-    pub fn finalize_snapshot(
+    pub fn balance_from_history(&self, balances: &[ProfileBalance]) -> i32 {
+        balances.last().map(|entry| entry.balance_after).unwrap_or_default()
+    }
+
+    pub fn current_level<'a>(&self, levels: &'a [Level], balance: i32) -> Option<&'a Level> {
+        levels
+            .iter()
+            .filter(|level| balance >= level.min_balance)
+            .max_by_key(|level| level.ordinal)
+            .or_else(|| levels.iter().min_by_key(|level| level.ordinal))
+    }
+
+    pub fn create_balance_entry(
         &self,
-        summary: DaySummary,
-        previous: Option<&ProgressionSummary>,
-        finalized_at: DateTime<Utc>,
-    ) -> DailySnapshot {
-        let previous_balance = previous
-            .map(|state| state.balance_score)
-            .unwrap_or_default();
-        let previous_credits = previous
-            .map(|state| state.rest_day_credits)
-            .unwrap_or_default();
+        profile_id: Uuid,
+        task: &Task,
+        execution: &TaskExecution,
+        previous_balance: i32,
+        created_at: DateTime<Utc>,
+    ) -> ProfileBalance {
+        let actual_weight = self.signed_weight(task);
 
-        let balance_score = previous_balance + summary.net_score;
-        let mut rest_day_credits = previous_credits;
-
-        if summary.positive_weight >= self.config.positive_day_threshold {
-            rest_day_credits += 1;
-        }
-
-        if summary.net_score < 0 {
-            rest_day_credits = rest_day_credits.saturating_sub(1);
-        }
-
-        DailySnapshot {
-            id: uuid::Uuid::new_v4(),
-            date: summary.date,
-            summary,
-            balance_score,
-            level: self.level_from_balance(balance_score),
-            rest_day_credits,
-            finalized_at,
+        ProfileBalance {
+            id: Uuid::new_v4(),
+            profile_id,
+            task_execution_id: execution.id,
+            actual_rate: execution.actual_rate,
+            actual_score: execution.actual_score,
+            actual_weight,
+            balance_after: previous_balance + actual_weight,
+            created_at,
         }
     }
 
-    pub fn current_from_history(&self, history: &[DailySnapshot]) -> ProgressionSummary {
-        history
-            .last()
-            .map(|snapshot| ProgressionSummary {
-                balance_score: snapshot.balance_score,
-                level: snapshot.level.clone(),
-                rest_day_credits: snapshot.rest_day_credits,
-            })
-            .unwrap_or_else(|| ProgressionSummary {
-                balance_score: 0,
-                level: self.level_from_balance(0),
-                rest_day_credits: 0,
-            })
-    }
-
-    pub fn level_from_balance(&self, balance_score: i32) -> String {
-        let level = (balance_score.div_euclid(self.config.points_per_level)).clamp(0, 10);
-        format!("x{level}")
+    pub fn state_for_level(
+        &self,
+        profile_id: Uuid,
+        current_level_id: Uuid,
+        last_balance_id: Option<Uuid>,
+        updated_at: DateTime<Utc>,
+    ) -> ProfileLevelState {
+        ProfileLevelState {
+            profile_id,
+            current_level_id,
+            last_balance_id,
+            updated_at,
+        }
     }
 }
 
@@ -119,82 +98,89 @@ mod tests {
     use chrono::{NaiveDate, Utc};
     use uuid::Uuid;
 
-    use crate::domain::{Task, TaskCadence, TaskKind, TaskStatus};
+    use crate::domain::{Level, Task, TaskCadence, TaskExecution, TaskKind, TaskStatus};
 
     use super::{ProgressionConfig, ProgressionEngine};
 
-    fn sample_task(date: NaiveDate, kind: TaskKind, weight: i32) -> Task {
+    fn sample_task(kind: TaskKind, planned_weight: i32) -> Task {
+        let now = Utc::now();
         Task {
             id: Uuid::new_v4(),
             profile_id: Uuid::new_v4(),
             title: "task".to_owned(),
             sphere_id: None,
             kind,
-            weight,
+            planned_weight,
+            planned_score: 3,
+            planned_rate: 50,
             cadence: TaskCadence::Day,
-            scheduled_for: date,
-            status: TaskStatus::Completed,
-            completed_at: None,
+            starts_on: NaiveDate::from_ymd_opt(2026, 7, 2).unwrap(),
+            status: TaskStatus::Planned,
+            created_at: now,
+            updated_at: now,
         }
     }
 
     #[test]
-    fn awards_rest_day_credit_when_positive_threshold_is_met() {
-        let date = NaiveDate::from_ymd_opt(2026, 6, 30).unwrap();
-        let engine = ProgressionEngine::new(ProgressionConfig::default());
-        let tasks = vec![
-            sample_task(date, TaskKind::Positive, 2),
-            sample_task(date, TaskKind::Positive, 1),
+    fn signed_weight_respects_task_kind() {
+        let engine = ProgressionEngine::new(ProgressionConfig);
+
+        assert_eq!(engine.signed_weight(&sample_task(TaskKind::Positive, 3)), 3);
+        assert_eq!(engine.signed_weight(&sample_task(TaskKind::Negative, 3)), -3);
+    }
+
+    #[test]
+    fn picks_highest_level_under_balance() {
+        let engine = ProgressionEngine::new(ProgressionConfig);
+        let profile_id = Uuid::new_v4();
+        let now = Utc::now();
+        let levels = vec![
+            Level {
+                id: Uuid::new_v4(),
+                profile_id,
+                code: "x1".into(),
+                ordinal: 1,
+                min_balance: 0,
+                target_planned_score: 2,
+                target_planned_rate: 20,
+                created_at: now,
+                updated_at: now,
+            },
+            Level {
+                id: Uuid::new_v4(),
+                profile_id,
+                code: "x2".into(),
+                ordinal: 2,
+                min_balance: 10,
+                target_planned_score: 3,
+                target_planned_rate: 40,
+                created_at: now,
+                updated_at: now,
+            },
         ];
 
-        let summary = engine.summarize_tasks(&tasks, date);
-        let snapshot = engine.finalize_snapshot(summary.clone(), None, Utc::now());
-        let current = engine.current_from_history(std::slice::from_ref(&snapshot));
-
-        assert_eq!(summary.net_score, 3);
-        assert_eq!(current.rest_day_credits, 1);
-        assert_eq!(snapshot.rest_day_credits, 1);
+        assert_eq!(engine.current_level(&levels, 15).unwrap().code, "x2");
     }
 
     #[test]
-    fn negative_day_consumes_one_rest_day_credit() {
-        let day_one = NaiveDate::from_ymd_opt(2026, 6, 29).unwrap();
-        let day_two = NaiveDate::from_ymd_opt(2026, 6, 30).unwrap();
-        let engine = ProgressionEngine::new(ProgressionConfig::default());
+    fn balance_entry_accumulates_signed_weight() {
+        let engine = ProgressionEngine::new(ProgressionConfig);
+        let task = sample_task(TaskKind::Negative, 4);
+        let execution = TaskExecution {
+            id: Uuid::new_v4(),
+            task_id: task.id,
+            profile_id: task.profile_id,
+            actual_score: 4,
+            actual_rate: 80,
+            completed_at: Utc::now(),
+            period_start: task.starts_on,
+            period_end: task.starts_on,
+            created_at: Utc::now(),
+        };
 
-        let first = engine.finalize_snapshot(
-            engine.summarize_tasks(&[sample_task(day_one, TaskKind::Positive, 3)], day_one),
-            None,
-            Utc::now(),
-        );
-        let previous = engine.current_from_history(std::slice::from_ref(&first));
-        let second = engine.finalize_snapshot(
-            engine.summarize_tasks(&[sample_task(day_two, TaskKind::Negative, 2)], day_two),
-            Some(&previous),
-            Utc::now(),
-        );
-        let current = engine.current_from_history(&[first.clone(), second.clone()]);
+        let balance = engine.create_balance_entry(task.profile_id, &task, &execution, 7, Utc::now());
 
-        assert_eq!(first.rest_day_credits, 1);
-        assert_eq!(second.rest_day_credits, 0);
-        assert_eq!(current.rest_day_credits, 0);
-    }
-
-    #[test]
-    fn clamps_level_inside_x0_and_x10() {
-        let date = NaiveDate::from_ymd_opt(2026, 6, 30).unwrap();
-        let engine = ProgressionEngine::new(ProgressionConfig {
-            positive_day_threshold: 3,
-            points_per_level: 1,
-        });
-
-        let snapshot = engine.finalize_snapshot(
-            engine.summarize_tasks(&[sample_task(date, TaskKind::Positive, 20)], date),
-            None,
-            Utc::now(),
-        );
-        let current = engine.current_from_history(&[snapshot]);
-
-        assert_eq!(current.level, "x10");
+        assert_eq!(balance.balance_after, 3);
+        assert_eq!(balance.actual_weight, -4);
     }
 }

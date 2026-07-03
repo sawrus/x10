@@ -1,4 +1,4 @@
-.PHONY: help build fmt lint test run actor-id clean
+.PHONY: help build fmt lint test run actor-id clean web-build web-test
 
 help:
 	@printf "Available targets:\n"
@@ -7,10 +7,12 @@ help:
 	@printf "  lint   - Run clippy with warnings denied\n"
 	@printf "  test   - Run unit and integration tests\n"
 	@printf "  run    - Start the backend locally\n"
+	@printf "  web-build - Build the web frontend bundle\n"
+	@printf "  web-test  - Run lightweight frontend smoke tests\n"
 	@printf "  actor-id - Create a demo profile and print its id for X-Actor-Id\n"
 	@printf "  clean  - Remove build artifacts\n"
 
-build:
+build: web-build
 	cargo build
 
 fmt:
@@ -19,14 +21,20 @@ fmt:
 lint:
 	cargo clippy --all-targets --all-features -- -D warnings
 
-test:
+test: web-test
 	cargo test
 
-run:
+run: web-build
 	cargo run
 
+web-build:
+	./web/build.sh
+
+web-test:
+	./web/test.sh
+
 actor-id:
-	@response=$$(curl -fsS -X POST http://127.0.0.1:$${X10_PORT:-3000}/api/v1/profiles \
+	@response=$$(curl -fsS -X POST http://127.0.0.1:$${X10_PORT:-3000}/api/v2/profiles \
 		-H 'content-type: application/json' \
 		-d '{"full_name":"Docs Demo","birth_date":"1990-01-01","occupation":"tester","timezone":"Europe/Samara"}'); \
 	printf '%s\n' "$$response"; \
