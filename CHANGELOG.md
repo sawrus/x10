@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.2
+
+- wired `/game` to the new React/Vite frontend build instead of the legacy static placeholder
+- added `make game-build` and `make game-dev` for the dedicated game client workflow
+- updated the web smoke checks and README to reflect the live `/game` client
+
+## 0.4.1
+
+- added the Epic 00 React/Vite/TypeScript game frontend skeleton under `web/game` with TanStack Query, Zustand, React Router, and Tailwind CSS while preserving the existing admin frontend.
+- marked frontend stack installation progress in `docs/codex/PROGRESS.md`.
+
 ## 0.4.0
 
 - replaced the old `/app/` frontend with a Vuetify CRUD admin panel served from `/`

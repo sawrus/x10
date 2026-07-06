@@ -8,4 +8,5 @@ target/
 data/
 *.sqlite
 *.sqlite3
-web/nodo_modules/
+web/node_modules/
+web/game/node_modules/

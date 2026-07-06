@@ -1,4 +1,4 @@
-.PHONY: help build fmt lint test run actor-id clean web-build web-test
+.PHONY: help build fmt lint test run actor-id clean web-build web-test game-build game-dev
 
 help:
 	@printf "Available targets:\n"
@@ -7,8 +7,10 @@ help:
 	@printf "  lint   - Run clippy with warnings denied\n"
 	@printf "  test   - Run unit and integration tests\n"
 	@printf "  run    - Start the backend locally\n"
-	@printf "  web-build - Build the web frontend bundle\n"
+	@printf "  web-build - Build the admin and game frontend bundles\n"
 	@printf "  web-test  - Run lightweight frontend smoke tests\n"
+	@printf "  game-build - Build only the React game frontend\n"
+	@printf "  game-dev   - Start the React game frontend dev server\n"
 	@printf "  actor-id - Create a demo profile and print its id for X-Actor-Id\n"
 	@printf "  clean  - Remove build artifacts\n"
 
@@ -32,6 +34,12 @@ web-build:
 
 web-test:
 	./web/test.sh
+
+game-build:
+	./web/game/build.sh
+
+game-dev:
+	./web/game/dev.sh
 
 actor-id:
 	@response=$$(curl -fsS -X POST http://127.0.0.1:$${X10_PORT:-3000}/api/v2/profiles \

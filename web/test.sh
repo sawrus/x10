@@ -7,6 +7,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 test -f "$ROOT_DIR/dist/index.html"
 test -f "$ROOT_DIR/dist/game/index.html"
+grep -q "/game/assets/" "$ROOT_DIR/dist/game/index.html"
 find "$ROOT_DIR/dist/assets" -type f | grep -q '\.js$'
 find "$ROOT_DIR/dist/assets" -type f | grep -q '\.css$'
 grep -q "x10 admin" "$ROOT_DIR/dist/index.html"
