@@ -1,12 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 
-import { useAppStore } from '../stores/appStore'
+import { ThemeSwitcher } from '../../../features/theme-switcher'
+import { routes } from '../../../shared/config/routes'
+import { StackOverview } from '../../../widgets/stack-overview'
 
-const stackItems = ['Vite', 'React', 'TypeScript', 'TanStack Query', 'Zustand', 'React Router', 'Tailwind CSS']
-
-export function HomePage() {
-  const { theme, setTheme } = useAppStore()
+export function DashboardPage() {
   const readiness = useQuery({
     queryKey: ['game-frontend-readiness'],
     queryFn: async () => ({ status: 'ready' }),
@@ -26,30 +25,16 @@ export function HomePage() {
                 а игра разрабатывается изолированно в директории <code>web/game</code>.
               </p>
             </div>
-            <label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3">
-              <span className="text-sm text-slate-300">Theme</span>
-              <select
-                className="rounded-lg bg-slate-800 px-3 py-2 text-sm text-white"
-                value={theme}
-                onChange={(event) => setTheme(event.target.value as 'dendy' | 'apple')}
-              >
-                <option value="dendy">Dendy</option>
-                <option value="apple">Apple</option>
-              </select>
-            </label>
+            <ThemeSwitcher />
           </div>
 
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {stackItems.map((item) => (
-              <div key={item} className="rounded-2xl border border-white/10 bg-slate-900/70 px-4 py-3 text-sm font-semibold">
-                {item}
-              </div>
-            ))}
+          <div className="mt-8">
+            <StackOverview />
           </div>
 
           <div className="mt-8 flex flex-wrap items-center gap-4 text-sm text-slate-300">
             <span>Query status: {readiness.data?.status ?? 'loading'}</span>
-            <Link className="font-semibold text-cyan-300 hover:text-cyan-200" to="/">
+            <Link className="font-semibold text-cyan-300 hover:text-cyan-200" to={routes.dashboard}>
               Game home route
             </Link>
           </div>

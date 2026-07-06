@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- reorganized `web/game/src` into a shallow Feature-Sliced structure with `app`, `pages`, `widgets`, `features`, `entities`, and `shared`
+- added `web/game/src/README.md` describing layer responsibilities and import direction for the game frontend
+
 ## 0.4.2
 
 - wired `/game` to the new React/Vite frontend build instead of the legacy static placeholder
