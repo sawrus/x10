@@ -1,11 +1,11 @@
 # x10
 
-`x10` is a Rust + SQLite service that now ships a Vuetify-based CRUD admin panel at `/`, a static `/game` placeholder, and the existing progression API under `/api/v2`.
+`x10` is a Rust + SQLite service that now ships a Vuetify-based CRUD admin panel at `/`, a React-based game frontend at `/game`, and the existing progression API under `/api/v2`.
 
-## What Ships In `0.4.0`
+## What Ships In `0.4.2`
 
 - Vuetify admin panel served from `/`
-- separate `/game` HTML placeholder
+- separate React game frontend served from `/game`
 - admin authentication with `username + argon2 password hash + http-only cookie session`
 - CRUD management for profiles, photos, spheres, tasks, executions, levels, and day finalizations
 - read-only admin visibility for balances and profile level state
@@ -38,7 +38,7 @@ make run
 Default local URLs:
 
 - Admin app: `http://127.0.0.1:3000/`
-- Game placeholder: `http://127.0.0.1:3000/game`
+- Game frontend: `http://127.0.0.1:3000/game`
 - Scalar UI: `http://127.0.0.1:3000/docs/`
 - OpenAPI JSON: `http://127.0.0.1:3000/docs/openapi.json`
 
@@ -53,7 +53,7 @@ Default local URLs:
 ```mermaid
 flowchart TD
     Browser["Browser"] --> Admin["/ admin SPA"]
-    Browser --> Game["/game placeholder"]
+    Browser --> Game["/game React client"]
     Browser --> Docs["/docs Scalar"]
     Admin --> Auth["/api/admin/auth/*"]
     Admin --> Api["/api/v2/*"]
@@ -72,7 +72,7 @@ The service reads configuration from [src/config.rs](/home/lab/work/sawrus/x10/s
 | Variable | Required | Default | Description |
 | --- | --- | --- | --- |
 | `X10_HOST` | no | `127.0.0.1` | IP address the Axum server binds to |
-| `X10_PORT` | no | `3000` | TCP port for API, admin app, game placeholder, Scalar, and OpenAPI |
+| `X10_PORT` | no | `3000` | TCP port for API, admin app, game frontend, Scalar, and OpenAPI |
 | `X10_DATABASE_PATH` | no | `data/x10.sqlite3` | SQLite database file |
 | `X10_UPLOADS_PATH` | no | `data/uploads` | Local directory for uploaded profile photos |
 | `X10_WEB_DIST_PATH` | no | `web/dist` | Directory served for the built frontend bundle |
@@ -111,8 +111,10 @@ The service reads configuration from [src/config.rs](/home/lab/work/sawrus/x10/s
 | `make lint` | Run clippy with warnings denied |
 | `make test` | Run frontend smoke tests and backend tests |
 | `make run` | Build web bundle and start the backend |
-| `make web-build` | Run the frontend build pipeline |
+| `make web-build` | Build the admin and game frontend bundles |
 | `make web-test` | Run frontend smoke checks |
+| `make game-build` | Build only the React game frontend into `web/game/dist` |
+| `make game-dev` | Start the React game frontend dev server |
 | `make actor-id` | Create a demo profile and print a usable `X-Actor-Id` |
 | `make clean` | Remove Cargo build artifacts |
 
