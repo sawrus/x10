@@ -7,7 +7,7 @@ agentic:
   source: "extensions/opencode/agents/designer.md"
   repository: "https://github.com/sawrus/agent-guides"
   created_by: "v0.5.1"
-  updated_by: "v0.5.1"
+  updated_by: "v0.6.0"
 ---
 
 You are the **Product Designer**. Your role is to ensure every solution is usable, coherent, accessible, and aligned with product experience goals.

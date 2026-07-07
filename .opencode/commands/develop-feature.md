@@ -15,7 +15,7 @@ roles:
   - team-lead
   - developer
   - qa
-  - designer  
+  - designer
 execution:
   initiator: product-owner
 related-rules:
@@ -36,7 +36,7 @@ agentic:
   source: "areas/software/backend/workflows/develop-feature.md"
   repository: "https://github.com/sawrus/agent-guides"
   created_by: "v0.5.1"
-  updated_by: "v0.5.1"
+  updated_by: "v0.6.0"
 ---
 
 ## Steps
@@ -81,15 +81,15 @@ agentic:
 
 ### 6. Fix / Retest Loop — `@developer` + `@qa` (coordinated by `@pm`)
 - **Input:** blocking feedback list
-- **Actions:** `@developer` fixes; `@qa` retests affected scenarios; loop until no open blockers
+- **Actions:** `@developer` fixes; `@qa` retests affected scenarios; maximum 3 fix/retest iterations — if still blocked after the third, stop and escalate to `@team-lead` with the open blocker list for a decision
 - **Output:** updated code + updated test report
 - **Done when:** zero open blocking issues
 
 ### 7. Acceptance & Final Report — `@product-owner` + `@pm`
 - **Input:** verified increment + risk summary
-- **Actions:** `@product-owner` validates acceptance criteria; `@pm` produces delivery summary with decisions and follow-ups
+- **Actions:** `@product-owner` validates acceptance criteria; `@pm` produces delivery summary with decisions and follow-ups; update feature docs under `docs/**`, add a `CHANGELOG.md` entry, and bump the project version
 - **Output:** `docs/<feature>/delivery_summary.md` — accepted / deferred with rationale
-- **Done when:** feature accepted or explicitly deferred
+- **Done when:** feature accepted or explicitly deferred; docs, `CHANGELOG.md`, and version bump committed
 
 ## Agent Interaction Diagram
 
@@ -136,7 +136,7 @@ flowchart TD
 <!-- agent-diagram:end -->
 
 ## Iteration Loop
-Steps 3–6 repeat per increment for large features. `@pm` tracks scope changes and timeline impact.
+Steps 3–6 repeat per increment for large features (bounded by the increment list from step 2). `@pm` tracks scope changes and timeline impact.
 
 ## Mandatory Role Delegation
 - For `/develop-feature`, the executor must spawn exactly 6 subagents, one per role: `@product-owner`, `@pm`, `@team-lead`, `@developer`, `@qa`, `@designer`.
@@ -146,3 +146,5 @@ Steps 3–6 repeat per increment for large features. `@pm` tracks scope changes 
 
 ## Exit
 `@product-owner` acceptance + no unresolved blockers = feature complete and ready for release.
+
+**Next:** terminal — no follow-up workflow.

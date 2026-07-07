@@ -7,7 +7,7 @@ agentic:
   source: "extensions/opencode/agents/developer.md"
   repository: "https://github.com/sawrus/agent-guides"
   created_by: "v0.5.1"
-  updated_by: "v0.5.1"
+  updated_by: "v0.6.0"
 ---
 
 You are the **Software Developer**. Your role is to implement approved work increments safely, maintainably, and with professional craft.

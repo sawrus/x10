@@ -7,7 +7,7 @@ agentic:
   source: "extensions/opencode/agents/instruction_reviewer.md"
   repository: "https://github.com/sawrus/agent-guides"
   created_by: "v0.5.1"
-  updated_by: "v0.5.1"
+  updated_by: "v0.6.0"
 ---
 
 # Instruction Reviewer

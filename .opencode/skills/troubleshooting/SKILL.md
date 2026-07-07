@@ -11,7 +11,7 @@ agentic:
   source: "areas/software/backend/skills/troubleshooting/SKILL.md"
   repository: "https://github.com/sawrus/agent-guides"
   created_by: "v0.5.1"
-  updated_by: "v0.5.1"
+  updated_by: "v0.6.0"
 ---
 
 # Troubleshooting Skill

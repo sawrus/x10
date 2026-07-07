@@ -35,7 +35,7 @@ agentic:
   source: "areas/software/general/workflows/project-setup-workflow.md"
   repository: "https://github.com/sawrus/agent-guides"
   created_by: "v0.5.1"
-  updated_by: "v0.5.1"
+  updated_by: "v0.6.0"
 ---
 
 ## Steps
@@ -136,3 +136,5 @@ flowchart TD
 
 ## Exit
 Green CI + QA sign-off = project is ready for first feature development.
+
+**Next:** /development-cycle-workflow — begin feature delivery on the initialized project.
