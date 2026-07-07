@@ -1,13 +1,13 @@
 import { create } from 'zustand'
 
-type GameTheme = 'dendy' | 'apple'
+import type { GameTheme } from './types'
 
-type AppState = {
+type GameThemeState = {
   theme: GameTheme
   setTheme: (theme: GameTheme) => void
 }
 
-export const useAppStore = create<AppState>((set) => ({
+export const useGameThemeStore = create<GameThemeState>((set) => ({
   theme: 'dendy',
   setTheme: (theme) => set({ theme }),
 }))
