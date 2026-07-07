@@ -5,7 +5,7 @@
 - [x] 00-01 Проверка структуры проекта
 - [x] 00-02 Установка frontend stack
 - [x] 00-03 Архитектура каталогов
-- [ ] 00-04 Router
+- [x] 00-04 Router
 - [ ] 00-05 API client base
 - [ ] 00-06 Query provider
 - [ ] 00-07 Zustand app store
