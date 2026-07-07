@@ -7,7 +7,7 @@
   },
   "version": 1,
   "created_at": "2026-06-30T18:58:10Z",
-  "updated_at": "2026-07-07T09:53:50Z",
+  "updated_at": "2026-07-07T11:45:59Z",
   "settings": {
     "agent_os": [
       "opencode",
@@ -18,6 +18,7 @@
     ],
     "specializations": [
       "software.backend",
+      "software.full-stack",
       "software.frontend",
       "software.general"
     ],
@@ -50,6 +51,13 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".agent/prompts/backend-project-full-cycle.md",
+      "source": "areas/software/full-stack/prompts/backend-project-full-cycle.md",
+      "content_hash": "6b0831a71029a63b01b4ff4d0f36bfb2f85070ffcb7e7f26335db071b93e3549",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".agent/prompts/bundle-analyze.md",
       "source": "areas/software/frontend/prompts/bundle-analyze.md",
       "content_hash": "a63bc7813836ede0799854c6aef7a2b9ebe87f712b624d4bb589629120db6581",
@@ -71,6 +79,13 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".agent/prompts/debug-issue-fullstack.md",
+      "source": "areas/software/full-stack/prompts/debug-issue-fullstack.md",
+      "content_hash": "0aab6041fc1e2447d4593ca62ab51c48799a60e2c022399bf375da1c871b4a35",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".agent/prompts/debug-issue.md",
       "source": "areas/software/backend/prompts/debug-issue.md",
       "content_hash": "d197c875d5ba38a008cac571e264a283b98a0ce2e0acf7a36ab24f8455193d13",
@@ -85,6 +100,13 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".agent/prompts/develop-feature-fullstack.md",
+      "source": "areas/software/full-stack/prompts/develop-feature-fullstack.md",
+      "content_hash": "70c136b7dd972e5169b892c8d54e9177f96f633b3abceb151d1f5d24be492856",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".agent/prompts/develop-feature.md",
       "source": "areas/software/backend/prompts/develop-feature.md",
       "content_hash": "06cc5199353c401753d29c7493f2449111f41956014de54103f09d4d55221d0f",
@@ -97,6 +119,13 @@
       "content_hash": "5be415ad0cff9f826f64a438b6ad6b78a3c5eae5abf847a834a3efe857553448",
       "marker": "internal",
       "updated_at": "2026-07-07T09:53:50Z"
+    },
+    {
+      "path": ".agent/prompts/feature-implementation-flow.md",
+      "source": "areas/software/full-stack/prompts/feature-implementation-flow.md",
+      "content_hash": "2983d190f7014f701a2accdc709bf441af0ea6f2e5baf84ce33df8d0fdc2991b",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": ".agent/prompts/project-setup-workflow.md",
@@ -134,6 +163,13 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".agent/prompts/testing-ci-pipeline.md",
+      "source": "areas/software/full-stack/prompts/testing-ci-pipeline.md",
+      "content_hash": "b1a35824be63195b2666d2cdc2f3ac0a123291c080f75f827aced1112d8b1d7a",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".agent/prompts/visual-regression.md",
       "source": "areas/software/frontend/prompts/visual-regression.md",
       "content_hash": "dc5be15d22404ff2203f48f717509ab8c60e80b443fd6437e49e4d540fe0a92b",
@@ -148,11 +184,46 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
-      "path": ".agent/rules/architecture.md",
-      "source": "areas/software/backend/rules/architecture.md",
-      "content_hash": "15b1b4ba2480b6332548455478d99b2eae43a66cfb236622c034b28a381cd76d",
+      "path": ".agent/rules/api-design-guide.md",
+      "source": "areas/software/full-stack/rules/api-design-guide.md",
+      "content_hash": "bcc27ba09e85c6b69eca90167d900593508f64cc4846904f87343b1da0a5a631",
       "marker": "internal",
-      "updated_at": "2026-07-07T09:53:50Z"
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/rules/architecture.md",
+      "source": "areas/software/frontend/rules/architecture.md",
+      "content_hash": "af9e3c01debe1bb3ee9ceeb6db763d2002ac407a3d1235b89d61249b7f7cde70",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/rules/async-concurrency-guide.md",
+      "source": "areas/software/full-stack/rules/async-concurrency-guide.md",
+      "content_hash": "014f79283a153e7573ecc817fda8d8b62d8c07bd1cec59fda6bf9d58b5f6c73d",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/rules/backend-architecture-rule.md",
+      "source": "areas/software/full-stack/rules/backend-architecture-rule.md",
+      "content_hash": "31eb7a8c83908d1ad29fa4b07a0392aa04f8daf2bdb76a2ac1c7d3ee8c3b4a37",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/rules/background-jobs-guide.md",
+      "source": "areas/software/full-stack/rules/background-jobs-guide.md",
+      "content_hash": "cca8b2dc812d7c58940ff609172a6f0b093c1d9c1118c76091691a81e75f68dd",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/rules/code-quality-guide.md",
+      "source": "areas/software/full-stack/rules/code-quality-guide.md",
+      "content_hash": "db6196f6be70c12650a33908592acde110fc1731bed143be572ecada1cc13c44",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": ".agent/rules/code-style-guide.md",
@@ -169,11 +240,53 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".agent/rules/database-access-guide.md",
+      "source": "areas/software/full-stack/rules/database-access-guide.md",
+      "content_hash": "6204d0cd012651c16200d8c32cdc7880f5bfe641b1c93783b05719a7aae2a2a0",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/rules/database-migrations-guide.md",
+      "source": "areas/software/full-stack/rules/database-migrations-guide.md",
+      "content_hash": "12713060119836190b142f9f68b006d032e8a0079469d28a03ebb3c8e2bc5ac7",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".agent/rules/docker-compose-guide.md",
       "source": "areas/software/general/rules/docker-compose-guide.md",
       "content_hash": "984119ffea1e2b323260735bdf9e29c7a643828195caeab8d3f87b95306c75f0",
       "marker": "internal",
       "updated_at": "2026-07-07T09:53:50Z"
+    },
+    {
+      "path": ".agent/rules/domain-models-guide.md",
+      "source": "areas/software/full-stack/rules/domain-models-guide.md",
+      "content_hash": "7506b27d9164ea152c34d25df2a29d0ab6f06179707b357aa7829823452ec7a3",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/rules/e2e-test-guide.md",
+      "source": "areas/software/full-stack/rules/e2e-test-guide.md",
+      "content_hash": "79445dd65edea79de3f91c34a9211ea7486278343b02196ebf281aec71a53d17",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/rules/env-settings-guide.md",
+      "source": "areas/software/full-stack/rules/env-settings-guide.md",
+      "content_hash": "1b15fc2b9c226db06c0d81675fe9260169c196943672f88f6940a411201badbc",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/rules/error-handling-guide.md",
+      "source": "areas/software/full-stack/rules/error-handling-guide.md",
+      "content_hash": "da66b830e5c115d0ead5182ae9d955b7cdf37f4f918d3ea27d40d42d98ed69d9",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": ".agent/rules/git-workflow-guide.md",
@@ -204,6 +317,13 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".agent/rules/logging-observability-guide.md",
+      "source": "areas/software/full-stack/rules/logging-observability-guide.md",
+      "content_hash": "b05e7f91643ecc026766e5faf2b69baf1439f4143abf66188486ab182124d94e",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".agent/rules/makefile-guide.md",
       "source": "areas/software/general/rules/makefile-guide.md",
       "content_hash": "1bb88e9da47e64baf8937d2b6abce9d8ab2dc089e84239a9664752e86e4b0121",
@@ -216,6 +336,20 @@
       "content_hash": "8ca9f4252279236b4b2e1f892376d393c4598af282b10a21af9e08d0ac1ce629",
       "marker": "internal",
       "updated_at": "2026-07-07T09:53:50Z"
+    },
+    {
+      "path": ".agent/rules/project-guide.md",
+      "source": "areas/software/full-stack/rules/project-guide.md",
+      "content_hash": "9ef89524344c75b1d120e6365bd8b51d6d33f23ea0197c27f23a84a91d3f3877",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/rules/python-venv-guide.md",
+      "source": "areas/software/full-stack/rules/python-venv-guide.md",
+      "content_hash": "366c2d25fdd801140a211453a96d21b892885f89b317d03707e2875566fa0396",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": ".agent/rules/quality.md",
@@ -246,11 +380,32 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".agent/rules/security-guide.md",
+      "source": "areas/software/full-stack/rules/security-guide.md",
+      "content_hash": "06e6d3bf16e71fccd39c46271fe2cf1fd0f0e1407bc126c33c3534eddfbaeb7a",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".agent/rules/security.md",
       "source": "areas/software/backend/rules/security.md",
       "content_hash": "f7c43052cf9d5202e4ec8e24e6edfa6dcf0f1e1c6cee83d3dd86b7a9b8266f16",
       "marker": "internal",
       "updated_at": "2026-07-07T09:53:50Z"
+    },
+    {
+      "path": ".agent/rules/svt-test-guide.md",
+      "source": "areas/software/full-stack/rules/svt-test-guide.md",
+      "content_hash": "2610d96bb7f57c816952b6006c51b325e0f5eaae29768935983867f3dd704f00",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/rules/testing-ci-guide.md",
+      "source": "areas/software/full-stack/rules/testing-ci-guide.md",
+      "content_hash": "a0d8c2e70a270481c249d586ab05d168cac25d70e7a34768981308173c5a1a48",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": ".agent/rules/testing.md",
@@ -267,6 +422,48 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".agent/skills/api-design-principles/SKILL.md",
+      "source": "areas/software/full-stack/skills/api-design-principles/SKILL.md",
+      "content_hash": "26062943c63f6a28c01cdc09374fd40e32750b4769bb5974fc85053a2d438432",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-design-principles/assets/api-design-checklist.md",
+      "source": "areas/software/full-stack/skills/api-design-principles/assets/api-design-checklist.md",
+      "content_hash": "8acf238f479743d4799545da25d961756a3bc4123a3b89387148209d21c38013",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-design-principles/assets/rest-api-template.py",
+      "source": "areas/software/full-stack/skills/api-design-principles/assets/rest-api-template.py",
+      "content_hash": "e4c51f4dbad9c5c2f02a37bcf2ad9b560300c1d3959188d4d76124d220b90f51",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-design-principles/references/graphql-schema-design.md",
+      "source": "areas/software/full-stack/skills/api-design-principles/references/graphql-schema-design.md",
+      "content_hash": "3df8cde726828b11583da8008e57d717f642c456b0391bb410067106132d9c95",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-design-principles/references/rest-best-practices.md",
+      "source": "areas/software/full-stack/skills/api-design-principles/references/rest-best-practices.md",
+      "content_hash": "27c07f4bb8c8c922d3c0ea9df19b491ce301fbb12d8990817fa4ae7531bca333",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-design-principles/resources/implementation-playbook.md",
+      "source": "areas/software/full-stack/skills/api-design-principles/resources/implementation-playbook.md",
+      "content_hash": "e5a78a66865dbc4082c4563f0530b4b8583ea394c7519bcc967bb2df504cafbf",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".agent/skills/api-design/SKILL.md",
       "source": "areas/software/backend/skills/api-design/SKILL.md",
       "content_hash": "418f743dc01f6dc460f768373de31d2395aa6bd6b28159fc9de09d4407b4b16c",
@@ -281,11 +478,249 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".agent/skills/api-patterns/SKILL.md",
+      "source": "areas/software/full-stack/skills/api-patterns/SKILL.md",
+      "content_hash": "181c69a0666b8dd82282f652e333041d503f881b64609a6e2f5ce8db771c54dd",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-patterns/api-style.md",
+      "source": "areas/software/full-stack/skills/api-patterns/api-style.md",
+      "content_hash": "9e1bd197165632a56d3d6a12001dc0811e15c0de385146ac20bb929845a42821",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-patterns/auth.md",
+      "source": "areas/software/full-stack/skills/api-patterns/auth.md",
+      "content_hash": "db6c1a9625254caf09e47b9ef47b41a28f0fef093e0fe619a4ff7f8317ff5454",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-patterns/documentation.md",
+      "source": "areas/software/full-stack/skills/api-patterns/documentation.md",
+      "content_hash": "7c0c1825d5a31ac7ee7723c1fef92c65ba3995b00e16e9363eddaca2978fcaea",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-patterns/graphql.md",
+      "source": "areas/software/full-stack/skills/api-patterns/graphql.md",
+      "content_hash": "97c3dcf68fde6184b400786a45e1f9d9969cc1318894c47928c67b76cbf8b263",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-patterns/rate-limiting.md",
+      "source": "areas/software/full-stack/skills/api-patterns/rate-limiting.md",
+      "content_hash": "44262df6d8eaff2d76fcb6529bb6b945fc9b54c88caf6ba056606f5d9728a4b6",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-patterns/response.md",
+      "source": "areas/software/full-stack/skills/api-patterns/response.md",
+      "content_hash": "6110874b5bc3763472ca05a39e5bb5498aa1901d09ec51403ad683190d5bf1a4",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-patterns/rest.md",
+      "source": "areas/software/full-stack/skills/api-patterns/rest.md",
+      "content_hash": "2088ee9d8e7e45b10a10e664b8d0538bf9be344fe1dc86d95b45dba161d9b948",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-patterns/scripts/api_validator.py",
+      "source": "areas/software/full-stack/skills/api-patterns/scripts/api_validator.py",
+      "content_hash": "c09e803b9bc62bdd833d37925b8643980e0d56dd6aad180d3b6cf6c3b0889349",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-patterns/security-testing.md",
+      "source": "areas/software/full-stack/skills/api-patterns/security-testing.md",
+      "content_hash": "6e1d9baff3494a2e832fa0d6a7a4e7c319bfc3a20e534e29d4794fe3dd7df464",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-patterns/trpc.md",
+      "source": "areas/software/full-stack/skills/api-patterns/trpc.md",
+      "content_hash": "c46380e6e3d0ba7b3be5edc99b90c06373829c698bcbf9e3465962c89961ab95",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/api-patterns/versioning.md",
+      "source": "areas/software/full-stack/skills/api-patterns/versioning.md",
+      "content_hash": "5e4cabcabba698763c6cf05fbc7ec5a5add682acc1a3f4b335211b760a626cf5",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/SKILL.md",
+      "source": "areas/software/full-stack/skills/app-builder/SKILL.md",
+      "content_hash": "5bd5e8d221b195cd071a766b9ef683e57dfeac20337b7ab41d2844435c56eff9",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/agent-coordination.md",
+      "source": "areas/software/full-stack/skills/app-builder/agent-coordination.md",
+      "content_hash": "8f68220159147acae01ed50fe9f60f482f0e8365ddcd3cce3c7c31b70cacd969",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/feature-building.md",
+      "source": "areas/software/full-stack/skills/app-builder/feature-building.md",
+      "content_hash": "5107391da4f2b2ea36d10559c1710b5d9bc88e7a85e1f354734388076330d689",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/project-detection.md",
+      "source": "areas/software/full-stack/skills/app-builder/project-detection.md",
+      "content_hash": "e8c8e75322d150dbff487bde4df045f9132f3dc2cb5423d83977033b60b63463",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/scaffolding.md",
+      "source": "areas/software/full-stack/skills/app-builder/scaffolding.md",
+      "content_hash": "b0c051c61d6dc21d1225f2b6b648faaa8b239b6906a96def0926e61a18e4a955",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/tech-stack.md",
+      "source": "areas/software/full-stack/skills/app-builder/tech-stack.md",
+      "content_hash": "52bcc09cc321a0b8771c655538b9260fe3036d6187ac2782c568ed75eeed303d",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/templates/SKILL.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/SKILL.md",
+      "content_hash": "84ca2f92dc8b97d04dfdfd46e54050f0f6f6590879805f3012728d1f9787c1e4",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/templates/astro-static/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/astro-static/TEMPLATE.md",
+      "content_hash": "a826944bc64a4c8471cae88fa3f7766858303cac0223c9593f528ad6bcfea983",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/templates/chrome-extension/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/chrome-extension/TEMPLATE.md",
+      "content_hash": "9a89cde5d43ec4f791a779587c652f0868a26311c506c7040d489a01374cea1d",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/templates/cli-tool/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/cli-tool/TEMPLATE.md",
+      "content_hash": "dc00f9e1e2a1139cfc58b04da7f377517faad5b60b6d23e4952b078f3b2d3cba",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/templates/electron-desktop/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/electron-desktop/TEMPLATE.md",
+      "content_hash": "0b0144caf6cbb99927aa8b07efd79e340ca1ea6a2823904b8a4abd5ea6929f8f",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/templates/express-api/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/express-api/TEMPLATE.md",
+      "content_hash": "89d713d7cdd092a0d9f15e1f3fc3f4eda8523a0f9da1bb8cee78583bb9ea202d",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/templates/flutter-app/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/flutter-app/TEMPLATE.md",
+      "content_hash": "75e76c8990ee902e795c41554e66ccb098ad696435b93ea960b97ce2c6bde78f",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/templates/monorepo-turborepo/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/monorepo-turborepo/TEMPLATE.md",
+      "content_hash": "53d71920317012408c035114835a9b57de16c0cd0a1eb228199db1708127de4d",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/templates/nextjs-fullstack/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/nextjs-fullstack/TEMPLATE.md",
+      "content_hash": "2fb6745df31f9e4b38a368385fb4e3b04de03bf74ce1e3a2f589aa96109467c6",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/templates/nextjs-saas/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/nextjs-saas/TEMPLATE.md",
+      "content_hash": "0129187607c366d6bb2aad7b8371f696af7b0c3ff511d64b72088d34e2414c29",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/templates/nextjs-static/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/nextjs-static/TEMPLATE.md",
+      "content_hash": "5ddf53c7dda49b72a5784edd688cdcc4b0188aad683411a9abbccb60a36fa110",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/templates/nuxt-app/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/nuxt-app/TEMPLATE.md",
+      "content_hash": "fbdd2949e33ac117ad7fd9ea6d80d501dae335287832652f97eaa49f9d35f1a4",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/templates/python-fastapi/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/python-fastapi/TEMPLATE.md",
+      "content_hash": "5747ce165cd80e6dd473778fbb489dabe2d9e259efbda5bd1117b6ef55685e9e",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/app-builder/templates/react-native-app/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/react-native-app/TEMPLATE.md",
+      "content_hash": "fd826c48e5365cec4a533d0b5fac63087556feee8fa52155b2bfc41d280487b8",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".agent/skills/async-processing/SKILL.md",
       "source": "areas/software/backend/skills/async-processing/SKILL.md",
       "content_hash": "e9337567dbc58d118d82a6b004e9e8db79ce83fc09a1e7dc76ab50c0666dfe0e",
       "marker": "internal",
       "updated_at": "2026-07-07T09:53:50Z"
+    },
+    {
+      "path": ".agent/skills/backend-developer/SKILL.md",
+      "source": "areas/software/full-stack/skills/backend-developer/SKILL.md",
+      "content_hash": "fd6936819bdc0c97b274be8e35380b4567583fd5f5203a48d1032214ee3b8214",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/blackbox-test/SKILL.md",
+      "source": "areas/software/full-stack/skills/blackbox-test/SKILL.md",
+      "content_hash": "216e48fe1d651e159c8fa80644e4ca6ffd6dc90fa824116ae81fd12c6512c686",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": ".agent/skills/component-design/SKILL.md",
@@ -337,6 +772,27 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".agent/skills/prompt-project-planner/SKILL.md",
+      "source": "areas/software/full-stack/skills/prompt-project-planner/SKILL.md",
+      "content_hash": "d08af02e9054d0858178313adca0da55cb8bb74cb76b8f99a6d61a39f498ea43",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/prompt-project-planner/output.schema.md",
+      "source": "areas/software/full-stack/skills/prompt-project-planner/output.schema.md",
+      "content_hash": "a945c51410ba9fb3afb38a42e25fd7ecba65f1b4ebfd2ee8b29381ac17151828",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".agent/skills/prompt-project-planner/questions.md",
+      "source": "areas/software/full-stack/skills/prompt-project-planner/questions.md",
+      "content_hash": "bd6f7490bb1dee30a74573667bd0e14668e32107b7a9a5aafaf193202ee857b4",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".agent/skills/state-management/SKILL.md",
       "source": "areas/software/frontend/skills/state-management/SKILL.md",
       "content_hash": "27b8ff6db3d28e5daf232e4476481a136ccbf5f768beb8594032eb943b98838d",
@@ -372,6 +828,13 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".agent/workflows/backend-project-full-cycle.md",
+      "source": "areas/software/full-stack/workflows/backend-project-full-cycle.md",
+      "content_hash": "356c6d33eafea154822a3c15c48b91ef1534817aed27cbb4270681a2169ac7bf",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".agent/workflows/bundle-analyze.md",
       "source": "areas/software/frontend/workflows/bundle-analyze.md",
       "content_hash": "9b5157f15af6ed1489bd8fe4e30dd0d45a9ec7f069c8ecfb855bb894b1e5acbf",
@@ -393,6 +856,13 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".agent/workflows/debug-issue-fullstack.md",
+      "source": "areas/software/full-stack/workflows/debug-issue-fullstack.md",
+      "content_hash": "24d82b06c19ddc3bf7dde0404959ec5e6d1b7ecb2b2ceb9ff0938951d25cfe7b",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".agent/workflows/debug-issue.md",
       "source": "areas/software/backend/workflows/debug-issue.md",
       "content_hash": "5ea6c765de24d22a3b3b63e517774fafdf976e59395fd3408cedc598fd9b502d",
@@ -407,6 +877,13 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".agent/workflows/develop-feature-fullstack.md",
+      "source": "areas/software/full-stack/workflows/develop-feature-fullstack.md",
+      "content_hash": "1e881adaa2d1fceca7cd4ef521b8c0af467b7e6bcefc2cb214df5507ffccd427",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".agent/workflows/develop-feature.md",
       "source": "areas/software/backend/workflows/develop-feature.md",
       "content_hash": "08a7b94c6be439c1c291a82847e751408d5e0c16d321ee191c08519e6e1a08db",
@@ -419,6 +896,13 @@
       "content_hash": "9b30b761682ce97eae60506ca6c3edd4c7d542eba18e388e43fb68d170e2feeb",
       "marker": "internal",
       "updated_at": "2026-07-07T09:53:50Z"
+    },
+    {
+      "path": ".agent/workflows/feature-implementation-flow.md",
+      "source": "areas/software/full-stack/workflows/feature-implementation-flow.md",
+      "content_hash": "7e0ab041d7910253e3014afbd4a185819de41a9e5a71b3ccaadcc608e548af0c",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": ".agent/workflows/project-setup-workflow.md",
@@ -454,6 +938,13 @@
       "content_hash": "fa38a5a259f2651ac87cbd70629e23860237abab2d673b43768745689fae0b0a",
       "marker": "internal",
       "updated_at": "2026-07-07T09:53:50Z"
+    },
+    {
+      "path": ".agent/workflows/testing-ci-pipeline.md",
+      "source": "areas/software/full-stack/workflows/testing-ci-pipeline.md",
+      "content_hash": "91d3e902a9be853b0091b5f49262d962f6328988b8e6ec9a50dd34d2a3d9be6a",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": ".agent/workflows/visual-regression.md",
@@ -549,9 +1040,9 @@
     {
       "path": ".opencode/AGENTS.md",
       "source": "generated:AGENTS.md",
-      "content_hash": "4a876805ca7cbada2863ce17df694e8395f512b4e7ed7db243fc35f22809bb20",
+      "content_hash": "0d74a3cb57b4bde2f80827745cd448de0251b626944a6de617f1bf6fe52111a6",
       "marker": "internal",
-      "updated_at": "2026-07-07T09:53:50Z"
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": ".opencode/MEMORY.md",
@@ -638,6 +1129,13 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".opencode/commands/backend-project-full-cycle.md",
+      "source": "areas/software/full-stack/workflows/backend-project-full-cycle.md",
+      "content_hash": "356c6d33eafea154822a3c15c48b91ef1534817aed27cbb4270681a2169ac7bf",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".opencode/commands/bundle-analyze.md",
       "source": "areas/software/frontend/workflows/bundle-analyze.md",
       "content_hash": "9b5157f15af6ed1489bd8fe4e30dd0d45a9ec7f069c8ecfb855bb894b1e5acbf",
@@ -659,6 +1157,13 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".opencode/commands/debug-issue-fullstack.md",
+      "source": "areas/software/full-stack/workflows/debug-issue-fullstack.md",
+      "content_hash": "24d82b06c19ddc3bf7dde0404959ec5e6d1b7ecb2b2ceb9ff0938951d25cfe7b",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".opencode/commands/debug-issue.md",
       "source": "areas/software/backend/workflows/debug-issue.md",
       "content_hash": "5ea6c765de24d22a3b3b63e517774fafdf976e59395fd3408cedc598fd9b502d",
@@ -673,6 +1178,13 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".opencode/commands/develop-feature-fullstack.md",
+      "source": "areas/software/full-stack/workflows/develop-feature-fullstack.md",
+      "content_hash": "1e881adaa2d1fceca7cd4ef521b8c0af467b7e6bcefc2cb214df5507ffccd427",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".opencode/commands/develop-feature.md",
       "source": "areas/software/backend/workflows/develop-feature.md",
       "content_hash": "08a7b94c6be439c1c291a82847e751408d5e0c16d321ee191c08519e6e1a08db",
@@ -685,6 +1197,13 @@
       "content_hash": "9b30b761682ce97eae60506ca6c3edd4c7d542eba18e388e43fb68d170e2feeb",
       "marker": "internal",
       "updated_at": "2026-07-07T09:53:50Z"
+    },
+    {
+      "path": ".opencode/commands/feature-implementation-flow.md",
+      "source": "areas/software/full-stack/workflows/feature-implementation-flow.md",
+      "content_hash": "7e0ab041d7910253e3014afbd4a185819de41a9e5a71b3ccaadcc608e548af0c",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": ".opencode/commands/feature.md",
@@ -729,6 +1248,13 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".opencode/commands/testing-ci-pipeline.md",
+      "source": "areas/software/full-stack/workflows/testing-ci-pipeline.md",
+      "content_hash": "91d3e902a9be853b0091b5f49262d962f6328988b8e6ec9a50dd34d2a3d9be6a",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".opencode/commands/visual-regression.md",
       "source": "areas/software/frontend/workflows/visual-regression.md",
       "content_hash": "ef63ff8492b8a2fae33e2bc77c3f50dd94fa0832a9e74a4b76dd3d85b2e85dae",
@@ -757,11 +1283,46 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
-      "path": ".opencode/rules/architecture.md",
-      "source": "areas/software/backend/rules/architecture.md",
-      "content_hash": "15b1b4ba2480b6332548455478d99b2eae43a66cfb236622c034b28a381cd76d",
+      "path": ".opencode/rules/api-design-guide.md",
+      "source": "areas/software/full-stack/rules/api-design-guide.md",
+      "content_hash": "bcc27ba09e85c6b69eca90167d900593508f64cc4846904f87343b1da0a5a631",
       "marker": "internal",
-      "updated_at": "2026-07-07T09:53:50Z"
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/rules/architecture.md",
+      "source": "areas/software/frontend/rules/architecture.md",
+      "content_hash": "af9e3c01debe1bb3ee9ceeb6db763d2002ac407a3d1235b89d61249b7f7cde70",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/rules/async-concurrency-guide.md",
+      "source": "areas/software/full-stack/rules/async-concurrency-guide.md",
+      "content_hash": "014f79283a153e7573ecc817fda8d8b62d8c07bd1cec59fda6bf9d58b5f6c73d",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/rules/backend-architecture-rule.md",
+      "source": "areas/software/full-stack/rules/backend-architecture-rule.md",
+      "content_hash": "31eb7a8c83908d1ad29fa4b07a0392aa04f8daf2bdb76a2ac1c7d3ee8c3b4a37",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/rules/background-jobs-guide.md",
+      "source": "areas/software/full-stack/rules/background-jobs-guide.md",
+      "content_hash": "cca8b2dc812d7c58940ff609172a6f0b093c1d9c1118c76091691a81e75f68dd",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/rules/code-quality-guide.md",
+      "source": "areas/software/full-stack/rules/code-quality-guide.md",
+      "content_hash": "db6196f6be70c12650a33908592acde110fc1731bed143be572ecada1cc13c44",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": ".opencode/rules/code-style-guide.md",
@@ -778,11 +1339,53 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".opencode/rules/database-access-guide.md",
+      "source": "areas/software/full-stack/rules/database-access-guide.md",
+      "content_hash": "6204d0cd012651c16200d8c32cdc7880f5bfe641b1c93783b05719a7aae2a2a0",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/rules/database-migrations-guide.md",
+      "source": "areas/software/full-stack/rules/database-migrations-guide.md",
+      "content_hash": "12713060119836190b142f9f68b006d032e8a0079469d28a03ebb3c8e2bc5ac7",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".opencode/rules/docker-compose-guide.md",
       "source": "areas/software/general/rules/docker-compose-guide.md",
       "content_hash": "984119ffea1e2b323260735bdf9e29c7a643828195caeab8d3f87b95306c75f0",
       "marker": "internal",
       "updated_at": "2026-07-07T09:53:50Z"
+    },
+    {
+      "path": ".opencode/rules/domain-models-guide.md",
+      "source": "areas/software/full-stack/rules/domain-models-guide.md",
+      "content_hash": "7506b27d9164ea152c34d25df2a29d0ab6f06179707b357aa7829823452ec7a3",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/rules/e2e-test-guide.md",
+      "source": "areas/software/full-stack/rules/e2e-test-guide.md",
+      "content_hash": "79445dd65edea79de3f91c34a9211ea7486278343b02196ebf281aec71a53d17",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/rules/env-settings-guide.md",
+      "source": "areas/software/full-stack/rules/env-settings-guide.md",
+      "content_hash": "1b15fc2b9c226db06c0d81675fe9260169c196943672f88f6940a411201badbc",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/rules/error-handling-guide.md",
+      "source": "areas/software/full-stack/rules/error-handling-guide.md",
+      "content_hash": "da66b830e5c115d0ead5182ae9d955b7cdf37f4f918d3ea27d40d42d98ed69d9",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": ".opencode/rules/git-workflow-guide.md",
@@ -813,6 +1416,13 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".opencode/rules/logging-observability-guide.md",
+      "source": "areas/software/full-stack/rules/logging-observability-guide.md",
+      "content_hash": "b05e7f91643ecc026766e5faf2b69baf1439f4143abf66188486ab182124d94e",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".opencode/rules/makefile-guide.md",
       "source": "areas/software/general/rules/makefile-guide.md",
       "content_hash": "1bb88e9da47e64baf8937d2b6abce9d8ab2dc089e84239a9664752e86e4b0121",
@@ -825,6 +1435,20 @@
       "content_hash": "8ca9f4252279236b4b2e1f892376d393c4598af282b10a21af9e08d0ac1ce629",
       "marker": "internal",
       "updated_at": "2026-07-07T09:53:50Z"
+    },
+    {
+      "path": ".opencode/rules/project-guide.md",
+      "source": "areas/software/full-stack/rules/project-guide.md",
+      "content_hash": "9ef89524344c75b1d120e6365bd8b51d6d33f23ea0197c27f23a84a91d3f3877",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/rules/python-venv-guide.md",
+      "source": "areas/software/full-stack/rules/python-venv-guide.md",
+      "content_hash": "366c2d25fdd801140a211453a96d21b892885f89b317d03707e2875566fa0396",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": ".opencode/rules/quality.md",
@@ -855,11 +1479,32 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".opencode/rules/security-guide.md",
+      "source": "areas/software/full-stack/rules/security-guide.md",
+      "content_hash": "06e6d3bf16e71fccd39c46271fe2cf1fd0f0e1407bc126c33c3534eddfbaeb7a",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".opencode/rules/security.md",
       "source": "areas/software/backend/rules/security.md",
       "content_hash": "f7c43052cf9d5202e4ec8e24e6edfa6dcf0f1e1c6cee83d3dd86b7a9b8266f16",
       "marker": "internal",
       "updated_at": "2026-07-07T09:53:50Z"
+    },
+    {
+      "path": ".opencode/rules/svt-test-guide.md",
+      "source": "areas/software/full-stack/rules/svt-test-guide.md",
+      "content_hash": "2610d96bb7f57c816952b6006c51b325e0f5eaae29768935983867f3dd704f00",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/rules/testing-ci-guide.md",
+      "source": "areas/software/full-stack/rules/testing-ci-guide.md",
+      "content_hash": "a0d8c2e70a270481c249d586ab05d168cac25d70e7a34768981308173c5a1a48",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": ".opencode/rules/testing.md",
@@ -876,6 +1521,48 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".opencode/skills/api-design-principles/SKILL.md",
+      "source": "areas/software/full-stack/skills/api-design-principles/SKILL.md",
+      "content_hash": "26062943c63f6a28c01cdc09374fd40e32750b4769bb5974fc85053a2d438432",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-design-principles/assets/api-design-checklist.md",
+      "source": "areas/software/full-stack/skills/api-design-principles/assets/api-design-checklist.md",
+      "content_hash": "8acf238f479743d4799545da25d961756a3bc4123a3b89387148209d21c38013",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-design-principles/assets/rest-api-template.py",
+      "source": "areas/software/full-stack/skills/api-design-principles/assets/rest-api-template.py",
+      "content_hash": "e4c51f4dbad9c5c2f02a37bcf2ad9b560300c1d3959188d4d76124d220b90f51",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-design-principles/references/graphql-schema-design.md",
+      "source": "areas/software/full-stack/skills/api-design-principles/references/graphql-schema-design.md",
+      "content_hash": "3df8cde726828b11583da8008e57d717f642c456b0391bb410067106132d9c95",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-design-principles/references/rest-best-practices.md",
+      "source": "areas/software/full-stack/skills/api-design-principles/references/rest-best-practices.md",
+      "content_hash": "27c07f4bb8c8c922d3c0ea9df19b491ce301fbb12d8990817fa4ae7531bca333",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-design-principles/resources/implementation-playbook.md",
+      "source": "areas/software/full-stack/skills/api-design-principles/resources/implementation-playbook.md",
+      "content_hash": "e5a78a66865dbc4082c4563f0530b4b8583ea394c7519bcc967bb2df504cafbf",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".opencode/skills/api-design/SKILL.md",
       "source": "areas/software/backend/skills/api-design/SKILL.md",
       "content_hash": "418f743dc01f6dc460f768373de31d2395aa6bd6b28159fc9de09d4407b4b16c",
@@ -890,11 +1577,249 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".opencode/skills/api-patterns/SKILL.md",
+      "source": "areas/software/full-stack/skills/api-patterns/SKILL.md",
+      "content_hash": "181c69a0666b8dd82282f652e333041d503f881b64609a6e2f5ce8db771c54dd",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-patterns/api-style.md",
+      "source": "areas/software/full-stack/skills/api-patterns/api-style.md",
+      "content_hash": "9e1bd197165632a56d3d6a12001dc0811e15c0de385146ac20bb929845a42821",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-patterns/auth.md",
+      "source": "areas/software/full-stack/skills/api-patterns/auth.md",
+      "content_hash": "db6c1a9625254caf09e47b9ef47b41a28f0fef093e0fe619a4ff7f8317ff5454",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-patterns/documentation.md",
+      "source": "areas/software/full-stack/skills/api-patterns/documentation.md",
+      "content_hash": "7c0c1825d5a31ac7ee7723c1fef92c65ba3995b00e16e9363eddaca2978fcaea",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-patterns/graphql.md",
+      "source": "areas/software/full-stack/skills/api-patterns/graphql.md",
+      "content_hash": "97c3dcf68fde6184b400786a45e1f9d9969cc1318894c47928c67b76cbf8b263",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-patterns/rate-limiting.md",
+      "source": "areas/software/full-stack/skills/api-patterns/rate-limiting.md",
+      "content_hash": "44262df6d8eaff2d76fcb6529bb6b945fc9b54c88caf6ba056606f5d9728a4b6",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-patterns/response.md",
+      "source": "areas/software/full-stack/skills/api-patterns/response.md",
+      "content_hash": "6110874b5bc3763472ca05a39e5bb5498aa1901d09ec51403ad683190d5bf1a4",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-patterns/rest.md",
+      "source": "areas/software/full-stack/skills/api-patterns/rest.md",
+      "content_hash": "2088ee9d8e7e45b10a10e664b8d0538bf9be344fe1dc86d95b45dba161d9b948",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-patterns/scripts/api_validator.py",
+      "source": "areas/software/full-stack/skills/api-patterns/scripts/api_validator.py",
+      "content_hash": "c09e803b9bc62bdd833d37925b8643980e0d56dd6aad180d3b6cf6c3b0889349",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-patterns/security-testing.md",
+      "source": "areas/software/full-stack/skills/api-patterns/security-testing.md",
+      "content_hash": "6e1d9baff3494a2e832fa0d6a7a4e7c319bfc3a20e534e29d4794fe3dd7df464",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-patterns/trpc.md",
+      "source": "areas/software/full-stack/skills/api-patterns/trpc.md",
+      "content_hash": "c46380e6e3d0ba7b3be5edc99b90c06373829c698bcbf9e3465962c89961ab95",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/api-patterns/versioning.md",
+      "source": "areas/software/full-stack/skills/api-patterns/versioning.md",
+      "content_hash": "5e4cabcabba698763c6cf05fbc7ec5a5add682acc1a3f4b335211b760a626cf5",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/SKILL.md",
+      "source": "areas/software/full-stack/skills/app-builder/SKILL.md",
+      "content_hash": "5bd5e8d221b195cd071a766b9ef683e57dfeac20337b7ab41d2844435c56eff9",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/agent-coordination.md",
+      "source": "areas/software/full-stack/skills/app-builder/agent-coordination.md",
+      "content_hash": "8f68220159147acae01ed50fe9f60f482f0e8365ddcd3cce3c7c31b70cacd969",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/feature-building.md",
+      "source": "areas/software/full-stack/skills/app-builder/feature-building.md",
+      "content_hash": "5107391da4f2b2ea36d10559c1710b5d9bc88e7a85e1f354734388076330d689",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/project-detection.md",
+      "source": "areas/software/full-stack/skills/app-builder/project-detection.md",
+      "content_hash": "e8c8e75322d150dbff487bde4df045f9132f3dc2cb5423d83977033b60b63463",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/scaffolding.md",
+      "source": "areas/software/full-stack/skills/app-builder/scaffolding.md",
+      "content_hash": "b0c051c61d6dc21d1225f2b6b648faaa8b239b6906a96def0926e61a18e4a955",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/tech-stack.md",
+      "source": "areas/software/full-stack/skills/app-builder/tech-stack.md",
+      "content_hash": "52bcc09cc321a0b8771c655538b9260fe3036d6187ac2782c568ed75eeed303d",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/templates/SKILL.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/SKILL.md",
+      "content_hash": "84ca2f92dc8b97d04dfdfd46e54050f0f6f6590879805f3012728d1f9787c1e4",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/templates/astro-static/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/astro-static/TEMPLATE.md",
+      "content_hash": "a826944bc64a4c8471cae88fa3f7766858303cac0223c9593f528ad6bcfea983",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/templates/chrome-extension/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/chrome-extension/TEMPLATE.md",
+      "content_hash": "9a89cde5d43ec4f791a779587c652f0868a26311c506c7040d489a01374cea1d",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/templates/cli-tool/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/cli-tool/TEMPLATE.md",
+      "content_hash": "dc00f9e1e2a1139cfc58b04da7f377517faad5b60b6d23e4952b078f3b2d3cba",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/templates/electron-desktop/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/electron-desktop/TEMPLATE.md",
+      "content_hash": "0b0144caf6cbb99927aa8b07efd79e340ca1ea6a2823904b8a4abd5ea6929f8f",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/templates/express-api/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/express-api/TEMPLATE.md",
+      "content_hash": "89d713d7cdd092a0d9f15e1f3fc3f4eda8523a0f9da1bb8cee78583bb9ea202d",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/templates/flutter-app/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/flutter-app/TEMPLATE.md",
+      "content_hash": "75e76c8990ee902e795c41554e66ccb098ad696435b93ea960b97ce2c6bde78f",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/templates/monorepo-turborepo/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/monorepo-turborepo/TEMPLATE.md",
+      "content_hash": "53d71920317012408c035114835a9b57de16c0cd0a1eb228199db1708127de4d",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/templates/nextjs-fullstack/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/nextjs-fullstack/TEMPLATE.md",
+      "content_hash": "2fb6745df31f9e4b38a368385fb4e3b04de03bf74ce1e3a2f589aa96109467c6",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/templates/nextjs-saas/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/nextjs-saas/TEMPLATE.md",
+      "content_hash": "0129187607c366d6bb2aad7b8371f696af7b0c3ff511d64b72088d34e2414c29",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/templates/nextjs-static/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/nextjs-static/TEMPLATE.md",
+      "content_hash": "5ddf53c7dda49b72a5784edd688cdcc4b0188aad683411a9abbccb60a36fa110",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/templates/nuxt-app/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/nuxt-app/TEMPLATE.md",
+      "content_hash": "fbdd2949e33ac117ad7fd9ea6d80d501dae335287832652f97eaa49f9d35f1a4",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/templates/python-fastapi/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/python-fastapi/TEMPLATE.md",
+      "content_hash": "5747ce165cd80e6dd473778fbb489dabe2d9e259efbda5bd1117b6ef55685e9e",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/app-builder/templates/react-native-app/TEMPLATE.md",
+      "source": "areas/software/full-stack/skills/app-builder/templates/react-native-app/TEMPLATE.md",
+      "content_hash": "fd826c48e5365cec4a533d0b5fac63087556feee8fa52155b2bfc41d280487b8",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".opencode/skills/async-processing/SKILL.md",
       "source": "areas/software/backend/skills/async-processing/SKILL.md",
       "content_hash": "e9337567dbc58d118d82a6b004e9e8db79ce83fc09a1e7dc76ab50c0666dfe0e",
       "marker": "internal",
       "updated_at": "2026-07-07T09:53:50Z"
+    },
+    {
+      "path": ".opencode/skills/backend-developer/SKILL.md",
+      "source": "areas/software/full-stack/skills/backend-developer/SKILL.md",
+      "content_hash": "fd6936819bdc0c97b274be8e35380b4567583fd5f5203a48d1032214ee3b8214",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/blackbox-test/SKILL.md",
+      "source": "areas/software/full-stack/skills/blackbox-test/SKILL.md",
+      "content_hash": "216e48fe1d651e159c8fa80644e4ca6ffd6dc90fa824116ae81fd12c6512c686",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": ".opencode/skills/component-design/SKILL.md",
@@ -946,6 +1871,27 @@
       "updated_at": "2026-07-07T09:53:50Z"
     },
     {
+      "path": ".opencode/skills/prompt-project-planner/SKILL.md",
+      "source": "areas/software/full-stack/skills/prompt-project-planner/SKILL.md",
+      "content_hash": "d08af02e9054d0858178313adca0da55cb8bb74cb76b8f99a6d61a39f498ea43",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/prompt-project-planner/output.schema.md",
+      "source": "areas/software/full-stack/skills/prompt-project-planner/output.schema.md",
+      "content_hash": "a945c51410ba9fb3afb38a42e25fd7ecba65f1b4ebfd2ee8b29381ac17151828",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
+      "path": ".opencode/skills/prompt-project-planner/questions.md",
+      "source": "areas/software/full-stack/skills/prompt-project-planner/questions.md",
+      "content_hash": "bd6f7490bb1dee30a74573667bd0e14668e32107b7a9a5aafaf193202ee857b4",
+      "marker": "internal",
+      "updated_at": "2026-07-07T11:45:59Z"
+    },
+    {
       "path": ".opencode/skills/state-management/SKILL.md",
       "source": "areas/software/frontend/skills/state-management/SKILL.md",
       "content_hash": "27b8ff6db3d28e5daf232e4476481a136ccbf5f768beb8594032eb943b98838d",
@@ -969,9 +1915,9 @@
     {
       "path": "AGENTS.md",
       "source": "generated:AGENTS.md",
-      "content_hash": "4a876805ca7cbada2863ce17df694e8395f512b4e7ed7db243fc35f22809bb20",
+      "content_hash": "0d74a3cb57b4bde2f80827745cd448de0251b626944a6de617f1bf6fe52111a6",
       "marker": "internal",
-      "updated_at": "2026-07-07T09:53:50Z"
+      "updated_at": "2026-07-07T11:45:59Z"
     },
     {
       "path": "MEMORY.md",
@@ -988,8 +1934,5 @@
       "updated_at": "2026-06-30T18:58:10Z"
     }
   ],
-  "skipped_files": [
-    ".opencode/rules/architecture.md",
-    ".agent/rules/architecture.md"
-  ]
+  "skipped_files": []
 }

@@ -2,7 +2,7 @@
 
 `x10` is a Rust + SQLite service that now ships a Vuetify-based CRUD admin panel at `/`, a React-based game frontend at `/game`, and the existing progression API under `/api/v2`.
 
-## What Ships In `0.4.2`
+## What Ships In `0.4.4`
 
 - Vuetify admin panel served from `/`
 - separate React game frontend served from `/game`
@@ -115,8 +115,22 @@ The service reads configuration from [src/config.rs](/home/lab/work/sawrus/x10/s
 | `make web-test` | Run frontend smoke checks |
 | `make game-build` | Build only the React game frontend into `web/game/dist` |
 | `make game-dev` | Start the React game frontend dev server |
+| `cd web/game && npm run typecheck` | Run the React game TypeScript project checks |
+| `cd web/game && npm run lint` | Run the lightweight React game lint gate for `console.log`/`debugger` regressions |
+| `cd web/game && npm run check` | Run the React game frontend verification chain used for epic-00 foundation |
 | `make actor-id` | Create a demo profile and print a usable `X-Actor-Id` |
 | `make clean` | Remove Cargo build artifacts |
+
+## Game Frontend Foundation
+
+- `web/game/src/app/providers/AppProviders.tsx` wires a shared React Query client with default epic-00 query behavior
+- `web/game/src/shared/api/health.ts` owns the `/health` contract plus reusable query key/options/hook exports
+- `web/game/src/app/store/useAppStore.ts` owns client-only profile context, UI flags, and local game settings
+- `web/game/src/shared/ui/` contains the reusable primitives used by the game skeleton
+- `web/game/src/shared/lib/game-event-bus.ts` defines the typed React-to-Phaser event contract for future epics
+- `web/game/package.json` exposes `typecheck`, `lint`, `build`, and `check` scripts for the standalone React game workspace
+- for standalone game frontend work, set `VITE_API_BASE_URL` when the API is not served from `http://127.0.0.1:3000`
+- the current `web/game` `lint` script is intentionally lightweight because the repository does not yet contain a full ESLint stack for that package
 
 ## API Highlights
 
@@ -144,3 +158,7 @@ See [docs/admin-vuetify/api.md](/home/lab/work/sawrus/x10/docs/admin-vuetify/api
 - [Operations notes](/home/lab/work/sawrus/x10/docs/admin-vuetify/operations.md)
 - [Test report](/home/lab/work/sawrus/x10/docs/admin-vuetify/test_report.md)
 - [Delivery summary](/home/lab/work/sawrus/x10/docs/admin-vuetify/delivery_summary.md)
+- [Epic 00 plan](/home/lab/work/sawrus/x10/docs/codex/epic-00/epic_plan.md)
+- [Epic 00 architecture notes](/home/lab/work/sawrus/x10/docs/codex/epic-00/architecture_notes.md)
+- [Epic 00 risk register](/home/lab/work/sawrus/x10/docs/codex/epic-00/risk_register.md)
+- [Epic 00 delivery summary](/home/lab/work/sawrus/x10/docs/codex/epic-00/delivery_summary.md)

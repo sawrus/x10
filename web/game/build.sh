@@ -10,6 +10,6 @@ else
   npm install --no-audit --no-fund
 fi
 
-npm run build
+npm run check
 
 printf 'game build ready in %s/dist\n' "$ROOT_DIR"

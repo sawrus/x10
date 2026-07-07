@@ -7,11 +7,11 @@
 - [x] 00-03 Архитектура каталогов
 - [x] 00-04 Router
 - [x] 00-05 API client base
-- [ ] 00-06 Query provider
-- [ ] 00-07 Zustand app store
-- [ ] 00-08 UI primitives
-- [ ] 00-09 Event Bus
-- [ ] 00-10 Build checks
+- [x] 00-06 Query provider
+- [x] 00-07 Zustand app store
+- [x] 00-08 UI primitives
+- [x] 00-09 Event Bus
+- [x] 00-10 Build checks
 
 ## Epic 1. Основа игры
 

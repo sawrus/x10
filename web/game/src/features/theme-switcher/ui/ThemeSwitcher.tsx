@@ -1,20 +1,22 @@
-import type { GameTheme } from '../../../entities/game-theme'
-import { useGameThemeStore } from '../../../entities/game-theme'
+import { gameThemes, type GameTheme } from '../../../entities/game-theme'
+import { useAppStore } from '../../../app/store'
+import { Select } from '../../../shared/ui'
 
 export function ThemeSwitcher() {
-  const { theme, setTheme } = useGameThemeStore()
+  const theme = useAppStore((state) => state.settings.theme)
+  const setSetting = useAppStore((state) => state.setSetting)
 
   return (
-    <label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3">
-      <span className="text-sm text-slate-300">Theme</span>
-      <select
-        className="rounded-lg bg-slate-800 px-3 py-2 text-sm text-white"
+    <div className="w-full max-w-[16rem]">
+      <Select
+        label="Theme"
         value={theme}
-        onChange={(event) => setTheme(event.target.value as GameTheme)}
-      >
-        <option value="dendy">Dendy</option>
-        <option value="apple">Apple</option>
-      </select>
-    </label>
+        onChange={(event) => setSetting('theme', event.target.value as GameTheme)}
+        options={gameThemes.map((value) => ({
+          label: value === 'dendy' ? 'Dendy' : 'Apple',
+          value,
+        }))}
+      />
+    </div>
   )
 }

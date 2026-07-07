@@ -1,3 +1,2 @@
-export type GameTheme = 'dendy' | 'apple'
-
-export const gameThemes = ['dendy', 'apple'] as const satisfies readonly GameTheme[]
+export type { GameTheme } from '../../../shared/model/game-theme'
+export { gameThemes } from '../../../shared/model/game-theme'
