@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.4
+
+- completed Epic 00 frontend foundations in `web/game` with shared React Query defaults, a typed Zustand app store, reusable UI primitives, and a typed game event bus contract
+- added standalone `web/game` `typecheck`, `lint`, `build`, and `check` scripts plus an integrated `game-build` verification flow
+- updated README, epic docs, progress tracking, and delivery artifacts for the finished frontend architecture epic
+
 ## 0.4.3
 
 - added a shared `web/game` API client with env-driven base URL resolution, JSON request and response handling, typed API errors, and `X-Actor-Id` support
