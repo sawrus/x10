@@ -6,7 +6,7 @@
 - [x] 00-02 Установка frontend stack
 - [x] 00-03 Архитектура каталогов
 - [x] 00-04 Router
-- [ ] 00-05 API client base
+- [x] 00-05 API client base
 - [ ] 00-06 Query provider
 - [ ] 00-07 Zustand app store
 - [ ] 00-08 UI primitives

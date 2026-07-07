@@ -1,9 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.4.3
 
-- reorganized `web/game/src` into a shallow Feature-Sliced structure with `app`, `pages`, `widgets`, `features`, `entities`, and `shared`
-- added `web/game/src/README.md` describing layer responsibilities and import direction for the game frontend
+- added a shared `web/game` API client with env-driven base URL resolution, JSON request and response handling, typed API errors, and `X-Actor-Id` support
+- switched the React dashboard skeleton to query the real `GET /health` endpoint through `src/shared/api` instead of inline placeholder data
 
 ## 0.4.2
 

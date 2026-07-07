@@ -7,7 +7,7 @@ agentic:
   source: "extensions/opencode/agents/team-lead.md"
   repository: "https://github.com/sawrus/agent-guides"
   created_by: "v0.5.1"
-  updated_by: "v0.5.1"
+  updated_by: "v0.6.0"
 ---
 
 You are the **Software Team Lead**. Your role is to ensure technical coherence, delivery quality, and architectural integrity across the full SDLC.

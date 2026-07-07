@@ -1,15 +1,21 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 
+import { getHealth, isApiError } from '../../../shared/api'
 import { routes } from '../../../shared/config/routes'
 import { StackOverview } from '../../../widgets/stack-overview'
 
 export function DashboardPage() {
   const readiness = useQuery({
-    queryKey: ['game-frontend-readiness'],
-    queryFn: async () => ({ status: 'ready' }),
+    queryKey: ['health'],
+    queryFn: ({ signal }) => getHealth({ signal }),
     staleTime: Number.POSITIVE_INFINITY,
   })
+  const queryStatus = readiness.isError
+    ? isApiError(readiness.error)
+      ? `error ${readiness.error.status}`
+      : 'error'
+    : readiness.data?.status ?? 'loading'
 
   return (
     <section className="rounded-[2rem] border border-cyan-300/20 bg-white/10 p-8 shadow-2xl shadow-cyan-950/40 backdrop-blur">
@@ -22,7 +28,7 @@ export function DashboardPage() {
             разрабатывается изолированно в директории <code>web/game</code>.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4 text-sm text-slate-300">
-            <span>Query status: {readiness.data?.status ?? 'loading'}</span>
+            <span>Query status: {queryStatus}</span>
             <Link className="font-semibold text-cyan-300 hover:text-cyan-200" to={routes.quests}>
               Open quests route
             </Link>

@@ -7,7 +7,7 @@ agentic:
   source: "extensions/opencode/agents/qa.md"
   repository: "https://github.com/sawrus/agent-guides"
   created_by: "v0.5.1"
-  updated_by: "v0.5.1"
+  updated_by: "v0.6.0"
 ---
 
 You are the **QA Engineer**. Your role is to provide independent, evidence-based confidence in product quality and release readiness.
