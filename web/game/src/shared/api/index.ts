@@ -1,4 +1,4 @@
-export { apiClient, type ApiRequestOptions } from './client'
+export { apiClient, resolveApiUrl, type ApiRequestOptions } from './client'
 export {
   getHealth,
   getHealthQueryOptions,
@@ -7,4 +7,34 @@ export {
   type HealthResponse,
   type UseHealthQueryOptions,
 } from './health'
+export {
+  createProfile,
+  deleteProfilePhoto,
+  getProfile,
+  getProfilePhotoBlob,
+  getProfilePhotosQueryOptions,
+  getProfileQueryOptions,
+  listProfilePhotos,
+  profilePhotosQueryKey,
+  profileQueryKey,
+  profilesQueryKey,
+  selectProfilePhoto,
+  updateProfile,
+  uploadProfilePhoto,
+  useCreateProfileApiMutation,
+  useDeleteProfilePhotoApiMutation,
+  useProfileApiQuery,
+  useProfilePhotosApiQuery,
+  useSelectProfilePhotoApiMutation,
+  useUpdateProfileApiMutation,
+  useUploadProfilePhotoApiMutation,
+  type ProfileRequestOptions,
+  type UseCreateProfileApiMutationOptions,
+  type UseDeleteProfilePhotoApiMutationOptions,
+  type UseProfileApiQueryOptions,
+  type UseProfilePhotosApiQueryOptions,
+  type UseSelectProfilePhotoApiMutationOptions,
+  type UseUpdateProfileApiMutationOptions,
+  type UseUploadProfilePhotoApiMutationOptions,
+} from './profile'
 export { ApiError, isApiError, type ApiErrorDetails, type ApiValue } from './types'

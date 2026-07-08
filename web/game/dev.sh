@@ -2,6 +2,9 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$ROOT_DIR/../.." && pwd)"
+
+"$REPO_ROOT/web/scripts/kill_game_processes.sh"
 
 cd "$ROOT_DIR"
 if [ -f package-lock.json ]; then
