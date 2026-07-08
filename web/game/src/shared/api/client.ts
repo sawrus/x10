@@ -12,7 +12,21 @@ export type ApiRequestOptions = Omit<RequestInit, 'body' | 'headers'> & {
 }
 
 function resolveBaseUrl(): string {
-  return import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || DEFAULT_BASE_URL
+  const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL
+
+  if (configuredBaseUrl) {
+    return configuredBaseUrl
+  }
+
+  if (import.meta.env.DEV) {
+    return ''
+  }
+
+  if (typeof window !== 'undefined' && window.location.origin && window.location.origin !== 'null') {
+    return window.location.origin
+  }
+
+  return DEFAULT_BASE_URL
 }
 
 function resolveUrl(path: string): string {
@@ -20,7 +34,17 @@ function resolveUrl(path: string): string {
     return path
   }
 
-  return new URL(path, resolveBaseUrl()).toString()
+  const baseUrl = resolveBaseUrl()
+
+  if (!baseUrl) {
+    return path
+  }
+
+  return new URL(path, baseUrl).toString()
+}
+
+export function resolveApiUrl(path: string): string {
+  return resolveUrl(path)
 }
 
 function isJsonBody(body: ApiRequestOptions['body']): body is JsonBody {

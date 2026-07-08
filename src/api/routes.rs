@@ -1073,12 +1073,12 @@ mod tests {
 
     use axum::{
         body::Body,
-        http::{Request, StatusCode, header},
+        http::{Request, StatusCode},
     };
     use tower::ServiceExt;
 
     use crate::{
-        api::{AppState, build_admin_session_cookie, build_router},
+        api::{AppState, build_router},
         application::ProgressionService,
         infrastructure::SqliteRepository,
     };
@@ -1118,14 +1118,6 @@ mod tests {
     #[tokio::test]
     async fn protected_profile_read_requires_matching_actor() {
         let (state, _web_dir) = build_test_state().await;
-        let cookie = build_admin_session_cookie(&state)
-            .unwrap()
-            .to_str()
-            .unwrap()
-            .split(';')
-            .next()
-            .unwrap()
-            .to_owned();
         let app = build_router(state);
 
         let response = app
@@ -1133,7 +1125,6 @@ mod tests {
                 Request::builder()
                     .uri("/api/v2/profiles/00000000-0000-0000-0000-000000000001")
                     .header("x-actor-id", "00000000-0000-0000-0000-000000000002")
-                    .header(header::COOKIE, cookie)
                     .body(Body::empty())
                     .unwrap(),
             )
@@ -1141,6 +1132,25 @@ mod tests {
             .unwrap();
 
         assert_eq!(response.status(), StatusCode::FORBIDDEN);
+    }
+
+    #[tokio::test]
+    async fn game_api_does_not_require_admin_session() {
+        let (state, _web_dir) = build_test_state().await;
+        let app = build_router(state);
+
+        let response = app
+            .oneshot(
+                Request::builder()
+                    .uri("/api/v2/profiles/00000000-0000-0000-0000-000000000001")
+                    .header("x-actor-id", "00000000-0000-0000-0000-000000000001")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+
+        assert_eq!(response.status(), StatusCode::NOT_FOUND);
     }
 
     #[tokio::test]

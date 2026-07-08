@@ -278,8 +278,8 @@ async fn admin_auth_middleware(
     next: Next,
 ) -> Response {
     let path = request.uri().path();
-    let requires_admin_session = path.starts_with("/api/v2/")
-        || (path.starts_with("/api/admin/") && !path.starts_with("/api/admin/auth/"));
+    let requires_admin_session =
+        path.starts_with("/api/admin/") && !path.starts_with("/api/admin/auth/");
 
     if requires_admin_session && admin_session_from_headers(request.headers(), &state).is_err() {
         return ApiError::new(

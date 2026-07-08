@@ -14,9 +14,26 @@ export class ApiError extends Error {
   readonly data: ApiValue | null
 
   constructor(params: { status: number; statusText: string; url: string; data: ApiValue | null }) {
-    super(params.data && typeof params.data === 'object' && 'message' in params.data && typeof params.data.message === 'string'
-      ? params.data.message
-      : `API request failed with status ${params.status}`)
+    let errorMessage = `API request failed with status ${params.status}`
+
+    if (typeof params.data === 'string' && params.data.trim()) {
+      errorMessage = params.data.trim()
+    } else if (params.data && typeof params.data === 'object' && !Array.isArray(params.data)) {
+      if ('message' in params.data && typeof params.data.message === 'string') {
+        errorMessage = params.data.message
+      } else if (
+        'error' in params.data &&
+        params.data.error &&
+        typeof params.data.error === 'object' &&
+        !Array.isArray(params.data.error) &&
+        'message' in params.data.error &&
+        typeof params.data.error.message === 'string'
+      ) {
+        errorMessage = params.data.error.message
+      }
+    }
+
+    super(errorMessage)
     this.name = 'ApiError'
     this.status = params.status
     this.statusText = params.statusText
