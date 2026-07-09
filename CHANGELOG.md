@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.5
+
+- added `GET /api/v2/profiles` for the game client so the Character screen can reopen existing heroes without relying on admin-only endpoints
+- persisted the selected game `profileId` across refreshes and added a saved-hero roster on the Character screen for reopening or switching heroes
+- added `created_at` and `updated_at` to public profile responses so the saved-hero roster can show creation or last-edit dates
+- fixed the Character roster so selecting another saved hero while a card is already open actually switches the loaded hero
+- expanded the Playwright `make e2e-test` scenario to verify refresh recovery and reopening an existing hero from the roster
+- expanded the Playwright `make e2e-test` scenario again to verify switching between multiple saved heroes from the roster
+- made `make game-stack` inject local fallback admin credentials so the backend no longer crashes when `X10_ADMIN_*` variables are unset during game frontend development
+- added `make game-start` as a `game-stack` alias and hardened `make game-stop` so it also frees stale listeners on ports `3000` and `5173`
+
 ## 0.4.4
 
 - completed Epic 00 frontend foundations in `web/game` with shared React Query defaults, a typed Zustand app store, reusable UI primitives, and a typed game event bus contract

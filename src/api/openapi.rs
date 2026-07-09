@@ -38,6 +38,7 @@ impl Modify for ServerAddon {
     paths(
         crate::api::routes::health,
         crate::api::routes::metrics,
+        crate::api::routes::list_profiles,
         crate::api::routes::create_profile,
         crate::api::routes::get_profile,
         crate::api::routes::update_profile,
@@ -110,7 +111,7 @@ impl Modify for ServerAddon {
     ),
     info(
         title = "x10 backend API",
-        version = "0.4.0",
+        version = "0.4.5",
         description = "Interactive API documentation for the x10 admin backend."
     )
 )]

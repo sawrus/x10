@@ -2,7 +2,7 @@
 
 `x10` is a Rust + SQLite service that now ships a Vuetify-based CRUD admin panel at `/`, a React-based game frontend at `/game`, and the existing progression API under `/api/v2`.
 
-## What Ships In `0.4.4`
+## What Ships In `0.4.5`
 
 - Vuetify admin panel served from `/`
 - separate React game frontend served from `/game`
@@ -10,6 +10,7 @@
 - CRUD management for profiles, photos, spheres, tasks, executions, levels, and day finalizations
 - read-only admin visibility for balances and profile level state
 - updated OpenAPI + Scalar docs at `/docs/`
+- Character route persistence and saved-hero roster for reopening and switching heroes
 
 ## Quick Start
 
@@ -34,6 +35,19 @@ make fmt
 make test
 make run
 ```
+
+Start the combined game dev stack without exporting admin env vars first:
+
+```bash
+make game-start
+```
+
+```bash
+make game-stop
+make game-stack
+```
+
+`make game-start` is an alias for `make game-stack`. The combined game stack injects local-only fallback values for `X10_ADMIN_USERNAME`, `X10_ADMIN_PASSWORD_HASH`, and `X10_ADMIN_SESSION_SECRET` when they are unset. `make game-stop` now also frees stale listeners on ports `3000` and `5173`, while `make run` keeps requiring explicit backend configuration.
 
 Default local URLs:
 
@@ -115,6 +129,9 @@ The service reads configuration from [src/config.rs](/home/lab/work/sawrus/x10/s
 | `make web-test` | Run frontend smoke checks |
 | `make game-build` | Build only the React game frontend into `web/game/dist` |
 | `make game-dev` | Start the React game frontend dev server |
+| `make game-start` | Alias for `make game-stack` |
+| `make game-stack` | Start backend and React game frontend together with local fallback admin env vars |
+| `make game-stop` | Stop stale backend and game frontend processes and free ports `3000` and `5173` |
 | `cd web/game && npm run typecheck` | Run the React game TypeScript project checks |
 | `cd web/game && npm run lint` | Run the lightweight React game lint gate for `console.log`/`debugger` regressions |
 | `cd web/game && npm run check` | Run the React game frontend verification chain used for epic-00 foundation |
@@ -125,10 +142,11 @@ The service reads configuration from [src/config.rs](/home/lab/work/sawrus/x10/s
 
 - `web/game/src/app/providers/AppProviders.tsx` wires a shared React Query client with default epic-00 query behavior
 - `web/game/src/shared/api/health.ts` owns the `/health` contract plus reusable query key/options/hook exports
-- `web/game/src/app/store/useAppStore.ts` owns client-only profile context, UI flags, and local game settings
+- `web/game/src/app/store/useAppStore.ts` owns persisted profile context, UI flags, and local game settings for the game shell
 - `web/game/src/shared/ui/` contains the reusable primitives used by the game skeleton
 - `web/game/src/shared/lib/game-event-bus.ts` defines the typed React-to-Phaser event contract for future epics
 - `web/game/package.json` exposes `typecheck`, `lint`, `build`, and `check` scripts for the standalone React game workspace
+- the Character route now restores the last selected hero after refresh, shows saved heroes with created or updated dates, and can switch the open card to another saved hero from a roster fed by `GET /api/v2/profiles`
 - for standalone game frontend work, set `VITE_API_BASE_URL` when the API is not served from `http://127.0.0.1:3000`
 - the current `web/game` `lint` script is intentionally lightweight because the repository does not yet contain a full ESLint stack for that package
 
@@ -139,6 +157,7 @@ The service reads configuration from [src/config.rs](/home/lab/work/sawrus/x10/s
   - `GET /game`
   - `GET /docs/`
   - `GET /docs/openapi.json`
+  - `GET /api/v2/profiles`
   - `POST /api/admin/auth/login`
   - `POST /api/admin/auth/logout`
   - `GET /api/admin/auth/session`

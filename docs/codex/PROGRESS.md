@@ -15,18 +15,24 @@
 
 ## Epic 1. Основа игры
 
-- [ ] 01-01 Profile API
-- [ ] 01-02 Profile page
-- [ ] 01-03 Character card
-- [ ] 01-04 Photos API
+- [x] 01-01 Profile API
+- [x] 01-02 Profile page
+- [x] 01-03 Character card
+- [x] 01-04 Photos API
 - [ ] 01-05 Spheres API
 - [ ] 01-06 Spheres page
 - [ ] 01-07 Task types/API
 - [ ] 01-08 Quest Board
 - [ ] 01-09 Quest create form
 - [ ] 01-10 Quest edit/archive
-- [ ] 01-11 App shell navigation
+- [x] 01-11 App shell navigation
 - [ ] 01-12 Empty states
+
+### Последний рабочий инкремент
+
+- Character screen теперь переживает refresh, показывает roster сохранённых героев с датами и умеет переключать открытую карточку между героями
+- локальный dev-цикл для игры стабилизирован через `make game-start`, `make game-stack` и `make game-stop`
+- Playwright `make e2e-test` покрывает сценарий повторного открытия и переключения между сохранёнными героями
 
 ## Epic 2. Первый игровой цикл
 

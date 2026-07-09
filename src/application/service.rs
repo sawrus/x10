@@ -153,6 +153,7 @@ impl<R: Repository> ProgressionService<R> {
         require_non_empty("full_name", &request.full_name)?;
         require_non_empty("occupation", &request.occupation)?;
         require_non_empty("timezone", &request.timezone)?;
+        let now = Utc::now();
 
         let profile = Profile {
             id: Uuid::new_v4(),
@@ -163,6 +164,8 @@ impl<R: Repository> ProgressionService<R> {
             email: request.email.filter(|value| !value.trim().is_empty()),
             timezone: request.timezone.trim().to_owned(),
             current_photo_id: None,
+            created_at: now,
+            updated_at: now,
         };
 
         let levels = self
@@ -224,6 +227,7 @@ impl<R: Repository> ProgressionService<R> {
             require_non_empty("timezone", &timezone)?;
             profile.timezone = timezone.trim().to_owned();
         }
+        profile.updated_at = Utc::now();
 
         self.repository
             .update_profile(profile.clone())
