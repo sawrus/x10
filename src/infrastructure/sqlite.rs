@@ -102,7 +102,7 @@ impl Repository for SqliteRepository {
         let connection = self.connection()?;
         let mut statement = connection
             .prepare(
-                "SELECT id, full_name, birth_date, occupation, telegram, email, timezone, current_photo_id
+                "SELECT id, full_name, birth_date, occupation, telegram, email, timezone, current_photo_id, created_at, updated_at
                  FROM profiles
                  ORDER BY created_at DESC",
             )
@@ -117,7 +117,7 @@ impl Repository for SqliteRepository {
     async fn get_profile(&self, profile_id: Uuid) -> Result<Option<Profile>, RepositoryError> {
         self.connection()?
             .query_row(
-                "SELECT id, full_name, birth_date, occupation, telegram, email, timezone, current_photo_id
+                "SELECT id, full_name, birth_date, occupation, telegram, email, timezone, current_photo_id, created_at, updated_at
                  FROM profiles WHERE id = ?1",
                 params![profile_id],
                 map_profile_row,
@@ -946,6 +946,8 @@ fn map_profile_row(row: &rusqlite::Row<'_>) -> rusqlite::Result<Profile> {
         email: row.get(5)?,
         timezone: row.get(6)?,
         current_photo_id: row.get(7)?,
+        created_at: parse_datetime(&row.get::<_, String>(8)?).map_err(to_from_sql_error)?,
+        updated_at: parse_datetime(&row.get::<_, String>(9)?).map_err(to_from_sql_error)?,
     })
 }
 
@@ -1158,6 +1160,8 @@ mod tests {
             email: None,
             timezone: "Europe/Samara".into(),
             current_photo_id: None,
+            created_at: Utc::now(),
+            updated_at: Utc::now(),
         };
 
         let levels = repository

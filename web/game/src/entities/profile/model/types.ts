@@ -2,6 +2,7 @@ import type { ProfileId } from '../../../shared/model'
 
 export type Profile = {
   readonly birth_date: string
+  readonly created_at: string
   readonly current_photo_id: string | null
   readonly email: string | null
   readonly full_name: string
@@ -9,6 +10,7 @@ export type Profile = {
   readonly occupation: string
   readonly telegram: string | null
   readonly timezone: string
+  readonly updated_at: string
 }
 
 export type CreateProfileDto = {

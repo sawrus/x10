@@ -13,6 +13,8 @@ pub struct Profile {
     pub email: Option<String>,
     pub timezone: String,
     pub current_photo_id: Option<Uuid>,
+    pub created_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, ToSchema)]

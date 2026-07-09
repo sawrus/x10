@@ -11,6 +11,7 @@ import {
   profileQueryKey,
   updateProfile,
   useCreateProfileApiMutation,
+  useProfilesApiQuery,
   useProfileApiQuery,
 } from '../../../shared/api'
 import type { ProfileId } from '../../../shared/model'
@@ -77,6 +78,11 @@ export function useProfileActorScope(profileId: string | null | undefined): Prof
 }
 
 export type UseProfileQueryOptions = Omit<UseProfileApiQueryOptions, 'request'>
+export type UseProfilesQueryOptions = Parameters<typeof useProfilesApiQuery>[0]
+
+export function useProfilesQuery(options: UseProfilesQueryOptions = {}) {
+  return useProfilesApiQuery(options)
+}
 
 export function useProfileQuery(
   profileId: ProfileId | string,

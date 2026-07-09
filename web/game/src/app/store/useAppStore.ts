@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 import {
   createDefaultAppUiState,
@@ -36,68 +37,78 @@ function normalizeProfileId(profileId: ProfileId | string): ProfileId | null {
   return normalizedProfileId ? (normalizedProfileId as ProfileId) : null
 }
 
-export const useAppStore = create<AppStore>((set) => ({
-  profileId: null,
-  settings: createDefaultGameSettings(),
-  ui: createDefaultAppUiState(),
-  clearProfileId: () => set({ profileId: null }),
-  closeModal: () =>
-    set((state) => ({
-      ui: {
-        ...state.ui,
-        activeModal: 'none',
-      },
-    })),
-  openModal: (modal) =>
-    set((state) => ({
-      ui: {
-        ...state.ui,
-        activeModal: modal,
-      },
-    })),
-  patchSettings: (settings) =>
-    set((state) => ({
-      settings: {
-        ...state.settings,
-        ...settings,
-      },
-    })),
-  patchUi: (ui) =>
-    set((state) => ({
-      ui: {
-        ...state.ui,
-        ...ui,
-      },
-    })),
-  resetSettings: () => set({ settings: createDefaultGameSettings() }),
-  resetUi: () => set({ ui: createDefaultAppUiState() }),
-  setHighlightedSphereId: (sphereId) =>
-    set((state) => ({
-      ui: {
-        ...state.ui,
-        highlightedSphereId: sphereId,
-      },
-    })),
-  setProfileId: (profileId) => set({ profileId: normalizeProfileId(profileId) }),
-  setSetting: (key, value) =>
-    set((state) => ({
-      settings: {
-        ...state.settings,
-        [key]: value,
-      },
-    })),
-  setShowHealthDetails: (value) =>
-    set((state) => ({
-      ui: {
-        ...state.ui,
-        showHealthDetails: value,
-      },
-    })),
-  setUiFlag: (key, value) =>
-    set((state) => ({
-      ui: {
-        ...state.ui,
-        [key]: value,
-      },
-    })),
-}))
+export const useAppStore = create<AppStore>()(
+  persist(
+    (set) => ({
+      profileId: null,
+      settings: createDefaultGameSettings(),
+      ui: createDefaultAppUiState(),
+      clearProfileId: () => set({ profileId: null }),
+      closeModal: () =>
+        set((state) => ({
+          ui: {
+            ...state.ui,
+            activeModal: 'none',
+          },
+        })),
+      openModal: (modal) =>
+        set((state) => ({
+          ui: {
+            ...state.ui,
+            activeModal: modal,
+          },
+        })),
+      patchSettings: (settings) =>
+        set((state) => ({
+          settings: {
+            ...state.settings,
+            ...settings,
+          },
+        })),
+      patchUi: (ui) =>
+        set((state) => ({
+          ui: {
+            ...state.ui,
+            ...ui,
+          },
+        })),
+      resetSettings: () => set({ settings: createDefaultGameSettings() }),
+      resetUi: () => set({ ui: createDefaultAppUiState() }),
+      setHighlightedSphereId: (sphereId) =>
+        set((state) => ({
+          ui: {
+            ...state.ui,
+            highlightedSphereId: sphereId,
+          },
+        })),
+      setProfileId: (profileId) => set({ profileId: normalizeProfileId(profileId) }),
+      setSetting: (key, value) =>
+        set((state) => ({
+          settings: {
+            ...state.settings,
+            [key]: value,
+          },
+        })),
+      setShowHealthDetails: (value) =>
+        set((state) => ({
+          ui: {
+            ...state.ui,
+            showHealthDetails: value,
+          },
+        })),
+      setUiFlag: (key, value) =>
+        set((state) => ({
+          ui: {
+            ...state.ui,
+            [key]: value,
+          },
+        })),
+    }),
+    {
+      name: 'x10-game-app',
+      partialize: (state) => ({
+        profileId: state.profileId,
+      }),
+    },
+  ),
+)

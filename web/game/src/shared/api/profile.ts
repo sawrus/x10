@@ -12,6 +12,10 @@ export const profilesQueryKey = ['profiles'] as const
 export const profileQueryKey = (profileId: string) => [...profilesQueryKey, 'detail', profileId] as const
 export const profilePhotosQueryKey = (profileId: string) => [...profileQueryKey(profileId), 'photos'] as const
 
+export function listProfiles(options?: ApiRequestOptions) {
+  return apiClient.get<Profile[]>('/api/v2/profiles', options)
+}
+
 function requireProfileActorId(profileId: string, options?: ProfileRequestOptions): ApiRequestOptions {
   const actorId = options?.actorId?.trim()
 
@@ -96,6 +100,17 @@ export function getProfileQueryOptions(profileId: string, options?: ProfileReque
   })
 }
 
+export function getProfilesQueryOptions(options?: ApiRequestOptions) {
+  return queryOptions<Profile[], ApiError, Profile[], typeof profilesQueryKey>({
+    queryKey: profilesQueryKey,
+    queryFn: ({ signal }) =>
+      listProfiles({
+        ...options,
+        signal: options?.signal ?? signal,
+      }),
+  })
+}
+
 export function getProfilePhotosQueryOptions(profileId: string, options?: ProfileRequestOptions) {
   return queryOptions<ProfilePhotoSummary[], ApiError, ProfilePhotoSummary[], ReturnType<typeof profilePhotosQueryKey>>({
     queryKey: profilePhotosQueryKey(profileId),
@@ -119,6 +134,22 @@ export function useProfileApiQuery(profileId: string, options: UseProfileApiQuer
 
   return useQuery<Profile, ApiError, Profile, ReturnType<typeof profileQueryKey>>({
     ...getProfileQueryOptions(profileId, request),
+    ...query,
+  })
+}
+
+export type UseProfilesApiQueryOptions = Omit<
+  UseQueryOptions<Profile[], ApiError, Profile[], typeof profilesQueryKey>,
+  'queryKey' | 'queryFn'
+> & {
+  request?: ApiRequestOptions
+}
+
+export function useProfilesApiQuery(options: UseProfilesApiQueryOptions = {}) {
+  const { request, ...query } = options
+
+  return useQuery<Profile[], ApiError, Profile[], typeof profilesQueryKey>({
+    ...getProfilesQueryOptions(request),
     ...query,
   })
 }
@@ -150,8 +181,9 @@ export function useCreateProfileApiMutation(options: UseCreateProfileApiMutation
   return useMutation({
     ...mutation,
     mutationFn: (payload) => createProfile(payload, request),
-    onSuccess: (profile, variables, onMutateResult, context) => {
+    onSuccess: async (profile, variables, onMutateResult, context) => {
       queryClient.setQueryData(profileQueryKey(profile.id), profile)
+      await queryClient.invalidateQueries({ queryKey: profilesQueryKey })
       onSuccess?.(profile, variables, onMutateResult, context)
     },
   })

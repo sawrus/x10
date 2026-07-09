@@ -33,7 +33,7 @@ pub fn build_routes() -> Router<AppState> {
             "/api/v2/spheres/{sphere_id}",
             get(get_sphere).patch(update_sphere).delete(delete_sphere),
         )
-        .route("/api/v2/profiles", post(create_profile))
+        .route("/api/v2/profiles", get(list_profiles).post(create_profile))
         .route(
             "/api/v2/profiles/{profile_id}",
             get(get_profile).patch(update_profile),
@@ -175,6 +175,17 @@ pub struct UpdateProfilePayload {
     telegram: Option<Option<String>>,
     email: Option<Option<String>>,
     timezone: Option<String>,
+}
+
+#[utoipa::path(
+    get,
+    path = "/api/v2/profiles",
+    responses((status = 200, description = "Profiles list", body = [Profile]))
+)]
+pub(crate) async fn list_profiles(
+    State(state): State<AppState>,
+) -> Result<Json<Vec<Profile>>, ApiError> {
+    Ok(Json(state.service.list_profiles().await?))
 }
 
 #[utoipa::path(
@@ -1075,18 +1086,19 @@ mod tests {
         body::Body,
         http::{Request, StatusCode},
     };
+    use chrono::NaiveDate;
     use tower::ServiceExt;
 
     use crate::{
         api::{AppState, build_router},
-        application::ProgressionService,
+        application::{CreateProfileRequest, ProgressionService},
         infrastructure::SqliteRepository,
     };
 
     async fn build_test_state() -> (AppState, tempfile::TempDir) {
-        let database = tempfile::NamedTempFile::new().unwrap();
         let upload_dir = tempfile::tempdir().unwrap();
         let web_dir = tempfile::tempdir().unwrap();
+        let database_path = web_dir.path().join("x10.sqlite3");
         tokio::fs::create_dir_all(web_dir.path().join("game"))
             .await
             .unwrap();
@@ -1096,7 +1108,7 @@ mod tests {
         tokio::fs::write(web_dir.path().join("game/index.html"), "<html>game</html>")
             .await
             .unwrap();
-        let repository = Arc::new(SqliteRepository::new(database.path()).unwrap());
+        let repository = Arc::new(SqliteRepository::new(&database_path).unwrap());
         let service = Arc::new(ProgressionService::new(
             repository,
             upload_dir.path().to_path_buf(),
@@ -1151,6 +1163,36 @@ mod tests {
             .unwrap();
 
         assert_eq!(response.status(), StatusCode::NOT_FOUND);
+    }
+
+    #[tokio::test]
+    async fn game_profiles_list_is_available_without_admin_session() {
+        let (state, _web_dir) = build_test_state().await;
+        state
+            .service
+            .create_profile(CreateProfileRequest {
+                full_name: "Test Hero".to_owned(),
+                birth_date: NaiveDate::from_ymd_opt(1989, 6, 27).unwrap(),
+                occupation: "programmer".to_owned(),
+                telegram: None,
+                email: None,
+                timezone: "Europe/Samara".to_owned(),
+            })
+            .await
+            .unwrap();
+        let app = build_router(state);
+
+        let response = app
+            .oneshot(
+                Request::builder()
+                    .uri("/api/v2/profiles")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+
+        assert_eq!(response.status(), StatusCode::OK);
     }
 
     #[tokio::test]

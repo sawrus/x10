@@ -8,6 +8,37 @@ process_lines() {
   ps -eo pid=,ppid=,stat=,args= | grep -E "$pattern" | grep -v grep || true
 }
 
+kill_port_listeners() {
+  local label="$1"
+  local port="$2"
+  local pids
+
+  pids="$(lsof -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)"
+  if [[ -z "$pids" ]]; then
+    return 0
+  fi
+
+  printf 'Stopping %s listener(s) on port %s: %s\n' "$label" "$port" "$(echo "$pids" | tr '\n' ' ')"
+  while IFS= read -r pid; do
+    [[ -n "$pid" ]] || continue
+    kill "$pid" 2>/dev/null || true
+  done <<<"$pids"
+
+  for _ in 1 2 3 4 5; do
+    sleep 0.2
+    pids="$(lsof -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)"
+    if [[ -z "$pids" ]]; then
+      return 0
+    fi
+  done
+
+  printf 'Force stopping stubborn %s listener(s) on port %s: %s\n' "$label" "$port" "$(echo "$pids" | tr '\n' ' ')"
+  while IFS= read -r pid; do
+    [[ -n "$pid" ]] || continue
+    kill -9 "$pid" 2>/dev/null || true
+  done <<<"$pids"
+}
+
 kill_matching_processes() {
   local label="$1"
   local pattern="$2"
@@ -84,6 +115,10 @@ kill_matching_processes() {
 }
 
 kill_matching_processes "backend" "$ROOT_DIR/target/debug/x10-backend"
+kill_matching_processes "backend" "(^|[[:space:]])target/debug/x10-backend($|[[:space:]])"
 kill_matching_processes "backend runner" "cargo run --bin x10-backend"
 kill_matching_processes "game vite" "$ROOT_DIR/web/game/node_modules/.bin/vite"
+kill_matching_processes "game vite" "(^|[[:space:]])vite( |$)"
 kill_matching_processes "game esbuild" "$ROOT_DIR/web/game/node_modules/@esbuild/.*/bin/esbuild --service="
+kill_port_listeners "backend" 3000
+kill_port_listeners "game vite" 5173

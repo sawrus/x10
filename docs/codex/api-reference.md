@@ -18,9 +18,11 @@
 
 ## Profiles
 
+- `GET /api/v2/profiles`
 - `POST /api/v2/profiles`
 - `GET /api/v2/profiles/{profile_id}`
 - `PATCH /api/v2/profiles/{profile_id}`
+- profile responses now include `created_at` and `updated_at` RFC3339 timestamps so the game roster can show when a hero was created or last edited
 
 ### CreateProfilePayload
 
